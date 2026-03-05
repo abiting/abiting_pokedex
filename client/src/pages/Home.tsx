@@ -36,32 +36,14 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 從外部 JSON 檔案載入資料
+    // Fetch Pokemon data from PokéAPI
     const fetchPokemonData = async () => {
-      try {
-        const response = await fetch("https://raw.githubusercontent.com/PokeAPI/sprites/master/pokemon-data.json");
-        if (!response.ok) {
-          // 如果無法從 GitHub 取得，使用備用方案
-          throw new Error("Failed to fetch from GitHub");
-        }
-        const data = await response.json();
-        setPokemonData(data);
-        setFilteredPokemon(data);
-      } catch (error) {
-        console.log("Fetching from GitHub failed, using alternative approach...");
-        // 備用方案：直接從 PokéAPI 拉取資料
-        fetchFromPokeAPI();
-      }
-      setLoading(false);
-    };
-
-    const fetchFromPokeAPI = async () => {
       try {
         const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1350");
         const data = await response.json();
         const results = data.results;
 
-        // 並行拉取所有 Pokémon 的詳細資料
+        // Fetch detailed data for all Pokemon in parallel
         const pokemonDetails = await Promise.all(
           results.map(async (pokemon: any) => {
             const detailResponse = await fetch(pokemon.url);
@@ -107,10 +89,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-              Abiting Pokédex
+              Abiting's Pokédex
             </h1>
             <p className="text-purple-100 text-lg">
-              完整的 Pokémon 圖鑑 - 共 {pokemonData.length} 隻
+              Complete Pokémon Database - {pokemonData.length} Species
             </p>
           </div>
 
@@ -120,7 +102,7 @@ export default function Home() {
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-300 w-5 h-5" />
               <input
                 type="text"
-                placeholder="搜尋 Pokémon 名稱或編號..."
+                placeholder="Search Pokémon by name or number..."
                 value={searchTerm}
                 onChange={(e) => handleSearch(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 rounded-full border-2 border-purple-400 bg-white/95 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-400/50 transition-all shadow-lg"
@@ -135,11 +117,11 @@ export default function Home() {
         {loading ? (
           <div className="flex flex-col items-center justify-center min-h-96">
             <Loader2 className="w-12 h-12 text-white animate-spin mb-4" />
-            <p className="text-white text-lg">正在載入 Pokémon 資料...</p>
+            <p className="text-white text-lg">Loading Pokémon data...</p>
           </div>
         ) : filteredPokemon.length === 0 ? (
           <div className="text-center py-16">
-            <p className="text-white text-xl">找不到符合的 Pokémon</p>
+            <p className="text-white text-xl">No Pokémon found matching your search</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
@@ -190,7 +172,7 @@ export default function Home() {
       <div className="mt-16 py-8 border-t border-purple-500/30 bg-purple-900/50">
         <div className="max-w-7xl mx-auto px-4 text-center text-purple-200 text-sm">
           <p>
-            Pokémon 資料來自{" "}
+            Pokémon data from{" "}
             <a
               href="https://pokeapi.co/"
               target="_blank"
