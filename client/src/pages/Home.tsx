@@ -92,7 +92,7 @@ export default function Home() {
               Abiting's Pokédex
             </h1>
             <p className="text-purple-100 text-lg">
-              Complete Pokémon Database - {pokemonData.length} Species
+              Complete Pokémon Database
             </p>
           </div>
 
