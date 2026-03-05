@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Search, Loader2 } from "lucide-react";
+import PokemonDetailModal from "@/components/PokemonDetailModal";
 
 interface Pokemon {
   id: number;
@@ -34,6 +35,7 @@ export default function Home() {
   const [filteredPokemon, setFilteredPokemon] = useState<Pokemon[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
+  const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(null);
 
   useEffect(() => {
     // Fetch Pokemon data from PokéAPI
@@ -128,6 +130,7 @@ export default function Home() {
             {filteredPokemon.map((pokemon) => (
               <div
                 key={pokemon.id}
+                onClick={() => setSelectedPokemonId(pokemon.id)}
                 className="group bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-white/20"
               >
                 {/* ID */}
@@ -167,6 +170,14 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* Pokemon Detail Modal */}
+      {selectedPokemonId && (
+        <PokemonDetailModal
+          pokemonId={selectedPokemonId}
+          onClose={() => setSelectedPokemonId(null)}
+        />
+      )}
 
       {/* Footer */}
       <div className="mt-16 py-8 border-t border-purple-500/30 bg-purple-900/50">
