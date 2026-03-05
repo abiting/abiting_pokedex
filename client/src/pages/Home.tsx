@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Search, Loader2 } from "lucide-react";
 import PokemonDetailModal from "@/components/PokemonDetailModal";
+import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 
 interface Pokemon {
   id: number;
@@ -149,8 +150,8 @@ export default function Home() {
                 </div>
 
                 {/* Name */}
-                <h3 className="font-bold text-gray-800 text-center mb-2 text-sm md:text-base capitalize line-clamp-2">
-                  {pokemon.name}
+                <h3 className="font-bold text-gray-800 text-center mb-2 text-sm md:text-base line-clamp-2">
+                  {formatPokemonName(pokemon.name)}
                 </h3>
 
                 {/* Types */}

@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 
 interface PokemonDetail {
   id: number;
@@ -185,7 +186,7 @@ export default function PokemonDetailModal({ pokemonId, onClose }: Props) {
               <p className="text-sm font-semibold opacity-90">
                 #{String(pokemon.id).padStart(4, "0")}
               </p>
-              <h2 className="text-4xl font-bold capitalize mt-2">{pokemon.name}</h2>
+              <h2 className="text-4xl font-bold mt-2">{formatPokemonName(pokemon.name)}</h2>
             </div>
           </div>
         </div>
