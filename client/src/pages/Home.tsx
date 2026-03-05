@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Search, Loader2 } from "lucide-react";
 import PokemonDetailModal from "@/components/PokemonDetailModal";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
+import { extractBasePokemonId } from "@/lib/pokemonIdExtractor";
 
 interface Pokemon {
   id: number;
@@ -51,8 +52,9 @@ export default function Home() {
           results.map(async (pokemon: any) => {
             const detailResponse = await fetch(pokemon.url);
             const detail = await detailResponse.json();
+            const baseId = extractBasePokemonId(detail.name, detail.id);
             return {
-              id: detail.id,
+              id: baseId,
               name: detail.name,
               image:
                 detail.sprites?.other?.["official-artwork"]?.front_default ||
@@ -63,8 +65,15 @@ export default function Home() {
           })
         );
 
-        setPokemonData(pokemonDetails);
-        setFilteredPokemon(pokemonDetails);
+        // Remove duplicate Pokemon (keep only the first variant of each base Pokemon)
+        const uniquePokemon = Array.from(
+          new Map(
+            pokemonDetails.map((p) => [p.id, p])
+          ).values()
+        );
+
+        setPokemonData(uniquePokemon);
+        setFilteredPokemon(uniquePokemon);
       } catch (error) {
         console.error("Failed to fetch Pokémon data:", error);
       }
