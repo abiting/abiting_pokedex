@@ -9,7 +9,11 @@ interface PokemonDetail {
   types: string[];
   height: number;
   weight: number;
-  gender: string;
+  genderRatio: {
+    male: number;
+    female: number;
+    genderless: boolean;
+  };
   category: string;
   abilities: string[];
   stats: {
@@ -98,6 +102,21 @@ export default function PokemonDetailModal({ pokemonId, onClose }: Props) {
           typeWeakList.forEach((weak) => weaknesses.add(weak));
         });
 
+        // Parse gender ratio
+        const genderRatio = speciesData.gender_rate;
+        let genderInfo = {
+          male: 0,
+          female: 0,
+          genderless: false,
+        };
+
+        if (genderRatio === -1) {
+          genderInfo.genderless = true;
+        } else {
+          genderInfo.female = (genderRatio / 8) * 100;
+          genderInfo.male = 100 - genderInfo.female;
+        }
+
         setPokemon({
           id: data.id,
           name: data.name,
@@ -109,7 +128,7 @@ export default function PokemonDetailModal({ pokemonId, onClose }: Props) {
           types: data.types.map((t: any) => t.type.name),
           height: data.height / 10, // Convert to meters
           weight: data.weight / 10, // Convert to kg
-          gender: "Unknown", // PokéAPI doesn't provide gender in pokemon endpoint
+          genderRatio: genderInfo,
           category: speciesData.genera?.find((g: any) => g.language.name === "en")
             ?.genus || "Unknown",
           abilities: data.abilities.map((a: any) => a.ability.name),
@@ -203,7 +222,11 @@ export default function PokemonDetailModal({ pokemonId, onClose }: Props) {
                   </div>
                   <div>
                     <p className="text-sm opacity-90">Gender</p>
-                    <p className="text-lg font-semibold">{pokemon.gender}</p>
+                    <p className="text-lg font-semibold">
+                      {pokemon.genderRatio.genderless
+                        ? "Genderless"
+                        : `♂ ${pokemon.genderRatio.male.toFixed(1)}% / ♀ ${pokemon.genderRatio.female.toFixed(1)}%`}
+                    </p>
                   </div>
                   <div>
                     <p className="text-sm opacity-90">Category</p>
