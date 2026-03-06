@@ -127,6 +127,8 @@ export default function Home() {
               style={{
                 maxWidth: '100%',
                 height: 'auto',
+                maxHeight: '180px',
+                objectFit: 'contain',
                 boxShadow: '0 0 40px rgba(0, 0, 0, 0.3), 0 0 80px rgba(139, 92, 246, 0.2)'
               }}
             />
