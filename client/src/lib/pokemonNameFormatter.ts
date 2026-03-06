@@ -113,6 +113,18 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
   if (name === "kommo-o") {
     return "Kommo-o";
   }
+  if (name === "tapu-koko") {
+    return "Tapu Koko";
+  }
+  if (name === "tapu-lele") {
+    return "Tapu Lele";
+  }
+  if (name === "tapu-bulu") {
+    return "Tapu Bulu";
+  }
+  if (name === "tapu-fini") {
+    return "Tapu Fini";
+  }
   if (name === "mime-jr") {
     return "Mime Jr.";
   }
