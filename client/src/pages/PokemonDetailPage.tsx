@@ -245,6 +245,20 @@ export default function PokemonDetailPage() {
               <h1 className="text-4xl font-bold text-gray-800 mb-2">
                 {formattedName}
               </h1>
+              
+              {/* Champions SP Calculator Link - Desktop */}
+              <div className="hidden md:block mb-4">
+                <a
+                  href="https://abitingpokedex.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg text-base whitespace-nowrap"
+                >
+                  <span className="text-xl">⚡</span>
+                  <span>Champions SP Calculator</span>
+                </a>
+              </div>
+              
               <div className="flex gap-2 mb-6">
                 {pokemon.types &&
                   pokemon.types.map((type) => (
@@ -275,6 +289,19 @@ export default function PokemonDetailPage() {
                 </div>
               </div>
             </div>
+          </div>
+          
+          {/* Champions SP Calculator Link - Mobile */}
+          <div className="md:hidden p-4 bg-gradient-to-r from-purple-50 to-purple-100 text-center border-b border-gray-200">
+            <a
+              href="https://abitingpokedex.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg"
+            >
+              <span className="text-xl">⚡</span>
+              <span>Champions SP Calculator</span>
+            </a>
           </div>
 
           {/* Abilities */}

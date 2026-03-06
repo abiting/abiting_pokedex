@@ -101,6 +101,18 @@ export default function Home() {
       {/* Header */}
       <div className="sticky top-0 z-10 bg-gradient-to-b from-purple-600/95 to-purple-700/90 backdrop-blur-sm border-b border-purple-500/30 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-center mb-4">
+            <a
+              href="https://abitingpokedex.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg"
+            >
+              <span className="text-xl">⚡</span>
+              <span>Champions SP Calculator</span>
+            </a>
+          </div>
+          
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
               Abiting's Pokédex
