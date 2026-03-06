@@ -123,9 +123,10 @@ export default function Home() {
             <img
               src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_C13CB22E-2F67-4437-9903-E0166D872024_30f0192a.jpeg"
               alt="List of Pokémon"
-              className="w-full sm:max-w-xs mx-auto mb-6 rounded-3xl shadow-2xl"
+              className="mx-auto mb-6 rounded-3xl shadow-2xl"
               style={{
-                maxWidth: '100%',
+                width: '100%',
+                maxWidth: '300px',
                 height: 'auto',
                 maxHeight: '180px',
                 objectFit: 'contain',
