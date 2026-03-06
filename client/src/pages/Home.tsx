@@ -218,15 +218,6 @@ export default function Home() {
             </a>
             {" • "}
             <a
-              href="https://pokedex.abiting.cc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-purple-300 hover:text-white underline transition-colors"
-            >
-              Abiting Pokédex
-            </a>
-            {" • "}
-            <a
               href="/about"
               className="text-purple-300 hover:text-white underline transition-colors"
             >
