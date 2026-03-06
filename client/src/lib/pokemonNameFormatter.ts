@@ -7,7 +7,23 @@
  * - "pokemon-hisui" -> "Hisuian Pokemon"
  * - "pokemon-paldea" -> "Paldean Pokemon"
  * - For Pokemon ID >= 984: "pokemon-form" -> "Pokemon Form" (no parentheses)
+ * - Remove parentheses for: male, female, sunny, rainy, snowy, attack, defense, speed
  */
+
+// Forms that should NOT have parentheses (just show base name)
+const formsToRemove = new Set([
+  "male",
+  "female",
+  "sunny",
+  "rainy",
+  "snowy",
+  "attack",
+  "defense",
+  "speed",
+  "low-key",
+  "amped",
+]);
+
 export function formatPokemonName(name: string, pokemonId?: number): string {
   // Handle Gigantamax forms
   if (name.includes("-gmax")) {
@@ -46,13 +62,19 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
   if (name.includes("-")) {
     const parts = name.split("-");
     const baseName = parts[0];
-    const formName = parts.slice(1).join(" ");
-    
+    const formName = parts.slice(1).join("-");
+
     // For Pokemon ID >= 984, use space instead of parentheses
     if (pokemonId !== undefined && pokemonId >= 984) {
       return `${capitalize(baseName)} ${capitalize(formName)}`;
     }
-    
+
+    // For forms that should be removed (male, female, etc), just return base name
+    if (formsToRemove.has(formName)) {
+      return capitalize(baseName);
+    }
+
+    // For other cases, return with parentheses
     return `${capitalize(baseName)} (${capitalize(formName)})`;
   }
 
