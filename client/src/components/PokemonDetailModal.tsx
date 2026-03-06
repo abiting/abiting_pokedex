@@ -186,7 +186,7 @@ export default function PokemonDetailModal({ pokemonId, onClose }: Props) {
               <p className="text-sm font-semibold opacity-90">
                 #{String(pokemon.id).padStart(4, "0")}
               </p>
-              <h2 className="text-4xl font-bold mt-2">{formatPokemonName(pokemon.name)}</h2>
+              <h2 className="text-4xl font-bold mt-2">{formatPokemonName(pokemon.name, pokemon.id)}</h2>
             </div>
           </div>
         </div>

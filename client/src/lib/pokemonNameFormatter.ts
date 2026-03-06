@@ -6,8 +6,9 @@
  * - "pokemon-galar" -> "Galarian Pokemon"
  * - "pokemon-hisui" -> "Hisuian Pokemon"
  * - "pokemon-paldea" -> "Paldean Pokemon"
+ * - For Pokemon ID >= 984: "pokemon-form" -> "Pokemon Form" (no parentheses)
  */
-export function formatPokemonName(name: string): string {
+export function formatPokemonName(name: string, pokemonId?: number): string {
   // Handle Gigantamax forms
   if (name.includes("-gmax")) {
     const baseName = name.replace("-gmax", "");
@@ -46,6 +47,12 @@ export function formatPokemonName(name: string): string {
     const parts = name.split("-");
     const baseName = parts[0];
     const formName = parts.slice(1).join(" ");
+    
+    // For Pokemon ID >= 984, use space instead of parentheses
+    if (pokemonId !== undefined && pokemonId >= 984) {
+      return `${capitalize(baseName)} ${capitalize(formName)}`;
+    }
+    
     return `${capitalize(baseName)} (${capitalize(formName)})`;
   }
 

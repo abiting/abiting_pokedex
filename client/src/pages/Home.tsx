@@ -42,7 +42,15 @@ export default function Home() {
     // Fetch Pokemon data from PokéAPI
     const fetchPokemonData = async () => {
       try {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1350");
+        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1350", {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         const results = data.results;
 
@@ -154,7 +162,7 @@ export default function Home() {
 
                 {/* Name */}
                 <h3 className="font-bold text-gray-800 text-center mb-2 text-sm md:text-base line-clamp-2">
-                  {formatPokemonName(pokemon.name)}
+                  {formatPokemonName(pokemon.name, pokemon.id)}
                 </h3>
 
                 {/* Types */}
