@@ -55,7 +55,7 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
     return "Porygon２"; // Full-width numeral 2
   }
   if (name === "porygon-z") {
-    return "Porygon-Z";
+    return "PorygonＺ"; // Full-width Z
   }
 
   // Handle Gigantamax forms
