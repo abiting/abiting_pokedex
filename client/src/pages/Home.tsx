@@ -117,9 +117,17 @@ export default function Home() {
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
               List of Pokémon
             </h1>
-            <p className="text-purple-100 text-lg">
+            <h2 className="text-purple-100 text-lg mb-6">
               The Essential Pokédex for Pokémon Champions
-            </p>
+            </h2>
+            <img
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_C13CB22E-2F67-4437-9903-E0166D872024_30f0192a.jpeg"
+              alt="List of Pokémon"
+              className="max-w-md mx-auto mb-6 rounded-3xl shadow-2xl"
+              style={{
+                boxShadow: '0 0 40px rgba(0, 0, 0, 0.3), 0 0 80px rgba(139, 92, 246, 0.2)'
+              }}
+            />
           </div>
 
           {/* Search Bar */}
