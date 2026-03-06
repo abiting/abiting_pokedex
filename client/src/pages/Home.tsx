@@ -126,9 +126,9 @@ export default function Home() {
               className="mx-auto mb-6 rounded-3xl shadow-2xl"
               style={{
                 width: '100%',
-                maxWidth: '300px',
+                maxWidth: '400px',
                 height: 'auto',
-                maxHeight: '180px',
+                maxHeight: '220px',
                 objectFit: 'contain',
                 boxShadow: '0 0 40px rgba(0, 0, 0, 0.3), 0 0 80px rgba(139, 92, 246, 0.2)'
               }}
