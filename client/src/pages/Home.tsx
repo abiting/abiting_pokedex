@@ -115,10 +115,10 @@ export default function Home() {
           
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-              Abiting's Pokédex
+              List of Pokémon
             </h1>
             <p className="text-purple-100 text-lg">
-              Complete Pokémon Database
+              The Essential Pokédex for Pokémon Champions
             </p>
           </div>
 
