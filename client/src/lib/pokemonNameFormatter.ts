@@ -7,7 +7,7 @@
  * - "pokemon-hisui" -> "Hisuian Pokemon"
  * - "pokemon-paldea" -> "Paldean Pokemon"
  * - For Pokemon ID >= 984: "pokemon-form" -> "Pokemon Form" (no parentheses)
- * - Remove parentheses for: male, female, sunny, rainy, snowy, attack, defense, speed
+ * - Remove parentheses for many forms like male, female, standard, etc.
  */
 
 // Forms that should NOT have parentheses (just show base name)
@@ -26,6 +26,33 @@ const formsToRemove = new Set([
   "altered",
   "land",
   "sky",
+  "standard",
+  "red-striped",
+  "blue-striped",
+  "white-striped",
+  "active",
+  "incarnate",
+  "resolute",
+  "aria",
+  "pom-pom",
+  "pau",
+  "sensu",
+  "confined",
+  "unbound",
+  "midday",
+  "midnight",
+  "dusk",
+  "school",
+  "solo",
+  "crowned",
+  "single-strike",
+  "rapid-strike",
+  "heat",
+  "wash",
+  "frost",
+  "fan",
+  "mow",
+  "zen",
 ]);
 
 export function formatPokemonName(name: string, pokemonId?: number): string {
