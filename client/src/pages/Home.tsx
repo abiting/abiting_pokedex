@@ -140,10 +140,10 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
             {filteredPokemon.map((pokemon) => (
-              <div
+              <a
                 key={pokemon.id}
-                onClick={() => setSelectedPokemonId(pokemon.id)}
-                className="group bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer border border-white/20"
+                href={`/pokemon/${pokemon.name}`}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer hover:shadow-2xl hover:scale-105 transition-all duration-300 block p-4"
               >
                 {/* ID */}
                 <div className="text-xs font-semibold text-gray-500 mb-2">
@@ -155,7 +155,7 @@ export default function Home() {
                   <img
                     src={pokemon.image}
                     alt={pokemon.name}
-                    className="w-24 h-24 md:w-32 md:h-32 object-contain group-hover:scale-110 transition-transform duration-300"
+                    className="w-24 h-24 md:w-32 md:h-32 object-contain hover:scale-110 transition-transform duration-300"
                     loading="lazy"
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function Home() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         )}
