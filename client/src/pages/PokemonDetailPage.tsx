@@ -236,7 +236,7 @@ export default function PokemonDetailPage() {
             <div className="flex-shrink-0">
               <img
                 src={pokemon.image}
-                alt={formattedName}
+                alt={`${formattedName} #${String(pokemon.id).padStart(4, "0")} Pokémon - ${pokemon.types.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join("/")} type`}
                 className="w-48 h-48 object-contain"
               />
             </div>

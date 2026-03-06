@@ -166,7 +166,7 @@ export default function Home() {
                 <div className="h-32 md:h-40 flex items-center justify-center mb-3 bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl overflow-hidden">
                   <img
                     src={pokemon.image}
-                    alt={pokemon.name}
+                    alt={`${formatPokemonName(pokemon.name, pokemon.id)} #${String(pokemon.id).padStart(4, "0")} Pokémon`}
                     className="w-24 h-24 md:w-32 md:h-32 object-contain hover:scale-110 transition-transform duration-300"
                     loading="lazy"
                   />
