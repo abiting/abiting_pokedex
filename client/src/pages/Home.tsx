@@ -63,8 +63,11 @@ export default function Home() {
           })
         );
 
-        setPokemonData(pokemonDetails);
-        setFilteredPokemon(pokemonDetails);
+        // Filter out variant forms (ID >= 10000)
+        const basePokemon = pokemonDetails.filter((p) => p.id < 10000);
+
+        setPokemonData(basePokemon);
+        setFilteredPokemon(basePokemon);
       } catch (error) {
         console.error("Failed to fetch Pokémon data:", error);
       }
