@@ -225,6 +225,13 @@ export default function Home() {
             >
               Abiting Pokédex
             </a>
+            {" • "}
+            <a
+              href="/about"
+              className="text-purple-300 hover:text-white underline transition-colors"
+            >
+              About Developer
+            </a>
           </p>
         </div>
       </div>

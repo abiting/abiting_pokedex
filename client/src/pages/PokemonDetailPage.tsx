@@ -167,6 +167,45 @@ export default function PokemonDetailPage() {
       "content",
       `${formattedName}, Pokémon, Pokédex, #${pokemon.id}, ${typeKeywords}`
     );
+
+    // Add structured data schema
+    let schemaScript = document.querySelector('script[data-pokemon-schema]');
+    if (schemaScript) {
+      schemaScript.remove();
+    }
+    
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "Thing",
+      "name": formattedName,
+      "identifier": `pokemon-${pokemon.id}`,
+      "description": `${formattedName} is a ${typeNames} type Pokémon (#${String(pokemon.id).padStart(4, "0")}) with base stats and multiple abilities.`,
+      "image": pokemon.image,
+      "url": `https://abitingdex-rzu58tey.manus.space/pokemon/${pokemon.name}`,
+      "additionalProperty": [
+        {
+          "@type": "PropertyValue",
+          "name": "Height",
+          "value": `${(pokemon.height / 10).toFixed(1)} m`
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Weight",
+          "value": `${(pokemon.weight / 10).toFixed(1)} kg`
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Types",
+          "value": typeNames
+        }
+      ]
+    };
+    
+    const newSchemaScript = document.createElement("script");
+    newSchemaScript.type = "application/ld+json";
+    newSchemaScript.setAttribute("data-pokemon-schema", "true");
+    newSchemaScript.textContent = JSON.stringify(schema);
+    document.head.appendChild(newSchemaScript);
   }, [pokemon]);
 
   if (!match) return null;
