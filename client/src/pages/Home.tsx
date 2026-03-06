@@ -99,7 +99,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-gradient-to-b from-purple-600/95 to-purple-700/90 backdrop-blur-sm border-b border-purple-500/30 shadow-lg">
+      <div className="">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-center mb-4">
             <a
