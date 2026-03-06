@@ -22,6 +22,10 @@ const formsToRemove = new Set([
   "speed",
   "low-key",
   "amped",
+  "normal",
+  "altered",
+  "land",
+  "sky",
 ]);
 
 export function formatPokemonName(name: string, pokemonId?: number): string {
@@ -31,6 +35,9 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
   }
   if (name === "mr-mime-galar") {
     return "Galarian Mr. Mime";
+  }
+  if (name === "mime-jr") {
+    return "Mime Jr.";
   }
   if (name === "type-null") {
     return "Type: Null";
