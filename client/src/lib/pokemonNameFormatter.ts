@@ -89,6 +89,8 @@ const formsToRemove = new Set([
   "eighteen-segment",
   "nineteen-segment",
   "twenty-segment",
+  "family-of-three",
+  "family-of-four",
 ]);
 
 export function formatPokemonName(name: string, pokemonId?: number): string {
