@@ -91,6 +91,9 @@ const formsToRemove = new Set([
   "twenty-segment",
   "family-of-three",
   "family-of-four",
+  "10",
+  "50",
+  "complete",
 ]);
 
 export function formatPokemonName(name: string, pokemonId?: number): string {
@@ -98,8 +101,17 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
   if (name === "mr-mime") {
     return "Mr. Mime";
   }
-  if (name === "mr-mime-galar") {
-    return "Galarian Mr. Mime";
+  if (name === "ho-oh") {
+    return "Ho-Oh";
+  }
+  if (name === "jangmo-o") {
+    return "Jangmo-o";
+  }
+  if (name === "hakamo-o") {
+    return "Hakamo-o";
+  }
+  if (name === "kommo-o") {
+    return "Kommo-o";
   }
   if (name === "mime-jr") {
     return "Mime Jr.";
