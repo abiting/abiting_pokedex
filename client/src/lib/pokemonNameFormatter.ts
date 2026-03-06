@@ -25,6 +25,32 @@ const formsToRemove = new Set([
 ]);
 
 export function formatPokemonName(name: string, pokemonId?: number): string {
+  // Special cases for specific Pokemon names
+  if (name === "mr-mime") {
+    return "Mr. Mime";
+  }
+  if (name === "mr-mime-galar") {
+    return "Galarian Mr. Mime";
+  }
+  if (name === "type-null") {
+    return "Type: Null";
+  }
+  if (name === "nidoran-m") {
+    return "Nidoran♂";
+  }
+  if (name === "nidoran-f") {
+    return "Nidoran♀";
+  }
+  if (name === "ho-oh") {
+    return "Ho-Oh";
+  }
+  if (name === "porygon2") {
+    return "Porygon２"; // Full-width numeral 2
+  }
+  if (name === "porygon-z") {
+    return "Porygon-Z";
+  }
+
   // Handle Gigantamax forms
   if (name.includes("-gmax")) {
     const baseName = name.replace("-gmax", "");
