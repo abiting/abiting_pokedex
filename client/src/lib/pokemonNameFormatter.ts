@@ -84,6 +84,18 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
   if (name === "porygon-z") {
     return "PorygonＺ"; // Full-width Z
   }
+  if (name === "wo-chien") {
+    return "Wo-Chien";
+  }
+  if (name === "chien-pao") {
+    return "Chien-Pao";
+  }
+  if (name === "ting-lu") {
+    return "Ting-Lu";
+  }
+  if (name === "chi-yu") {
+    return "Chi-Yu";
+  }
 
   // Handle Gigantamax forms
   if (name.includes("-gmax")) {
