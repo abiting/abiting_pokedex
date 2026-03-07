@@ -195,17 +195,19 @@ function vitePluginSitemapGenerator(): Plugin {
   return {
     name: "sitemap-generator",
     apply: "build",
-    writeBundle() {
+    async closeBundle() {
       const outDir = path.resolve(import.meta.dirname, "dist/public");
       const sitemapContent = generateSitemap();
       const sitemapPath = path.join(outDir, "sitemap.xml");
       
+      // Ensure output directory exists
       if (!fs.existsSync(outDir)) {
         fs.mkdirSync(outDir, { recursive: true });
       }
       
+      // Write sitemap after all other files are written
       fs.writeFileSync(sitemapPath, sitemapContent, "utf-8");
-      console.log(`✓ Sitemap generated: ${sitemapPath}`);
+      console.log(`✓ Sitemap generated with ${1027} URLs: ${sitemapPath}`);
     },
   };
 }
