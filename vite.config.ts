@@ -6,6 +6,46 @@ import path from "node:path";
 import { defineConfig, type Plugin, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
+// Generate sitemap on build
+function generateSitemap() {
+  const domain = "https://list.abitingpokedex.com";
+  const urls: string[] = [];
+  
+  // Add homepage
+  urls.push(`  <url>
+    <loc>${domain}/</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>`);
+  
+  // Add about page
+  urls.push(`  <url>
+    <loc>${domain}/about</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>`);
+  
+  // Add all 1025 pokemon pages
+  for (let i = 1; i <= 1025; i++) {
+    const id = String(i).padStart(4, "0");
+    urls.push(`  <url>
+    <loc>${domain}/pokemon/${id}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`);
+  }
+  
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.join("\n")}
+</urlset>`;
+  
+  return sitemap;
+}
+
 // =============================================================================
 // Manus Debug Collector - Vite Plugin
 // Writes browser logs directly to files, trimmed when exceeding size limit
@@ -150,7 +190,27 @@ function vitePluginManusDebugCollector(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector()];
+// Plugin to generate and copy sitemap during build
+function vitePluginSitemapGenerator(): Plugin {
+  return {
+    name: "sitemap-generator",
+    apply: "build",
+    writeBundle() {
+      const outDir = path.resolve(import.meta.dirname, "dist/public");
+      const sitemapContent = generateSitemap();
+      const sitemapPath = path.join(outDir, "sitemap.xml");
+      
+      if (!fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir, { recursive: true });
+      }
+      
+      fs.writeFileSync(sitemapPath, sitemapContent, "utf-8");
+      console.log(`✓ Sitemap generated: ${sitemapPath}`);
+    },
+  };
+}
+
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginSitemapGenerator()];
 
 export default defineConfig({
   plugins,
@@ -163,6 +223,7 @@ export default defineConfig({
   },
   envDir: path.resolve(import.meta.dirname),
   root: path.resolve(import.meta.dirname, "client"),
+  publicDir: path.resolve(import.meta.dirname, "client/public"),
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
