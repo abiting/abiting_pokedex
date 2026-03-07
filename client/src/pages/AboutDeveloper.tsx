@@ -1,6 +1,53 @@
+import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 
 export default function AboutDeveloper() {
+  useEffect(() => {
+    // Update page title
+    document.title = "About Developer | Abiting's Pokédex";
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute(
+        "content",
+        "Abiting, a Content Creator and Marketing Professional from Taiwan, actively engaged in the Pokémon communities across Taiwan, China, and Hong Kong."
+      );
+    }
+    
+    // Update meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement("meta");
+      metaKeywords.setAttribute("name", "keywords");
+      document.head.appendChild(metaKeywords);
+    }
+    metaKeywords.setAttribute(
+      "content",
+      "Abiting, Pokémon, Pokédex for Pokémon Champions"
+    );
+    
+    // Update OG tags
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) {
+      ogTitle = document.createElement("meta");
+      ogTitle.setAttribute("property", "og:title");
+      document.head.appendChild(ogTitle);
+    }
+    ogTitle.setAttribute("content", "About Developer | Abiting's Pokédex");
+    
+    let ogDescription = document.querySelector('meta[property="og:description"]');
+    if (!ogDescription) {
+      ogDescription = document.createElement("meta");
+      ogDescription.setAttribute("property", "og:description");
+      document.head.appendChild(ogDescription);
+    }
+    ogDescription.setAttribute(
+      "content",
+      "Abiting, a Content Creator and Marketing Professional from Taiwan, actively engaged in the Pokémon communities across Taiwan, China, and Hong Kong."
+    );
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-4">
       <div className="max-w-2xl mx-auto">
