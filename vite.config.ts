@@ -7,6 +7,17 @@ import { defineConfig, type Plugin, type ViteDevServer } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 import type { Connect } from "vite";
 
+// Load static Pokémon names list
+let pokemonNamesList: string[] = [];
+try {
+  const pokemonNamesPath = path.resolve(import.meta.dirname, "pokemon-names.json");
+  if (fs.existsSync(pokemonNamesPath)) {
+    pokemonNamesList = JSON.parse(fs.readFileSync(pokemonNamesPath, "utf-8"));
+  }
+} catch (error) {
+  console.warn("Could not load pokemon-names.json, will use fallback");
+}
+
 // Generate sitemap synchronously - works for both dev and production
 function generateSitemap(): string {
   const domain = "https://list.abitingpokedex.com";
@@ -193,11 +204,16 @@ function vitePluginSitemapGenerator(): Plugin {
       }
       
       try {
-        // Fetch all Pokémon names from PokéAPI
-        console.log("Fetching Pokémon list from PokéAPI...");
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0");
-        const data: any = await response.json();
-        const pokemonNames = data.results.map((p: any) => p.name);
+        // Use pre-loaded Pokémon names list
+        let pokemonNames = pokemonNamesList;
+        
+        // If not loaded, try to fetch from PokéAPI
+        if (pokemonNames.length === 0) {
+          console.log("Fetching Pokémon list from PokéAPI...");
+          const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1025&offset=0");
+          const data: any = await response.json();
+          pokemonNames = data.results.map((p: any) => p.name);
+        }
         
         // Generate sitemap with actual Pokémon names
         const domain = "https://list.abitingpokedex.com";
