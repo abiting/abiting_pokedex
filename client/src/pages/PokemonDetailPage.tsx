@@ -21,6 +21,17 @@ interface SpeciesData {
   gender_rate: number;
   description?: string;
   flavor_text?: string;
+  evolution_chain?: {
+    url: string;
+  };
+}
+
+interface EvolutionChainNode {
+  species: {
+    name: string;
+    url: string;
+  };
+  evolves_to: EvolutionChainNode[];
 }
 
 const typeColors: Record<string, string> = {
@@ -69,6 +80,7 @@ export default function PokemonDetailPage() {
   const [match, params] = useRoute("/pokemon/:name");
   const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
   const [species, setSpecies] = useState<SpeciesData | null>(null);
+  const [evolutionChain, setEvolutionChain] = useState<EvolutionChainNode | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -109,11 +121,18 @@ export default function PokemonDetailPage() {
         };
         setPokemon(normalized);
 
-        // Fetch species data for gender ratio
+        // Fetch species data for gender ratio and evolution chain
         if (pokemonData.species?.url) {
           const speciesResponse = await fetch(pokemonData.species.url);
           const speciesData: SpeciesData = await speciesResponse.json();
           setSpecies(speciesData);
+          
+          // Fetch evolution chain if available
+          if (speciesData.evolution_chain?.url) {
+            const chainResponse = await fetch(speciesData.evolution_chain.url);
+            const chainData: any = await chainResponse.json();
+            setEvolutionChain(chainData.chain);
+          }
         }
       } catch (err) {
         setError(
@@ -250,6 +269,41 @@ export default function PokemonDetailPage() {
       : null;
   const femalePercentage =
     genderRate !== undefined && genderRate !== -1 ? (genderRate / 8) * 100 : null;
+
+  // Extract evolution chain for current pokemon
+  const getEvolutionChain = (chain: EvolutionChainNode | null, targetName: string): string[] => {
+    if (!chain) return [];
+    
+    const result: string[] = [];
+    
+    const traverse = (node: EvolutionChainNode) => {
+      result.push(node.species.name);
+      if (node.evolves_to && node.evolves_to.length > 0) {
+        node.evolves_to.forEach(child => traverse(child));
+      }
+    };
+    
+    // Find the starting point in the chain
+    const findStartingPoint = (node: EvolutionChainNode): EvolutionChainNode | null => {
+      if (node.species.name === targetName) return node;
+      if (node.evolves_to && node.evolves_to.length > 0) {
+        for (const child of node.evolves_to) {
+          const found = findStartingPoint(child);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    
+    const startingPoint = findStartingPoint(chain);
+    if (startingPoint) {
+      traverse(startingPoint);
+    }
+    
+    return result;
+  };
+  
+  const currentEvolutionChain = getEvolutionChain(evolutionChain, pokemon?.name || '');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-4">
@@ -441,7 +495,7 @@ export default function PokemonDetailPage() {
 
           {/* Weaknesses */}
           {weaknesses && weaknesses.length > 0 && (
-            <div className="p-8">
+            <div className="p-8 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Weaknesses
               </h2>
@@ -456,6 +510,30 @@ export default function PokemonDetailPage() {
                   >
                     {weakness.charAt(0).toUpperCase() + weakness.slice(1)}
                   </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Evolution Chain */}
+          {currentEvolutionChain && currentEvolutionChain.length > 1 && (
+            <div className="p-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                Evolution Chain
+              </h2>
+              <div className="flex flex-wrap items-center gap-3">
+                {currentEvolutionChain.map((evoName, index) => (
+                  <div key={evoName} className="flex items-center gap-3">
+                    <a
+                      href={`/pokemon/${evoName}`}
+                      className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
+                    >
+                      {evoName.replace("-", " ")}
+                    </a>
+                    {index < currentEvolutionChain.length - 1 && (
+                      <span className="text-gray-400 font-bold">→</span>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
