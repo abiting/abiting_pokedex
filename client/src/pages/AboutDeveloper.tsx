@@ -11,7 +11,7 @@ export default function AboutDeveloper() {
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Abiting, a Content Creator and Marketing Professional from Taiwan, actively engaged in the Pokémon communities across Taiwan, China, and Hong Kong."
+        "Abiting: Pokémon Lover from Taiwan"
       );
     }
     
@@ -44,7 +44,7 @@ export default function AboutDeveloper() {
     }
     ogDescription.setAttribute(
       "content",
-      "Abiting, a Content Creator and Marketing Professional from Taiwan, actively engaged in the Pokémon communities across Taiwan, China, and Hong Kong."
+      "Abiting: Pokémon Lover from Taiwan"
     );
   }, []);
 
