@@ -220,7 +220,16 @@ export default function Home() {
       <div className="mt-16 py-8 border-t border-purple-500/30 bg-purple-900/50">
         <div className="max-w-7xl mx-auto px-4 text-center text-purple-200 text-sm">
           <p>
-            Pokémon data from{" "}
+            Copyright © 2026{" "}
+            <a
+              href="https://abiting.cc/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-purple-300 hover:text-white underline transition-colors"
+            >
+              阿比丁的第二個家
+            </a>
+            {" • "}
             <a
               href="https://pokeapi.co/"
               target="_blank"
