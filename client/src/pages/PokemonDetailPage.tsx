@@ -270,40 +270,28 @@ export default function PokemonDetailPage() {
   const femalePercentage =
     genderRate !== undefined && genderRate !== -1 ? (genderRate / 8) * 100 : null;
 
-  // Extract evolution chain for current pokemon
-  const getEvolutionChain = (chain: EvolutionChainNode | null, targetName: string): string[] => {
+  // Extract complete evolution chain from base form
+  const getCompleteEvolutionChain = (chain: EvolutionChainNode | null): string[] => {
     if (!chain) return [];
     
     const result: string[] = [];
     
+    // Traverse and collect all Pokémon in a linear path
     const traverse = (node: EvolutionChainNode) => {
       result.push(node.species.name);
+      // Only follow the first evolution path (main line)
       if (node.evolves_to && node.evolves_to.length > 0) {
-        node.evolves_to.forEach(child => traverse(child));
+        traverse(node.evolves_to[0]);
       }
     };
     
-    // Find the starting point in the chain
-    const findStartingPoint = (node: EvolutionChainNode): EvolutionChainNode | null => {
-      if (node.species.name === targetName) return node;
-      if (node.evolves_to && node.evolves_to.length > 0) {
-        for (const child of node.evolves_to) {
-          const found = findStartingPoint(child);
-          if (found) return found;
-        }
-      }
-      return null;
-    };
-    
-    const startingPoint = findStartingPoint(chain);
-    if (startingPoint) {
-      traverse(startingPoint);
-    }
+    // Start from the root and traverse the entire chain
+    traverse(chain);
     
     return result;
   };
   
-  const currentEvolutionChain = getEvolutionChain(evolutionChain, pokemon?.name || '');
+  const currentEvolutionChain = getCompleteEvolutionChain(evolutionChain);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-4">
