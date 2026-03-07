@@ -4,14 +4,14 @@ import { ArrowLeft } from "lucide-react";
 export default function AboutDeveloper() {
   useEffect(() => {
     // Update page title
-    document.title = "About Developer | Abiting's Pokédex";
+    document.title = "Abiting: Pokémon Lover from Taiwan";
     
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "Abiting: Pokémon Lover from Taiwan"
+        "Abiting, a Content Creator and Marketing Professional from Taiwan, actively engaged in the Pokémon communities across Taiwan, China, and Hong Kong."
       );
     }
     
@@ -34,7 +34,7 @@ export default function AboutDeveloper() {
       ogTitle.setAttribute("property", "og:title");
       document.head.appendChild(ogTitle);
     }
-    ogTitle.setAttribute("content", "About Developer | Abiting's Pokédex");
+    ogTitle.setAttribute("content", "Abiting: Pokémon Lover from Taiwan");
     
     let ogDescription = document.querySelector('meta[property="og:description"]');
     if (!ogDescription) {
@@ -44,7 +44,7 @@ export default function AboutDeveloper() {
     }
     ogDescription.setAttribute(
       "content",
-      "Abiting: Pokémon Lover from Taiwan"
+      "Abiting, a Content Creator and Marketing Professional from Taiwan, actively engaged in the Pokémon communities across Taiwan, China, and Hong Kong."
     );
   }, []);
 
