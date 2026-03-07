@@ -196,28 +196,38 @@ export default function PokemonDetailPage() {
     const schema = {
       "@context": "https://schema.org",
       "@type": "Thing",
+      "@id": `https://list.abitingpokedex.com/pokemon/${pokemon.name}`,
       "name": formattedName,
-      "identifier": `pokemon-${pokemon.id}`,
-      "description": `${formattedName} is a ${typeNames} type Pokémon (#${String(pokemon.id).padStart(4, "0")}) with base stats and multiple abilities.`,
+      "alternateName": `Pokémon #${String(pokemon.id).padStart(4, "0")}`,
+      "description": `${formattedName} is a ${typeNames} type Pokémon (#${String(pokemon.id).padStart(4, "0")}) with base stats and multiple abilities. View detailed information including stats, abilities, gender ratio, weaknesses, and evolution chain on Abiting's Pokédex.`,
       "image": pokemon.image,
-      "url": `https://abitingdex-rzu58tey.manus.space/pokemon/${pokemon.name}`,
-      "additionalProperty": [
-        {
-          "@type": "PropertyValue",
-          "name": "Height",
-          "value": `${(pokemon.height / 10).toFixed(1)} m`
+      "url": `https://list.abitingpokedex.com/pokemon/${pokemon.name}`,
+      "inLanguage": "en",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Abiting's Pokédex",
+        "url": "https://list.abitingpokedex.com"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Abiting"
+      },
+      "mainEntity": {
+        "@type": "Thing",
+        "name": formattedName,
+        "identifier": `pokemon-${pokemon.id}`,
+        "height": {
+          "@type": "QuantitativeValue",
+          "value": `${(pokemon.height / 10).toFixed(1)}`,
+          "unitCode": "MTR"
         },
-        {
-          "@type": "PropertyValue",
-          "name": "Weight",
-          "value": `${(pokemon.weight / 10).toFixed(1)} kg`
+        "weight": {
+          "@type": "QuantitativeValue",
+          "value": `${(pokemon.weight / 10).toFixed(1)}`,
+          "unitCode": "KGM"
         },
-        {
-          "@type": "PropertyValue",
-          "name": "Types",
-          "value": typeNames
-        }
-      ]
+        "keywords": typeNames
+      }
     };
     
     const newSchemaScript = document.createElement("script");
