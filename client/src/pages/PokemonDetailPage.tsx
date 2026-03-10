@@ -526,7 +526,7 @@ export default function PokemonDetailPage() {
                       href={`/pokemon/${evoName}`}
                       className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
                     >
-                      {evoName.replace("-", " ")}
+                      {formatPokemonName(evoName)}
                     </a>
                     {index < currentEvolutionChain.length - 1 && (
                       <span className="text-gray-400 font-bold">→</span>
