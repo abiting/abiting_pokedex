@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { Search, Loader2 } from "lucide-react";
 import PokemonDetailModal from "@/components/PokemonDetailModal";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
@@ -37,6 +37,31 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(null);
+  const scrollPositionRef = useRef(0);
+
+  // Save scroll position before navigating away
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      scrollPositionRef.current = window.scrollY;
+      sessionStorage.setItem('pokemonListScrollPosition', String(window.scrollY));
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
+  // Restore scroll position when returning to home
+  useEffect(() => {
+    const savedPosition = sessionStorage.getItem('pokemonListScrollPosition');
+    if (savedPosition) {
+      const position = parseInt(savedPosition, 10);
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        window.scrollTo(0, position);
+      });
+      sessionStorage.removeItem('pokemonListScrollPosition');
+    }
+  }, [pokemonData]);
 
   useEffect(() => {
     // Set up SEO meta tags and schema for homepage
@@ -81,8 +106,22 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // Fetch Pokemon data from PokéAPI
+    // Fetch Pokemon data from PokéAPI with caching
     const fetchPokemonData = async () => {
+      // Check if data is already cached in sessionStorage
+      const cachedData = sessionStorage.getItem('pokemonListCache');
+      if (cachedData) {
+        try {
+          const parsed = JSON.parse(cachedData);
+          setPokemonData(parsed);
+          setFilteredPokemon(parsed);
+          setLoading(false);
+          return;
+        } catch (e) {
+          // Cache is invalid, proceed with fetch
+        }
+      }
+
       try {
         const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1350", {
           method: 'GET',
@@ -96,26 +135,36 @@ export default function Home() {
         const data = await response.json();
         const results = data.results;
 
-        // Fetch detailed data for all Pokemon in parallel
-        const pokemonDetails = await Promise.all(
-          results.map(async (pokemon: any) => {
-            const detailResponse = await fetch(pokemon.url);
-            const detail = await detailResponse.json();
-            return {
-              id: detail.id,
-              name: detail.name,
-              image:
-                detail.sprites?.other?.["official-artwork"]?.front_default ||
-                detail.sprites?.front_default ||
-                "https://via.placeholder.com/150?text=No+Image",
-              types: detail.types.map((t: any) => t.type.name),
-            };
-          })
-        );
+        // Fetch detailed data for all Pokemon in parallel with batching
+        const batchSize = 50;
+        const pokemonDetails: Pokemon[] = [];
+        
+        for (let i = 0; i < results.length; i += batchSize) {
+          const batch = results.slice(i, i + batchSize);
+          const batchDetails = await Promise.all(
+            batch.map(async (pokemon: any) => {
+              const detailResponse = await fetch(pokemon.url);
+              const detail = await detailResponse.json();
+              return {
+                id: detail.id,
+                name: detail.name,
+                image:
+                  detail.sprites?.other?.["official-artwork"]?.front_default ||
+                  detail.sprites?.front_default ||
+                  "https://via.placeholder.com/150?text=No+Image",
+                types: detail.types.map((t: any) => t.type.name),
+              };
+            })
+          );
+          pokemonDetails.push(...batchDetails);
+        }
 
         // Filter out variant forms (ID >= 10000)
         const basePokemon = pokemonDetails.filter((p) => p.id < 10000);
 
+        // Cache the data
+        sessionStorage.setItem('pokemonListCache', JSON.stringify(basePokemon));
+        
         setPokemonData(basePokemon);
         setFilteredPokemon(basePokemon);
       } catch (error) {
@@ -127,7 +176,7 @@ export default function Home() {
     fetchPokemonData();
   }, []);
 
-  const handleSearch = (value: string) => {
+  const handleSearch = useCallback((value: string) => {
     setSearchTerm(value);
     const term = value.toLowerCase();
     const filtered = pokemonData.filter(
@@ -136,7 +185,7 @@ export default function Home() {
         String(pokemon.id).padStart(4, "0").includes(term)
     );
     setFilteredPokemon(filtered);
-  };
+  }, [pokemonData]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800">
