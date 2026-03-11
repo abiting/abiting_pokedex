@@ -17,14 +17,21 @@
     <link rel="apple-touch-icon" href="/favicon.ico?v=2" />
     <link rel="shortcut icon" href="/favicon.ico?v=2" />
     
-    <!-- Schema.org Structured Data for WebSite with SearchAction -->
+    <!-- Schema.org Structured Data for SoftwareApplication -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebSite",
+      "@type": "SoftwareApplication",
       "name": "Abiting's Pokédex",
-      "url": "https://list.abitingpokedex.com",
       "description": "The essential battle database for Pokémon Champions. Access comprehensive Base Stats and Type Weaknesses for all 1,025 species (Gen 1-9).",
+      "url": "https://list.abitingpokedex.com",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
@@ -36,16 +43,18 @@
     }
     </script>
     
-    <!-- Schema.org Structured Data for Organization (Parent Brand) -->
+    <!-- Schema.org Structured Data for Organization -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Abiting's Pokédex",
       "url": "https://abitingpokedex.com",
-      "logo": "https://abitingpokedex.com/logo.png",
       "description": "The Essential Pokédex for Pokémon Champions",
       "sameAs": [
+        "https://abiting.cc",
+        "https://scrabby.abiting.cc",
+        "https://abitingpokedex.com",
         "https://list.abitingpokedex.com"
       ]
     }
