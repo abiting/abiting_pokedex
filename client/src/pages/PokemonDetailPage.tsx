@@ -281,46 +281,31 @@ export default function PokemonDetailPage() {
     genderRate !== undefined && genderRate !== -1 ? (genderRate / 8) * 100 : null;
 
   // Extract complete evolution chain from base form
-  const getCompleteEvolutionChain = (chain: EvolutionChainNode | null): string[] => {
+  const getCompleteEvolutionChain = (chain: EvolutionChainNode | null): string[][] => {
     if (!chain) return [];
     
-    // Find the path that contains the current Pokémon
-    const findPathWithPokemon = (node: EvolutionChainNode, targetName: string): string[] | null => {
-      // Check if this node is the target
-      if (node.species.name === targetName) {
-        return [node.species.name];
+    const allPaths: string[][] = [];
+    
+    // Recursively collect all possible evolution paths
+    const collectAllPaths = (node: EvolutionChainNode, currentPath: string[]): void => {
+      const newPath = [...currentPath, node.species.name];
+      
+      // If this node has no further evolutions, add the path to results
+      if (!node.evolves_to || node.evolves_to.length === 0) {
+        allPaths.push(newPath);
+        return;
       }
       
-      // Try each evolution branch
-      if (node.evolves_to && node.evolves_to.length > 0) {
-        for (const evolution of node.evolves_to) {
-          const subPath = findPathWithPokemon(evolution, targetName);
-          if (subPath) {
-            return [node.species.name, ...subPath];
-          }
-        }
-      }
-      
-      return null;
-    };
-    
-    const currentPokemonName = params?.name || "";
-    const path = findPathWithPokemon(chain, currentPokemonName);
-    
-    if (path && path.length > 0) {
-      return path;
-    }
-    
-    // Fallback: return main line if no specific path found
-    const result: string[] = [];
-    const traverse = (node: EvolutionChainNode) => {
-      result.push(node.species.name);
-      if (node.evolves_to && node.evolves_to.length > 0) {
-        traverse(node.evolves_to[0]);
+      // Otherwise, explore all evolution branches
+      for (const evolution of node.evolves_to) {
+        collectAllPaths(evolution, newPath);
       }
     };
-    traverse(chain);
-    return result;
+    
+    // Start collecting from the root
+    collectAllPaths(chain, []);
+    
+    return allPaths;
   };
   
   const currentEvolutionChain = getCompleteEvolutionChain(evolutionChain);
@@ -536,23 +521,27 @@ export default function PokemonDetailPage() {
           )}
 
           {/* Evolution Chain */}
-          {currentEvolutionChain && currentEvolutionChain.length > 1 && (
+          {currentEvolutionChain && currentEvolutionChain.length > 0 && (
             <div className="p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Evolution Chain
               </h2>
-              <div className="flex flex-wrap items-center gap-3">
-                {currentEvolutionChain.map((evoName, index) => (
-                  <div key={evoName} className="flex items-center gap-3">
-                    <a
-                      href={`/pokemon/${evoName}`}
-                      className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
-                    >
-                      {formatPokemonName(evoName)}
-                    </a>
-                    {index < currentEvolutionChain.length - 1 && (
-                      <span className="text-gray-400 font-bold">→</span>
-                    )}
+              <div className="space-y-3">
+                {currentEvolutionChain.map((path, pathIndex) => (
+                  <div key={pathIndex} className="flex flex-wrap items-center gap-3">
+                    {path.map((evoName, index) => (
+                      <div key={`${pathIndex}-${evoName}`} className="flex items-center gap-3">
+                        <a
+                          href={`/pokemon/${evoName}`}
+                          className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
+                        >
+                          {formatPokemonName(evoName)}
+                        </a>
+                        {index < path.length - 1 && (
+                          <span className="text-gray-400 font-bold">→</span>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 ))}
               </div>
