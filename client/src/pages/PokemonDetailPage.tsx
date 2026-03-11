@@ -522,7 +522,7 @@ export default function PokemonDetailPage() {
 
           {/* Evolution Chain */}
           {currentEvolutionChain && currentEvolutionChain.length > 0 && (
-            <div className="p-8">
+            <div className="p-8 border-b border-gray-200">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Evolution Chain
               </h2>
@@ -545,6 +545,17 @@ export default function PokemonDetailPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Pokemon Image */}
+          {pokemon.image && (
+            <div className="p-8 flex justify-center bg-gradient-to-b from-purple-50 to-white">
+              <img
+                src={pokemon.image}
+                alt={`${formatPokemonName(pokemon.name)} weight`}
+                className="w-64 h-64 object-contain"
+              />
             </div>
           )}
         </div>
