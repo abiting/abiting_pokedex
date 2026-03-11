@@ -562,6 +562,15 @@ export default function PokemonDetailPage() {
               )}
             </div>
           ) : null}
+
+          {/* Brand Image */}
+          <div className="p-8 flex justify-center bg-black">
+            <img
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_623285C8-702B-4506-A100-941C5E459461_6a2dd84d.jpeg"
+              alt={`${formatPokemonName(pokemon.name)} Base Stats`}
+              className="max-w-2xl w-full object-contain"
+            />
+          </div>
         </div>
       </div>
     </div>
