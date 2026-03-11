@@ -284,20 +284,42 @@ export default function PokemonDetailPage() {
   const getCompleteEvolutionChain = (chain: EvolutionChainNode | null): string[] => {
     if (!chain) return [];
     
-    const result: string[] = [];
+    // Find the path that contains the current Pokémon
+    const findPathWithPokemon = (node: EvolutionChainNode, targetName: string): string[] | null => {
+      // Check if this node is the target
+      if (node.species.name === targetName) {
+        return [node.species.name];
+      }
+      
+      // Try each evolution branch
+      if (node.evolves_to && node.evolves_to.length > 0) {
+        for (const evolution of node.evolves_to) {
+          const subPath = findPathWithPokemon(evolution, targetName);
+          if (subPath) {
+            return [node.species.name, ...subPath];
+          }
+        }
+      }
+      
+      return null;
+    };
     
-    // Traverse and collect all Pokémon in a linear path
+    const currentPokemonName = params?.name || "";
+    const path = findPathWithPokemon(chain, currentPokemonName);
+    
+    if (path && path.length > 0) {
+      return path;
+    }
+    
+    // Fallback: return main line if no specific path found
+    const result: string[] = [];
     const traverse = (node: EvolutionChainNode) => {
       result.push(node.species.name);
-      // Only follow the first evolution path (main line)
       if (node.evolves_to && node.evolves_to.length > 0) {
         traverse(node.evolves_to[0]);
       }
     };
-    
-    // Start from the root and traverse the entire chain
     traverse(chain);
-    
     return result;
   };
   
