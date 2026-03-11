@@ -17,19 +17,21 @@
     <link rel="apple-touch-icon" href="/favicon.ico?v=2" />
     <link rel="shortcut icon" href="/favicon.ico?v=2" />
     
-    <!-- Schema.org Structured Data for CollectionPage with ItemList -->
+    <!-- Schema.org Structured Data for WebSite with SearchAction -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "List of Pokémon",
-      "description": "The essential battle database for Pokémon Champions. Access comprehensive Base Stats and Type Weaknesses for all 1,025 species (Gen 1-9).",
+      "@type": "WebSite",
+      "name": "Abiting's Pokédex",
       "url": "https://list.abitingpokedex.com",
-      "mainEntity": {
-        "@type": "ItemList",
-        "name": "Pokémon Database",
-        "description": "Complete list of 1,025 Pokémon species with stats, abilities, and type information",
-        "numberOfItems": 1025
+      "description": "The essential battle database for Pokémon Champions. Access comprehensive Base Stats and Type Weaknesses for all 1,025 species (Gen 1-9).",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://list.abitingpokedex.com?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
       }
     }
     </script>

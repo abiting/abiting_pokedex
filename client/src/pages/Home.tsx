@@ -64,48 +64,6 @@ export default function Home() {
   }, [pokemonData]);
 
   useEffect(() => {
-    // Set up SEO meta tags and schema for homepage
-    document.title = "List of Pokémon｜Abiting's Pokédex";
-    
-    // Update meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', 'Abiting\'s Pokédex - The essential Pokédex for Pokémon Champions. Browse all 1,025 Pokémon with detailed stats, abilities, types, weaknesses, and evolution chains.');
-    
-    // Add homepage schema
-    let schemaScript = document.querySelector('script[data-homepage-schema]');
-    if (schemaScript) {
-      schemaScript.remove();
-    }
-    
-    const homeSchema = {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Abiting's Pokédex",
-      "url": "https://list.abitingpokedex.com",
-      "description": "The essential Pokédex for Pokémon Champions with comprehensive information on all 1,025 Pokémon",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://list.abitingpokedex.com?search={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }
-    };
-    
-    const newSchemaScript = document.createElement('script');
-    newSchemaScript.type = 'application/ld+json';
-    newSchemaScript.setAttribute('data-homepage-schema', 'true');
-    newSchemaScript.textContent = JSON.stringify(homeSchema);
-    document.head.appendChild(newSchemaScript);
-  }, []);
-
-  useEffect(() => {
     // Fetch Pokemon data from PokéAPI with caching
     const fetchPokemonData = async () => {
       // Check if data is already cached in sessionStorage
