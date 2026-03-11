@@ -520,44 +520,48 @@ export default function PokemonDetailPage() {
             </div>
           )}
 
-          {/* Evolution Chain */}
-          {currentEvolutionChain && currentEvolutionChain.length > 0 && (
-            <div className="p-8 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Evolution Chain
-              </h2>
-              <div className="space-y-3">
-                {currentEvolutionChain.map((path, pathIndex) => (
-                  <div key={pathIndex} className="flex flex-wrap items-center gap-3">
-                    {path.map((evoName, index) => (
-                      <div key={`${pathIndex}-${evoName}`} className="flex items-center gap-3">
-                        <a
-                          href={`/pokemon/${evoName}`}
-                          className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
-                        >
-                          {formatPokemonName(evoName)}
-                        </a>
-                        {index < path.length - 1 && (
-                          <span className="text-gray-400 font-bold">→</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+          {/* Evolution Chain with Pokemon Image */}
+          {(currentEvolutionChain && currentEvolutionChain.length > 0) || pokemon.image ? (
+            <div className="p-8 border-b border-gray-200 flex gap-8">
+              <div className="flex-1">
+                {currentEvolutionChain && currentEvolutionChain.length > 0 && (
+                  <>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                      Evolution Chain
+                    </h2>
+                    <div className="space-y-3">
+                      {currentEvolutionChain.map((path, pathIndex) => (
+                        <div key={pathIndex} className="flex flex-wrap items-center gap-3">
+                          {path.map((evoName, index) => (
+                            <div key={`${pathIndex}-${evoName}`} className="flex items-center gap-3">
+                              <a
+                                href={`/pokemon/${evoName}`}
+                                className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
+                              >
+                                {formatPokemonName(evoName)}
+                              </a>
+                              {index < path.length - 1 && (
+                                <span className="text-gray-400 font-bold">→</span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
+              {pokemon.image && (
+                <div className="flex items-center justify-center">
+                  <img
+                    src={pokemon.image}
+                    alt={`${formatPokemonName(pokemon.name)} weight`}
+                    className="w-40 h-40 object-contain"
+                  />
+                </div>
+              )}
             </div>
-          )}
-
-          {/* Pokemon Image */}
-          {pokemon.image && (
-            <div className="p-8 flex justify-center bg-gradient-to-b from-purple-50 to-white">
-              <img
-                src={pokemon.image}
-                alt={`${formatPokemonName(pokemon.name)} weight`}
-                className="w-64 h-64 object-contain"
-              />
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
