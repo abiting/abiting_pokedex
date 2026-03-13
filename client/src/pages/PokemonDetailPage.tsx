@@ -521,10 +521,10 @@ export default function PokemonDetailPage() {
           )}
 
           {/* Evolution Chain with Pokemon Image */}
-          {(currentEvolutionChain && currentEvolutionChain.length > 0) || pokemon.image ? (
+          {(currentEvolutionChain && currentEvolutionChain.length > 0 && currentEvolutionChain.some(path => path.length > 1)) || pokemon.image ? (
             <div className="p-8 border-b border-gray-200 flex gap-8">
               <div className="flex-1">
-                {currentEvolutionChain && currentEvolutionChain.length > 0 && (
+                {currentEvolutionChain && currentEvolutionChain.length > 0 && currentEvolutionChain.some(path => path.length > 1) && (
                   <>
                     <h2 className="text-2xl font-bold text-gray-800 mb-4">
                       Evolution Chain
