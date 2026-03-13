@@ -477,7 +477,7 @@ export default function PokemonDetailPage() {
                   <div key={stat.stat.name}>
                     <div className="flex justify-between mb-2">
                       <span className="text-gray-700 font-semibold capitalize">
-                        {stat.stat.name.replace("-", " ")}
+                        {stat.stat.name === "hp" ? "HP" : stat.stat.name.replace("-", " ")}
                       </span>
                       <span className="text-gray-600">{stat.base_stat}</span>
                     </div>
