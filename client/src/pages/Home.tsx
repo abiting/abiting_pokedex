@@ -34,14 +34,10 @@ const typeColors: Record<string, string> = {
 export default function Home() {
   const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
   const [filteredPokemon, setFilteredPokemon] = useState<Pokemon[]>([]);
-  const [displayedPokemon, setDisplayedPokemon] = useState<Pokemon[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(null);
-  const [displayCount, setDisplayCount] = useState(100);
   const scrollPositionRef = useRef(0);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
 
   // Save scroll position before navigating away
   useEffect(() => {
@@ -53,33 +49,6 @@ export default function Home() {
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, []);
-
-  // Update displayed pokemon when filtered pokemon or display count changes
-  useEffect(() => {
-    setDisplayedPokemon(filteredPokemon.slice(0, displayCount));
-  }, [filteredPokemon, displayCount]);
-
-  // Infinite scroll observer
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && displayCount < filteredPokemon.length) {
-          setDisplayCount((prev) => Math.min(prev + 50, filteredPokemon.length));
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sentinelRef.current) {
-      observerRef.current.observe(sentinelRef.current);
-    }
-
-    return () => {
-      if (observerRef.current && sentinelRef.current) {
-        observerRef.current.unobserve(sentinelRef.current);
-      }
-    };
-  }, [filteredPokemon.length, displayCount]);
 
   // Restore scroll position when returning to home
   useEffect(() => {
@@ -148,7 +117,7 @@ export default function Home() {
           pokemonDetails.push(...batchDetails);
         }
 
-        // Filter out variant forms (ID >= 10000) and sort by ID
+        // Filter out variant forms (ID >= 10000)
         const basePokemon = pokemonDetails.filter((p) => p.id < 10000);
 
         // Cache the data
@@ -243,9 +212,8 @@ export default function Home() {
             <p className="text-white text-xl">No Pokémon found matching your search</p>
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-              {displayedPokemon.map((pokemon) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+            {filteredPokemon.map((pokemon) => (
               <a
                 key={pokemon.id}
                 href={`/pokemon/${pokemon.name}`}
@@ -284,14 +252,8 @@ export default function Home() {
                   ))}
                 </div>
               </a>
-              ))}
-            </div>
-            {displayCount < filteredPokemon.length && (
-              <div ref={sentinelRef} className="flex justify-center py-8">
-                <Loader2 className="w-8 h-8 text-purple-300 animate-spin" />
-              </div>
-            )}
-          </>
+            ))}
+          </div>
         )}
       </div>
 
