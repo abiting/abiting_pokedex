@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRoute } from "wouter";
+import { useRoute, Link } from "wouter";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 
@@ -348,41 +348,40 @@ export default function PokemonDetailPage() {
           )}
 
           {/* Evolution Chain */}
-          {currentEvolutionChain.length > 0 && currentEvolutionChain[0].length > 1 ? (
-            <div className="flex gap-4 items-center mb-8">
-              <div className="flex-1">
-                <h2 className="text-xl font-bold text-white mb-4">Evolution Chain</h2>
-                <div className="space-y-2">
-                  {currentEvolutionChain.map((path, pathIndex) => (
-                    <div key={pathIndex} className="bg-purple-700/50 p-3 rounded-lg">
-                      <p className="text-white">
-                        {path.map((name, index) => (
-                          <span key={index}>
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-white mb-4">Evolution Chain</h2>
+            {currentEvolutionChain.length > 0 && currentEvolutionChain[0].length > 1 ? (
+              <div className="space-y-2">
+                {currentEvolutionChain.map((path, pathIndex) => (
+                  <div key={pathIndex} className="bg-purple-700/50 p-3 rounded-lg">
+                    <p className="text-white">
+                      {path.map((name, index) => (
+                        <span key={index}>
+                          <Link href={`/pokemon/${name}`} className="text-purple-300 hover:text-white hover:underline transition-colors cursor-pointer">
                             {formatPokemonName(name)}
-                            {index < path.length - 1 && " → "}
-                          </span>
-                        ))}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+                          </Link>
+                          {index < path.length - 1 && <span className="mx-2">→</span>}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                ))}
               </div>
-              {pokemon.image && (
-                <div className="flex-shrink-0">
-                  <img
-                    src={pokemon.image}
-                    alt={`${formatPokemonName(pokemon.name)} weight`}
-                    className="w-40 h-40 object-contain"
-                  />
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-white mb-4">Evolution Chain</h2>
+            ) : (
               <div className="bg-purple-700/50 p-3 rounded-lg">
                 <p className="text-white">None</p>
               </div>
+            )}
+          </div>
+
+          {/* Pokemon Image */}
+          {pokemon.image && (
+            <div className="mb-8 flex justify-center">
+              <img
+                src={pokemon.image}
+                alt={`${formatPokemonName(pokemon.name)} weight`}
+                className="w-40 h-40 object-contain"
+              />
             </div>
           )}
 
