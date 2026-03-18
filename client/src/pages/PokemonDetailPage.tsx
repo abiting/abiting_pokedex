@@ -575,6 +575,20 @@ export default function PokemonDetailPage() {
               className="max-w-2xl w-full object-contain"
             />
           </div>
+
+          {/* About Developer */}
+          <div className="py-8 border-t border-purple-500/30 bg-purple-900/50">
+            <div className="text-center text-purple-200 text-sm">
+              <p>
+                <a
+                  href="/about"
+                  className="text-purple-300 hover:text-white underline transition-colors"
+                >
+                  About Developer
+                </a>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
