@@ -162,6 +162,9 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
   if (name === "palafin-zero") {
     return "Palafin";
   }
+  if (name === "well-baked-body") {
+    return "Well-Baked Body";
+  }
 
   // Handle Gigantamax forms
   if (name.includes("-gmax")) {

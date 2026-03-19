@@ -423,14 +423,16 @@ export default function PokemonDetailPage() {
                     className="p-3 bg-purple-100 rounded-lg"
                   >
                     <p className="text-gray-800 font-semibold">
-                      {ability.ability.name
-                        .split("-")
-                        .map((word, idx) => {
-                          const lowerWord = word.toLowerCase();
-                          if (idx > 0 && (lowerWord === "as" || lowerWord === "to")) return lowerWord;
-                          return word.charAt(0).toUpperCase() + word.slice(1);
-                        })
-                        .join(" ")}
+                      {ability.ability.name === "well-baked-body"
+                        ? "Well-Baked Body"
+                        : ability.ability.name
+                            .split("-")
+                            .map((word, idx) => {
+                              const lowerWord = word.toLowerCase();
+                              if (idx > 0 && (lowerWord === "as" || lowerWord === "to")) return lowerWord;
+                              return word.charAt(0).toUpperCase() + word.slice(1);
+                            })
+                            .join(" ")}
                     </p>
                   </div>
                 ))}
