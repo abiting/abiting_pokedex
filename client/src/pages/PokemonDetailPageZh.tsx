@@ -243,13 +243,34 @@ export default function PokemonDetailPageZh() {
   const seoDescription = `${pokemonChineseName || formattedName}（#${String(pokemon.id).padStart(4, "0")}），${pokemon.types.map((t) => typeChineseNames[t.type.name] || t.type.name).join("與")}屬性寶可夢。種族值、屬性、特性、進化鏈資訊，盡在 Abiting's Pokédex。`;
   const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 特性, ${pokemonChineseName || formattedName} 弱點`;
 
+  // Update meta tags dynamically
+  useEffect(() => {
+    if (!pokemon) return;
+
+    // Update title
+    document.title = seoTitle;
+
+    // Update meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute("content", seoDescription);
+
+    // Update meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement("meta");
+      metaKeywords.setAttribute("name", "keywords");
+      document.head.appendChild(metaKeywords);
+    }
+    metaKeywords.setAttribute("content", seoKeywords);
+  }, [pokemon, seoTitle, seoDescription, seoKeywords]);
+
   return (
     <>
-      <head>
-        <title>{seoTitle}</title>
-        <meta name="description" content={seoDescription} />
-        <meta name="keywords" content={seoKeywords} />
-      </head>
       <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-4">
         <div className="max-w-4xl mx-auto">
         {/* Header with back button */}
