@@ -57,7 +57,7 @@ function generateSitemap(): string {
     "weezing", "rhyhorn", "rhydon", "chansey", "kangaskhan"
   ];
   
-  // Generate URLs for all 1025 Pokémon
+  // Generate URLs for all 1025 Pokémon (English)
   for (let i = 1; i <= 1025; i++) {
     let pokemonName: string;
     if (i <= commonPokemonNames.length) {
@@ -70,6 +70,25 @@ function generateSitemap(): string {
     
     urls.push(`  <url>
     <loc>${domain}/pokemon/${pokemonName}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`);
+  }
+  
+  // Generate URLs for all 1025 Pokémon (Traditional Chinese)
+  for (let i = 1; i <= 1025; i++) {
+    let pokemonName: string;
+    if (i <= commonPokemonNames.length) {
+      pokemonName = commonPokemonNames[i - 1];
+    } else {
+      // For Pokémon beyond our hardcoded list, use placeholder
+      // In production build, this will be fetched from PokéAPI
+      pokemonName = `pokemon-${i}`;
+    }
+    
+    urls.push(`  <url>
+    <loc>${domain}/pokemon/${pokemonName}/zh</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -235,10 +254,20 @@ function vitePluginSitemapGenerator(): Plugin {
     <priority>0.8</priority>
   </url>`);
         
-        // Add all Pokémon pages
+        // Add all Pokémon pages (English)
         for (const name of pokemonNames) {
           urls.push(`  <url>
     <loc>${domain}/pokemon/${name}</loc>
+    <lastmod>${new Date().toISOString()}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`);
+        }
+        
+        // Add all Pokémon pages (Traditional Chinese)
+        for (const name of pokemonNames) {
+          urls.push(`  <url>
+    <loc>${domain}/pokemon/${name}/zh</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
