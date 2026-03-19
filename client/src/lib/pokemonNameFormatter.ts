@@ -94,6 +94,7 @@ const formsToRemove = new Set([
   "10",
   "50",
   "complete",
+  "zero",
 ]);
 
 export function formatPokemonName(name: string, pokemonId?: number): string {
@@ -157,6 +158,9 @@ export function formatPokemonName(name: string, pokemonId?: number): string {
   }
   if (name === "chi-yu") {
     return "Chi-Yu";
+  }
+  if (name === "palafin-zero") {
+    return "Palafin";
   }
 
   // Handle Gigantamax forms

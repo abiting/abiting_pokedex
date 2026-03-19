@@ -426,7 +426,8 @@ export default function PokemonDetailPage() {
                       {ability.ability.name
                         .split("-")
                         .map((word, idx) => {
-                          if (idx > 0 && word.toLowerCase() === "as") return "as";
+                          const lowerWord = word.toLowerCase();
+                          if (idx > 0 && (lowerWord === "as" || lowerWord === "to")) return lowerWord;
                           return word.charAt(0).toUpperCase() + word.slice(1);
                         })
                         .join(" ")}
