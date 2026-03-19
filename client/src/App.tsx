@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import PokemonDetailPage from "./pages/PokemonDetailPage";
+import PokemonDetailPageZh from "./pages/PokemonDetailPageZh";
 import AboutDeveloper from "./pages/AboutDeveloper";
 
 
@@ -13,6 +14,7 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/pokemon/:name/zh"} component={PokemonDetailPageZh} />
       <Route path={"/pokemon/:name"} component={PokemonDetailPage} />
       <Route path={"/about"} component={AboutDeveloper} />
       <Route path={"/404"} component={NotFound} />

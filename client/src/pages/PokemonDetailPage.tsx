@@ -322,8 +322,16 @@ export default function PokemonDetailPage() {
             <ArrowLeft className="w-5 h-5" />
             <span>Back to Pokédex</span>
           </a>
-          <div className="text-white text-sm font-semibold">
-            #{String(pokemon.id).padStart(4, "0")}
+          <div className="flex items-center gap-4">
+            <a
+              href={`/pokemon/${pokemon.name}/zh`}
+              className="text-white text-sm font-semibold hover:text-gray-200 transition"
+            >
+              🌐 中文版本
+            </a>
+            <div className="text-white text-sm font-semibold">
+              #{String(pokemon.id).padStart(4, "0")}
+            </div>
           </div>
         </div>
 
