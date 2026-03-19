@@ -327,7 +327,7 @@ export default function PokemonDetailPage() {
               href={`/pokemon/${pokemon.name}/zh`}
               className="text-white text-sm font-semibold hover:text-gray-200 transition"
             >
-              🌐 中文版本
+              🌐 zh-TW
             </a>
             <div className="text-white text-sm font-semibold">
               #{String(pokemon.id).padStart(4, "0")}
@@ -422,8 +422,14 @@ export default function PokemonDetailPage() {
                     key={ability.ability.name}
                     className="p-3 bg-purple-100 rounded-lg"
                   >
-                    <p className="text-gray-800 font-semibold capitalize">
-                      {ability.ability.name.replace("-", " ")}
+                    <p className="text-gray-800 font-semibold">
+                      {ability.ability.name
+                        .split("-")
+                        .map((word, idx) => {
+                          if (idx > 0 && word.toLowerCase() === "as") return "as";
+                          return word.charAt(0).toUpperCase() + word.slice(1);
+                        })
+                        .join(" ")}
                     </p>
                   </div>
                 ))}
