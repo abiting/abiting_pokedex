@@ -121,6 +121,12 @@ export default function PokemonDetailPageZh() {
   const [pokemonChineseName, setPokemonChineseName] = useState<string>("");
   const [weaknessNames, setWeaknessNames] = useState<string[]>([]);
 
+  // SEO meta tag update - MUST be before any early returns to maintain Hook order
+  useEffect(() => {
+    if (!pokemon) return;
+    document.title = `${pokemonChineseName || pokemon.name} - Abiting's Pokédex`;
+  }, [pokemon, pokemonChineseName]);
+
   useEffect(() => {
     const fetchPokemon = async () => {
       try {
@@ -242,32 +248,6 @@ export default function PokemonDetailPageZh() {
   const seoTitle = `${pokemonChineseName || formattedName} - Abiting's Pokédex`;
   const seoDescription = `${pokemonChineseName || formattedName}（#${String(pokemon.id).padStart(4, "0")}），${pokemon.types.map((t) => typeChineseNames[t.type.name] || t.type.name).join("與")}屬性寶可夢。種族值、屬性、特性、進化鏈資訊，盡在 Abiting's Pokédex。`;
   const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 特性, ${pokemonChineseName || formattedName} 弱點`;
-
-  // Update meta tags dynamically
-  useEffect(() => {
-    if (!pokemon) return;
-
-    // Update title
-    document.title = seoTitle;
-
-    // Update meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute("content", seoDescription);
-
-    // Update meta keywords
-    let metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (!metaKeywords) {
-      metaKeywords = document.createElement("meta");
-      metaKeywords.setAttribute("name", "keywords");
-      document.head.appendChild(metaKeywords);
-    }
-    metaKeywords.setAttribute("content", seoKeywords);
-  }, [pokemon, seoTitle, seoDescription, seoKeywords]);
 
   return (
     <>
