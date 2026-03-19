@@ -39,6 +39,11 @@ export default function Home() {
   const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(null);
   const scrollPositionRef = useRef(0);
 
+  // Set page title
+  useEffect(() => {
+    document.title = "List of Pokémon｜Abiting's Pokédex";
+  }, []);
+
   // Save scroll position before navigating away
   useEffect(() => {
     const handleBeforeUnload = () => {
