@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /private
-Crawl-delay: 1
-Request-rate: 1/1s
-
-Sitemap: https://list.abitingpokedex.com/sitemap.xml
