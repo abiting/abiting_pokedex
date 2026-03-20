@@ -18,6 +18,12 @@ async function startServer() {
 
   app.use(express.static(staticPath));
 
+  // Explicitly serve sitemap.xml
+  app.get("/sitemap.xml", (_req, res) => {
+    res.type("application/xml");
+    res.sendFile(path.join(staticPath, "sitemap.xml"));
+  });
+
   // Handle client-side routing - serve index.html for all routes
   app.get("*", (_req, res) => {
     res.sendFile(path.join(staticPath, "index.html"));
