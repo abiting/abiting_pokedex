@@ -237,6 +237,8 @@ export default function PokemonDetailPage() {
     document.head.appendChild(newSchemaScript);
   }, [pokemon]);
 
+
+
   if (!match) return null;
 
   if (loading) {
@@ -307,306 +309,251 @@ export default function PokemonDetailPage() {
     
     return allPaths;
   };
-  
+
   const currentEvolutionChain = getCompleteEvolutionChain(evolutionChain);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header with back button */}
-        <div className="flex items-center justify-between mb-6">
-          <a
-            href="/"
-            className="inline-flex items-center gap-2 text-white hover:text-gray-200 transition"
-          >
-            <ArrowLeft className="w-5 h-5" />
-            <span>Back to Pokédex</span>
-          </a>
-          <div className="flex items-center gap-4">
-            <a
-              href={`/pokemon/${pokemon.name}/zh`}
-              className="text-white text-sm font-semibold hover:text-gray-200 transition"
-            >
-              🌐 zh-TW
-            </a>
-            <div className="text-white text-sm font-semibold">
-              #{String(pokemon.id).padStart(4, "0")}
-            </div>
-          </div>
-        </div>
-
-        {/* Main content */}
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          {/* Image and basic info */}
-          <div className="bg-gradient-to-br from-purple-100 to-purple-200 p-8 flex flex-col md:flex-row gap-8 items-center">
-            <div className="flex-shrink-0">
-              <img
-                src={pokemon.image}
-                alt={`${formattedName} #${String(pokemon.id).padStart(4, "0")} Pokémon - ${pokemon.types.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join("/")} type`}
-                className="w-48 h-48 object-contain"
-              />
+            {/* Header with back button */}
+            <div className="flex items-center justify-between mb-6">
+              <a
+                href="/"
+                className="inline-flex items-center gap-2 text-white hover:text-gray-200 transition"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span>Back to Pokédex</span>
+              </a>
+              <div className="flex items-center gap-4">
+                <a
+                  href={`/pokemon/${pokemon.name}/zh`}
+                  className="text-white text-sm font-semibold hover:text-gray-200 transition"
+                >
+                  🌐 zh-TW
+                </a>
+                <div className="text-white text-sm font-semibold">
+                  #{String(pokemon.id).padStart(4, "0")}
+                </div>
+              </div>
             </div>
 
-            <div className="flex-1">
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">
-                {formattedName}
-              </h1>
+            {/* Main content */}
+            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+              {/* Image and basic info */}
+              <div className="bg-gradient-to-br from-purple-100 to-purple-200 p-8 flex flex-col md:flex-row gap-8 items-center">
+                <div className="flex-shrink-0">
+                  <img
+                    src={pokemon.image}
+                    alt={`${formattedName} #${String(pokemon.id).padStart(4, "0")} Pokémon - ${pokemon.types.map(t => t.name.charAt(0).toUpperCase() + t.name.slice(1)).join("/")} type`}
+                    className="w-48 h-48 object-contain"
+                  />
+                </div>
+
+                <div className="flex-1">
+                  <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                    {formattedName}
+                  </h1>
+                  
+                  {/* Champions SP Calculator Link - Desktop */}
+                  <div className="hidden md:block mb-4">
+                    <a
+                      href="https://abitingpokedex.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg text-base whitespace-nowrap"
+                    >
+                      <span className="text-xl">⚡</span>
+                      <span>Champions SP Calculator</span>
+                    </a>
+                  </div>
+                  
+                  <div className="flex gap-2 mb-6">
+                    {pokemon.types &&
+                      pokemon.types.map((type) => (
+                        <span
+                          key={type.name}
+                          className="px-4 py-2 rounded-full text-white font-semibold text-sm"
+                          style={{
+                            backgroundColor: typeColors[type.name] || "#999",
+                          }}
+                        >
+                          {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
+                        </span>
+                      ))}
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-gray-600 text-sm">Height</p>
+                      <p className="text-lg font-semibold text-gray-800">
+                        {(pokemon.height / 10).toFixed(1)} m
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600 text-sm">Weight</p>
+                      <p className="text-lg font-semibold text-gray-800">
+                        {(pokemon.weight / 10).toFixed(1)} kg
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               
-              {/* Champions SP Calculator Link - Desktop */}
-              <div className="hidden md:block mb-4">
+              {/* Champions SP Calculator Link - Mobile */}
+              <div className="md:hidden p-4 bg-gray-50 border-t border-gray-200">
                 <a
                   href="https://abitingpokedex.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg text-base whitespace-nowrap"
+                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg"
                 >
                   <span className="text-xl">⚡</span>
                   <span>Champions SP Calculator</span>
                 </a>
               </div>
-              
-              <div className="flex gap-2 mb-6">
-                {pokemon.types &&
-                  pokemon.types.map((type) => (
-                    <span
-                      key={type.name}
-                      className="px-4 py-2 rounded-full text-white font-semibold text-sm"
-                      style={{
-                        backgroundColor: typeColors[type.name] || "#999",
-                      }}
-                    >
-                      {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
-                    </span>
-                  ))}
-              </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-gray-600 text-sm">Height</p>
-                  <p className="text-lg font-semibold text-gray-800">
-                    {(pokemon.height / 10).toFixed(1)} m
-                  </p>
-                </div>
-                <div>
-                  <p className="text-gray-600 text-sm">Weight</p>
-                  <p className="text-lg font-semibold text-gray-800">
-                    {(pokemon.weight / 10).toFixed(1)} kg
-                  </p>
+              {/* Abilities */}
+              <div className="p-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Abilities</h2>
+                <div className="space-y-2">
+                  {pokemon.abilities && pokemon.abilities.length > 0 ? (
+                    pokemon.abilities.map((ability, index) => (
+                      <div key={index} className="text-gray-700">
+                        <span className="font-semibold">
+                          {ability.ability.name.charAt(0).toUpperCase() +
+                            ability.ability.name.slice(1)}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">No abilities found</p>
+                  )}
                 </div>
               </div>
-            </div>
-          </div>
-          
-          {/* Champions SP Calculator Link - Mobile */}
-          <div className="md:hidden p-4 bg-gradient-to-r from-purple-50 to-purple-100 text-center border-b border-gray-200">
-            <a
-              href="https://abitingpokedex.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg"
-            >
-              <span className="text-xl">⚡</span>
-              <span>Champions SP Calculator</span>
-            </a>
-          </div>
 
-          {/* Abilities */}
-          {pokemon.abilities && pokemon.abilities.length > 0 && (
-            <div className="p-8 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Abilities
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                {pokemon.abilities.map((ability) => (
-                  <div
-                    key={ability.ability.name}
-                    className="p-3 bg-purple-100 rounded-lg"
-                  >
-                    <p className="text-gray-800 font-semibold">
-                      {ability.ability.name === "well-baked-body"
-                        ? "Well-Baked Body"
-                        : ability.ability.name
-                            .split("-")
-                            .map((word, idx) => {
-                              const lowerWord = word.toLowerCase();
-                              if (idx > 0 && (lowerWord === "as" || lowerWord === "to")) return lowerWord;
-                              return word.charAt(0).toUpperCase() + word.slice(1);
-                            })
-                            .join(" ")}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Gender ratio */}
-          {malePercentage !== null && femalePercentage !== null && (
-            <div className="p-8 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Gender Ratio
-              </h2>
-              <div className="flex items-center gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-gray-700 font-semibold">♂ Male</span>
-                    <span className="text-gray-600">
-                      {malePercentage.toFixed(1)}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                    <div
-                      className="bg-blue-500 h-full"
-                      style={{ width: `${malePercentage}%` }}
-                    />
-                  </div>
+              {/* Stats */}
+              <div className="p-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Base Stats</h2>
+                <div className="space-y-3">
+                  {pokemon.stats &&
+                    pokemon.stats.map((stat, index) => (
+                      <div key={index}>
+                        <div className="flex justify-between mb-1">
+                          <span className="text-gray-700 font-semibold">
+                            {stat.stat.name.charAt(0).toUpperCase() +
+                              stat.stat.name.slice(1)}
+                          </span>
+                          <span className="text-gray-700 font-semibold">
+                            {stat.base_stat}
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className="bg-purple-600 h-2 rounded-full"
+                            style={{
+                              width: `${(stat.base_stat / 150) * 100}%`,
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
                 </div>
               </div>
-              <div className="flex items-center gap-4 mt-4">
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-gray-700 font-semibold">
-                      ♀ Female
-                    </span>
-                    <span className="text-gray-600">
-                      {femalePercentage.toFixed(1)}%
-                    </span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                    <div
-                      className="bg-pink-500 h-full"
-                      style={{ width: `${femalePercentage}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* Stats */}
-          {pokemon.stats && pokemon.stats.length > 0 && (
-            <div className="p-8 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Base Stats
-              </h2>
-              <div className="space-y-4">
-                {pokemon.stats.map((stat) => (
-                  <div key={stat.stat.name}>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-700 font-semibold capitalize">
-                        {stat.stat.name === "hp" ? "HP" : stat.stat.name.replace("-", " ")}
-                      </span>
-                      <span className="text-gray-600">{stat.base_stat}</span>
+              {/* Gender Ratio */}
+              {genderRate !== undefined && genderRate !== -1 && (
+                <div className="p-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                    Gender Ratio
+                  </h2>
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between mb-1">
+                        <span className="text-gray-700 font-semibold">Male</span>
+                        <span className="text-gray-700 font-semibold">
+                          {malePercentage?.toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-blue-500 h-2 rounded-full"
+                          style={{
+                            width: `${malePercentage}%`,
+                          }}
+                        ></div>
+                      </div>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                      <div
-                        className="bg-gradient-to-r from-purple-400 to-purple-600 h-full"
-                        style={{
-                          width: `${Math.min(
-                            (stat.base_stat / 150) * 100,
-                            100
-                          )}%`,
-                        }}
-                      />
+                    <div>
+                      <div className="flex justify-between mb-1">
+                        <span className="text-gray-700 font-semibold">Female</span>
+                        <span className="text-gray-700 font-semibold">
+                          {femalePercentage?.toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-pink-500 h-2 rounded-full"
+                          style={{
+                            width: `${femalePercentage}%`,
+                          }}
+                        ></div>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                </div>
+              )}
 
-          {/* Weaknesses */}
-          {weaknesses && weaknesses.length > 0 && (
-            <div className="p-8 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Weaknesses
-              </h2>
-              <div className="flex flex-wrap gap-2">
-                {weaknesses.map((weakness) => (
-                  <span
-                    key={weakness}
-                    className="px-4 py-2 rounded-full text-white font-semibold text-sm"
-                    style={{
-                      backgroundColor: typeColors[weakness] || "#999",
-                    }}
-                  >
-                    {weakness.charAt(0).toUpperCase() + weakness.slice(1)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Evolution Chain with Pokemon Image */}
-          {(currentEvolutionChain && currentEvolutionChain.length > 0) || pokemon.image ? (
-            <div className="p-8 border-b border-gray-200 flex gap-8">
-              <div className="flex-1">
-                {currentEvolutionChain && currentEvolutionChain.length > 0 && (
-                  <>
-                    <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                      Evolution Chain
-                    </h2>
-                    {currentEvolutionChain.some(path => path.length > 1) ? (
-                      <div className="space-y-3">
-                        {currentEvolutionChain.map((path, pathIndex) => (
-                          <div key={pathIndex} className="flex flex-wrap items-center gap-3">
-                            {path.map((evoName, index) => (
-                              <div key={`${pathIndex}-${evoName}`} className="flex items-center gap-3">
-                                <a
-                                  href={`/pokemon/${evoName}`}
-                                  className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
-                                >
-                                  {formatPokemonName(evoName)}
-                                </a>
-                                {index < path.length - 1 && (
-                                  <span className="text-gray-400 font-bold">→</span>
-                                )}
-                              </div>
-                            ))}
+              {/* Evolution Chain */}
+              {currentEvolutionChain.length > 0 && (
+                <div className="p-8">
+                  <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                    Evolution Chain
+                  </h2>
+                  <div className="space-y-4">
+                    {currentEvolutionChain.map((chain, index) => (
+                      <div key={index} className="flex items-center gap-2 flex-wrap">
+                        {chain.map((pokemonName, chainIndex) => (
+                          <div key={chainIndex} className="flex items-center gap-2">
+                            <a
+                              href={`/pokemon/${pokemonName}`}
+                              className="px-4 py-2 bg-purple-100 text-purple-700 rounded-full font-semibold hover:bg-purple-200 transition"
+                            >
+                              {pokemonName.charAt(0).toUpperCase() +
+                                pokemonName.slice(1)}
+                            </a>
+                            {chainIndex < chain.length - 1 && (
+                              <span className="text-gray-500">→</span>
+                            )}
                           </div>
                         ))}
                       </div>
-                    ) : (
-                      <span className="px-4 py-2 rounded-full bg-gray-100 text-gray-700 font-semibold text-sm inline-block">None</span>
-                    )}
-                  </>
-                )}
-              </div>
-              {pokemon.image && (
-                <div className="flex items-center justify-center">
-                  <img
-                    src={pokemon.image}
-                    alt={`${formatPokemonName(pokemon.name)} weight`}
-                    className="w-40 h-40 object-contain"
-                  />
+                    ))}
+                  </div>
                 </div>
               )}
-            </div>
-          ) : null}
 
-          {/* Brand Image */}
-          <div className="p-8 flex justify-center bg-black">
-            <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_623285C8-702B-4506-A100-941C5E459461_6a2dd84d.jpeg"
-              alt={`${formatPokemonName(pokemon.name)} Base Stats`}
-              className="max-w-2xl w-full object-contain"
-            />
-          </div>
-
-          {/* About Developer */}
-          <div className="py-8 border-t border-purple-500/30 bg-purple-900/50">
-            <div className="text-center text-purple-200 text-sm">
-              <p>
-                <a
-                  href="/about"
-                  className="text-purple-300 hover:text-white underline transition-colors"
-                >
-                  About Developer
-                </a>
-              </p>
+              {/* Weaknesses */}
+              <div className="p-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Weaknesses</h2>
+                <div className="flex flex-wrap gap-2">
+                  {weaknesses.length > 0 ? (
+                    weaknesses.map((weakness) => (
+                      <span
+                        key={weakness}
+                        className="px-4 py-2 rounded-full text-white font-semibold text-sm"
+                        style={{
+                          backgroundColor: typeColors[weakness] || "#999",
+                        }}
+                      >
+                        {weakness.charAt(0).toUpperCase() + weakness.slice(1)}
+                      </span>
+                    ))
+                  ) : (
+                    <p className="text-gray-500">No weaknesses</p>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
       </div>
     </div>
   );
