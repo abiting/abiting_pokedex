@@ -70,7 +70,7 @@ for (const pokemonName of pokemonNames) {
   // Generate SEO content
   const seoTitle = `${chineseName} - Abiting's Pokédex`;
   const seoDescription = `${chineseName}（#${String(pokemonId).padStart(4, "0")}），${typesText}寶可夢。種族值、屬性、特性、進化鏈資訊，盡在 Abiting's Pokédex。`;
-  const seoKeywords = `${chineseName}, ${chineseName} 特性, ${chineseName} 弱點`;
+  const seoKeywords = `${chineseName}, ${chineseName} 特性, ${chineseName} 弱點, ${chineseName} 種族值`;
 
   // Create HTML with updated meta tags
   let html = baseHtml
@@ -85,7 +85,13 @@ for (const pokemonName of pokemonNames) {
   }
   
   fs.writeFileSync(path.join(pokemonDir, 'index.html'), html, 'utf-8');
+  if (generatedCount < 5) {
+    console.log(`  - ${chineseName}: ${seoKeywords}`);
+  }
   generatedCount++;
 }
 
-console.log(`✓ Generated ${generatedCount} Chinese Pokemon HTML pages`);
+console.log(`✓ Generated ${generatedCount} Chinese Pokemon HTML pages with updated keywords`);
+if (generatedCount > 5) {
+  console.log(`  ... and ${generatedCount - 5} more`);
+}
