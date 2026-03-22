@@ -69,7 +69,7 @@ for (const pokemonName of pokemonNames) {
   
   // Generate SEO content
   const seoTitle = `${chineseName} - Champions 配招與 SP 計算`;
-  const seoDescription = `${chineseName}（#${String(pokemonId).padStart(4, "0")}），${typesText}寶可夢。Champions SP 計算器、配招分析、種族值、特性、弱點資訊，盡在 Abiting's Pokédex。`;
+  const seoDescription = `#${String(pokemonId).padStart(4, "0")} ${chineseName}，配招與計算能力點數（SP），盡在 Abiting's Pokédex。`;
   const seoKeywords = `${chineseName}, ${chineseName} 配招, ${chineseName} 種族值, ${chineseName} SP 計算`;
 
   // Create HTML with updated meta tags

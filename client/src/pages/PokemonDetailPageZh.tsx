@@ -246,7 +246,7 @@ export default function PokemonDetailPageZh() {
     .join("、");
   
   const seoTitle = `${pokemonChineseName || formattedName} - Champions 配招與 SP 計算`;
-  const seoDescription = `${pokemonChineseName || formattedName}（#${String(pokemon.id).padStart(4, "0")}），${pokemon.types.map((t) => typeChineseNames[t.type.name] || t.type.name).join("與")}屬性寶可夢。Champions SP 計算器、配招分析、種族值、特性、弱點資訊，盡在 Abiting's Pokédex。`;
+  const seoDescription = `#${String(pokemon.id).padStart(4, "0")} ${pokemonChineseName || formattedName}，配招與計算能力點數（SP），盡在 Abiting's Pokédex。`;
   const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 配招, ${pokemonChineseName || formattedName} 種族值, ${pokemonChineseName || formattedName} SP 計算`;
 
   return (
