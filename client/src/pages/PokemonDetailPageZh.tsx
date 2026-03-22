@@ -292,7 +292,7 @@ export default function PokemonDetailPageZh() {
                 {pokemonChineseName || formattedName}
               </h1>
 
-              <div className="hidden md:block mb-4">
+              <div className="hidden md:flex gap-3 mb-4 flex-wrap">
                 <a
                   href="https://scrabby.abiting.cc/pokemon-champions"
                   target="_blank"
@@ -301,6 +301,15 @@ export default function PokemonDetailPageZh() {
                 >
                   <span className="text-xl">⚡</span>
                   <span>Champions SP 計算器</span>
+                </a>
+                <a
+                  href="https://wiki.52poke.com/zh-hant/招式列表"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg text-base whitespace-nowrap"
+                >
+                  <span className="text-xl">📚</span>
+                  <span>招式列表</span>
                 </a>
               </div>
 
@@ -346,6 +355,19 @@ export default function PokemonDetailPageZh() {
             >
               <span className="text-xl">⚡</span>
               <span>Champions SP 計算器</span>
+            </a>
+          </div>
+
+          {/* Move List Link - Mobile */}
+          <div className="md:hidden p-4 bg-gradient-to-r from-purple-50 to-purple-100 text-center border-b border-gray-200">
+            <a
+              href="https://wiki.52poke.com/zh-hant/招式列表"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg"
+            >
+              <span className="text-xl">📚</span>
+              <span>招式列表</span>
             </a>
           </div>
 
