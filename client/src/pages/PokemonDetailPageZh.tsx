@@ -124,7 +124,7 @@ export default function PokemonDetailPageZh() {
   // SEO meta tag update - MUST be before any early returns to maintain Hook order
   useEffect(() => {
     if (!pokemon) return;
-    document.title = `${pokemonChineseName || pokemon.name} - Abiting's Pokédex`;
+    document.title = `${pokemonChineseName || pokemon.name} - Champions 配招與 SP 計算`;
   }, [pokemon, pokemonChineseName]);
 
   useEffect(() => {
@@ -245,9 +245,9 @@ export default function PokemonDetailPageZh() {
     .map((w) => typeChineseNames[w] || w)
     .join("、");
   
-  const seoTitle = `${pokemonChineseName || formattedName} - Abiting's Pokédex`;
-  const seoDescription = `${pokemonChineseName || formattedName}（#${String(pokemon.id).padStart(4, "0")}），${pokemon.types.map((t) => typeChineseNames[t.type.name] || t.type.name).join("與")}屬性寶可夢。種族值、屬性、特性、進化鏈資訊，盡在 Abiting's Pokédex。`;
-  const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 特性, ${pokemonChineseName || formattedName} 弱點`;
+  const seoTitle = `${pokemonChineseName || formattedName} - Champions 配招與 SP 計算`;
+  const seoDescription = `${pokemonChineseName || formattedName}（#${String(pokemon.id).padStart(4, "0")}），${pokemon.types.map((t) => typeChineseNames[t.type.name] || t.type.name).join("與")}屬性寶可夢。Champions SP 計算器、配招分析、種族值、特性、弱點資訊，盡在 Abiting's Pokédex。`;
+  const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 配招, ${pokemonChineseName || formattedName} 種族值, ${pokemonChineseName || formattedName} SP 計算`;
 
   return (
     <>

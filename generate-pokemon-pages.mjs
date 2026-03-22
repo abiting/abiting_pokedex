@@ -68,9 +68,9 @@ for (const pokemonName of pokemonNames) {
   }
   
   // Generate SEO content
-  const seoTitle = `${chineseName} - Abiting's Pokédex`;
-  const seoDescription = `${chineseName}（#${String(pokemonId).padStart(4, "0")}），${typesText}寶可夢。種族值、屬性、特性、進化鏈資訊，盡在 Abiting's Pokédex。`;
-  const seoKeywords = `${chineseName}, ${chineseName} 特性, ${chineseName} 弱點, ${chineseName} 種族值`;
+  const seoTitle = `${chineseName} - Champions 配招與 SP 計算`;
+  const seoDescription = `${chineseName}（#${String(pokemonId).padStart(4, "0")}），${typesText}寶可夢。Champions SP 計算器、配招分析、種族值、特性、弱點資訊，盡在 Abiting's Pokédex。`;
+  const seoKeywords = `${chineseName}, ${chineseName} 配招, ${chineseName} 種族值, ${chineseName} SP 計算`;
 
   // Create HTML with updated meta tags
   let html = baseHtml
