@@ -353,7 +353,7 @@ export default function PokemonDetailPage() {
               </h1>
               
               {/* Champions SP Calculator Link - Desktop */}
-              <div className="hidden md:block mb-4">
+              <div className="hidden md:flex flex-col gap-2 mb-4">
                 <a
                   href="https://abitingpokedex.com"
                   target="_blank"
@@ -362,6 +362,15 @@ export default function PokemonDetailPage() {
                 >
                   <span className="text-xl">⚡</span>
                   <span>Champions SP Calculator</span>
+                </a>
+                <a
+                  href="https://bulbapedia.bulbagarden.net/wiki/List_of_moves"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg text-base whitespace-nowrap"
+                >
+                  <span className="text-xl">📚</span>
+                  <span>List of Moves</span>
                 </a>
               </div>
               
@@ -398,16 +407,27 @@ export default function PokemonDetailPage() {
           </div>
           
           {/* Champions SP Calculator Link - Mobile */}
-          <div className="md:hidden p-4 bg-gradient-to-r from-purple-50 to-purple-100 text-center border-b border-gray-200">
-            <a
-              href="https://abitingpokedex.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg"
-            >
-              <span className="text-xl">⚡</span>
-              <span>Champions SP Calculator</span>
-            </a>
+          <div className="md:hidden p-4 bg-gradient-to-r from-purple-50 to-purple-100 border-b border-gray-200">
+            <div className="flex flex-col gap-2">
+              <a
+                href="https://abitingpokedex.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-bold rounded-full hover:from-purple-600 hover:to-purple-700 transition-all shadow-lg"
+              >
+                <span className="text-xl">⚡</span>
+                <span>Champions SP Calculator</span>
+              </a>
+              <a
+                href="https://bulbapedia.bulbagarden.net/wiki/List_of_moves"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg"
+              >
+                <span className="text-xl">📚</span>
+                <span>List of Moves</span>
+              </a>
+            </div>
           </div>
 
           {/* Abilities */}
