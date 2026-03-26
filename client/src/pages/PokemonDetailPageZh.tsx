@@ -124,7 +124,7 @@ export default function PokemonDetailPageZh() {
   // SEO meta tag update - MUST be before any early returns to maintain Hook order
   useEffect(() => {
     if (!pokemon) return;
-    document.title = `${pokemonChineseName || pokemon.name} - Champions 配招與 SP 計算`;
+    document.title = `${pokemonChineseName || pokemon.name}｜Pokémon Champions 資料庫`;
   }, [pokemon, pokemonChineseName]);
 
   useEffect(() => {
@@ -245,7 +245,7 @@ export default function PokemonDetailPageZh() {
     .map((w) => typeChineseNames[w] || w)
     .join("、");
   
-  const seoTitle = `${pokemonChineseName || formattedName} - Champions 配招與 SP 計算`;
+  const seoTitle = `${pokemonChineseName || formattedName}｜Pokémon Champions 資料庫`;
   const seoDescription = `#${String(pokemon.id).padStart(4, "0")} ${pokemonChineseName || formattedName}，配招與計算能力點數（SP），盡在 Abiting's Pokédex。`;
   const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 配招, ${pokemonChineseName || formattedName} 種族值, ${pokemonChineseName || formattedName} SP 計算`;
 
