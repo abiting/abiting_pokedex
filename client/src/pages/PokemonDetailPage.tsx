@@ -178,13 +178,9 @@ export default function PokemonDetailPage() {
       metaKeywords.setAttribute("name", "keywords");
       document.head.appendChild(metaKeywords);
     }
-    const typeKeywords =
-      pokemon.types && pokemon.types.length > 0
-        ? pokemon.types.map((t) => t.name).join(", ")
-        : "Unknown";
     metaKeywords.setAttribute(
       "content",
-      `${formattedName}, Pokémon, Pokédex, #${pokemon.id}, ${typeKeywords}`
+      `${formattedName}, ${formattedName} Champions, ${formattedName} stat points, ${formattedName} Pokedex`
     );
 
     // Add structured data schema
