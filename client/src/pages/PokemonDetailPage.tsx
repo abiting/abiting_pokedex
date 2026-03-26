@@ -151,7 +151,7 @@ export default function PokemonDetailPage() {
     if (!pokemon) return;
 
     const formattedName = formatPokemonName(pokemon.name, pokemon.id);
-    document.title = `${formattedName} - Abiting's Pokédex`;
+    document.title = `${formattedName} - Pokémon Champions Database`;
 
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -168,7 +168,7 @@ export default function PokemonDetailPage() {
         : "Unknown";
     metaDescription.setAttribute(
       "content",
-      `${formattedName} #${String(pokemon.id).padStart(4, "0")} - ${typeNames} type Pokémon with stats, abilities, and evolution information on Abiting's Pokédex.`
+      `${formattedName} #${String(pokemon.id).padStart(4, "0")} - ${typeNames} type Pokémon with stats, abilities, moves, and evolution information on Abiting's Pokédex.`
     );
 
     // Update meta keywords
