@@ -303,13 +303,13 @@ export default function PokemonDetailPageZh() {
                   <span>Champions SP 計算器</span>
                 </a>
                 <a
-                  href="https://wiki.52poke.com/zh-hant/招式列表"
+                  href="https://abitingpokedex.com/pokemon-champions-team-builder/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg text-base whitespace-nowrap"
                 >
                   <span className="text-xl">📚</span>
-                  <span>Pokémon 招式列表</span>
+                  <span>招式與持有物</span>
                 </a>
               </div>
 
@@ -361,13 +361,13 @@ export default function PokemonDetailPageZh() {
           {/* Move List Link - Mobile */}
           <div className="md:hidden p-4 bg-gradient-to-r from-purple-50 to-purple-100 text-center border-b border-gray-200">
             <a
-              href="https://wiki.52poke.com/zh-hant/招式列表"
+              href="https://abitingpokedex.com/pokemon-champions-team-builder/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg"
             >
               <span className="text-xl">📚</span>
-              <span>Pokémon 招式列表</span>
+              <span>招式與持有物</span>
             </a>
           </div>
 
