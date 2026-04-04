@@ -309,7 +309,7 @@ export default function PokemonDetailPageZh() {
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg text-base whitespace-nowrap"
                 >
                   <span className="text-xl">📚</span>
-                  <span>Pokémon 招式與持有物</span>
+                  <span>招式與持有物</span>
                 </a>
               </div>
 
@@ -367,7 +367,7 @@ export default function PokemonDetailPageZh() {
               className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold rounded-full hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg"
             >
               <span className="text-xl">📚</span>
-              <span>Pokémon 招式與持有物</span>
+              <span>招式與持有物</span>
             </a>
           </div>
 
