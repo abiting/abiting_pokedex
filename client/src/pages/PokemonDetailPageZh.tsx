@@ -248,37 +248,11 @@ export default function PokemonDetailPageZh() {
   const seoTitle = `${pokemonChineseName || formattedName}｜Pokémon Champions 資料庫`;
   const seoDescription = `#${String(pokemon.id).padStart(4, "0")} ${pokemonChineseName || formattedName}，配招與計算能力點數（SP），盡在 Abiting's Pokédex。`;
   const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 配招, ${pokemonChineseName || formattedName} 種族值, ${pokemonChineseName || formattedName} SP 計算`;
-  
-  useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).adsbygoogle) {
-      try {
-        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-      } catch (e) {
-        console.log('AdSense error:', e);
-      }
-    }
-  }, [pokemon.id]);
 
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-4">
-        <div className="flex gap-4 max-w-7xl mx-auto">
-          {/* Left Sidebar AdSense */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-4">
-              <ins
-                className="adsbygoogle"
-                style={{ display: 'block' }}
-                data-ad-client="ca-pub-2648968341090496"
-                data-ad-slot="7821030489"
-                data-ad-format="vertical"
-                data-full-width-responsive="true"
-              ></ins>
-            </div>
-          </div>
-          
-          <div className="flex-1 min-w-0">
-            <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto">
         {/* Header with back button */}
         <div className="flex items-center justify-between mb-6">
           <a
@@ -558,24 +532,8 @@ export default function PokemonDetailPageZh() {
             </div>
           </div>
         </div>
-            </div>
-          </div>
-          
-          {/* Right Sidebar AdSense */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-4">
-              <ins
-                className="adsbygoogle"
-                style={{ display: 'block' }}
-                data-ad-client="ca-pub-2648968341090496"
-                data-ad-slot="7821030489"
-                data-ad-format="vertical"
-                data-full-width-responsive="true"
-              ></ins>
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
     </>
   );
 }
