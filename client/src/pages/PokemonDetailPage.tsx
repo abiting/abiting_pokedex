@@ -305,6 +305,16 @@ export default function PokemonDetailPage() {
   };
   
   const currentEvolutionChain = getCompleteEvolutionChain(evolutionChain);
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).adsbygoogle) {
+      try {
+        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      } catch (e) {
+        console.log('AdSense error:', e);
+      }
+    }
+  }, [pokemon.id]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 p-4">
@@ -316,7 +326,7 @@ export default function PokemonDetailPage() {
               className="adsbygoogle"
               style={{ display: 'block' }}
               data-ad-client="ca-pub-2648968341090496"
-              data-ad-slot="1234567890"
+              data-ad-slot="7821030489"
               data-ad-format="vertical"
               data-full-width-responsive="true"
             ></ins>
@@ -649,7 +659,7 @@ export default function PokemonDetailPage() {
               className="adsbygoogle"
               style={{ display: 'block' }}
               data-ad-client="ca-pub-2648968341090496"
-              data-ad-slot="1234567891"
+              data-ad-slot="7821030489"
               data-ad-format="vertical"
               data-full-width-responsive="true"
             ></ins>

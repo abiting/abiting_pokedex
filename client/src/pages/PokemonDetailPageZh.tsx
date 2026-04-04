@@ -248,6 +248,16 @@ export default function PokemonDetailPageZh() {
   const seoTitle = `${pokemonChineseName || formattedName}｜Pokémon Champions 資料庫`;
   const seoDescription = `#${String(pokemon.id).padStart(4, "0")} ${pokemonChineseName || formattedName}，配招與計算能力點數（SP），盡在 Abiting's Pokédex。`;
   const seoKeywords = `${pokemonChineseName || formattedName}, ${pokemonChineseName || formattedName} 配招, ${pokemonChineseName || formattedName} 種族值, ${pokemonChineseName || formattedName} SP 計算`;
+  
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).adsbygoogle) {
+      try {
+        ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      } catch (e) {
+        console.log('AdSense error:', e);
+      }
+    }
+  }, [pokemon.id]);
 
   return (
     <>
@@ -260,7 +270,7 @@ export default function PokemonDetailPageZh() {
                 className="adsbygoogle"
                 style={{ display: 'block' }}
                 data-ad-client="ca-pub-2648968341090496"
-                data-ad-slot="1234567890"
+                data-ad-slot="7821030489"
                 data-ad-format="vertical"
                 data-full-width-responsive="true"
               ></ins>
@@ -558,7 +568,7 @@ export default function PokemonDetailPageZh() {
                 className="adsbygoogle"
                 style={{ display: 'block' }}
                 data-ad-client="ca-pub-2648968341090496"
-                data-ad-slot="1234567891"
+                data-ad-slot="7821030489"
                 data-ad-format="vertical"
                 data-full-width-responsive="true"
               ></ins>
