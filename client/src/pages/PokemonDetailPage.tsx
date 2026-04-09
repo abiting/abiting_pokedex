@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRoute } from "wouter";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
+import megaAbilities from "@/data/megaAbilities.json";
 
 interface PokemonDetail {
   id: number;
@@ -427,19 +428,26 @@ export default function PokemonDetailPage() {
           </div>
 
           {/* Abilities */}
-          {pokemon.abilities && pokemon.abilities.length > 0 && (
-            <div className="p-8 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                Abilities
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                {pokemon.abilities.map((ability) => (
-                  <div
-                    key={ability.ability.name}
-                    className="p-3 bg-purple-100 rounded-lg"
-                  >
-                    <p className="text-gray-800 font-semibold">
-                      {ability.ability.name === "well-baked-body"
+          {(() => {
+            const megaAbilityData = megaAbilities[pokemon.name as keyof typeof megaAbilities];
+            const hasAbilities = pokemon.abilities && pokemon.abilities.length > 0;
+            const hasMegaAbility = megaAbilityData?.en;
+            
+            if (!hasAbilities && !hasMegaAbility) return null;
+            
+            return (
+              <div className="p-8 border-b border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                  Abilities
+                </h2>
+                <div className="grid grid-cols-2 gap-4">
+                  {hasMegaAbility ? (
+                    <div className="p-3 bg-purple-100 rounded-lg">
+                      <p className="text-gray-800 font-semibold">{megaAbilityData.en}</p>
+                    </div>
+                  ) : (
+                    pokemon.abilities?.map((ability) => {
+                      const abilityName = ability.ability.name === "well-baked-body"
                         ? "Well-Baked Body"
                         : ability.ability.name
                             .split("-")
@@ -448,13 +456,23 @@ export default function PokemonDetailPage() {
                               if (idx > 0 && (lowerWord === "as" || lowerWord === "to")) return lowerWord;
                               return word.charAt(0).toUpperCase() + word.slice(1);
                             })
-                            .join(" ")}
-                    </p>
-                  </div>
-                ))}
+                            .join(" ");
+                      return (
+                        <div
+                          key={ability.ability.name}
+                          className="p-3 bg-purple-100 rounded-lg"
+                        >
+                          <p className="text-gray-800 font-semibold">
+                            {abilityName}
+                          </p>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* Gender ratio */}
           {malePercentage !== null && femalePercentage !== null && (

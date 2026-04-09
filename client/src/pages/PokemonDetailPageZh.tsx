@@ -4,6 +4,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 import abilitiesMap from "@/data/abilities_zh_hant.json";
 import pokemonMap from "@/data/pokemon_zh_hant.json";
+import megaAbilities from "@/data/megaAbilities.json";
 
 interface PokemonDetail {
   id: number;
@@ -372,20 +373,37 @@ export default function PokemonDetailPageZh() {
           </div>
 
           {/* 特性 */}
-          {pokemon.abilities && pokemon.abilities.length > 0 && (
-            <div className="p-8 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">特性</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {pokemon.abilities.map((ability) => (
-                  <div key={ability.ability.name} className="p-4 bg-purple-50 rounded-lg">
-                    <p className="text-gray-700 font-semibold">
-                      {abilitiesMap[ability.ability.name as keyof typeof abilitiesMap] || formattedName}
-                    </p>
-                  </div>
-                ))}
+          {(() => {
+            const megaAbilityData = megaAbilities[pokemon.name as keyof typeof megaAbilities];
+            const hasAbilities = pokemon.abilities && pokemon.abilities.length > 0;
+            const hasMegaAbility = megaAbilityData?.zh;
+            
+            if (!hasAbilities && !hasMegaAbility) return null;
+            
+            return (
+              <div className="p-8 border-b border-gray-200">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">特性</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {hasMegaAbility ? (
+                    <div className="p-4 bg-purple-50 rounded-lg">
+                      <p className="text-gray-700 font-semibold">{megaAbilityData.zh}</p>
+                    </div>
+                  ) : (
+                    pokemon.abilities?.map((ability) => {
+                      const abilityName = abilitiesMap[ability.ability.name as keyof typeof abilitiesMap] || formattedName;
+                      return (
+                        <div key={ability.ability.name} className="p-4 bg-purple-50 rounded-lg">
+                          <p className="text-gray-700 font-semibold">
+                            {abilityName}
+                          </p>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* 性別比例 */}
           {speciesData && speciesData.gender_rate !== -1 && (
