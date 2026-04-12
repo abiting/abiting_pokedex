@@ -427,16 +427,16 @@ export default function PokemonDetailPage() {
             </div>
           </div>
 
-          {/* Pollo AI Advertisement */}
+          {/* PTC Collectibles Advertisement */}
           <div className="p-4 border-b border-gray-200">
             <a
-              href="https://pollo.ai?ref=mtjmowm"
+              href="https://ptccollectibles.com/ABITING1998"
               target="_blank"
               rel="noopener noreferrer"
               className="block hover:opacity-90 transition-opacity"
             >
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_F5310133-3836-475A-9B62-A89E966D3810_7afb61be.webp"
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_3445FE9A-E520-49D0-9DF4-AA1292304755_3476bbbb.webp"
                 alt="champions pokedex"
                 className="w-full h-auto rounded-lg"
               />
