@@ -381,7 +381,7 @@ export default function PokemonDetailPageZh() {
               className="block hover:opacity-90 transition-opacity"
             >
               <img
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_3445FE9A-E520-49D0-9DF4-AA1292304755_3476bbbb.webp"
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_E89F6344-B887-42CB-A033-99BA8E1A12E2_fb5a2e8c.jpeg"
                 alt="champions pokedex"
                 className="w-full h-auto"
               />
