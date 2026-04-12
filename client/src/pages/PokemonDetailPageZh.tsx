@@ -383,7 +383,7 @@ export default function PokemonDetailPageZh() {
               <img
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_3445FE9A-E520-49D0-9DF4-AA1292304755_3476bbbb.webp"
                 alt="champions pokedex"
-                className="w-full h-auto rounded-lg"
+                className="w-full h-auto"
               />
             </a>
           </div>
