@@ -122,10 +122,53 @@ export default function PokemonDetailPageZh() {
   const [pokemonChineseName, setPokemonChineseName] = useState<string>("");
   const [weaknessNames, setWeaknessNames] = useState<string[]>([]);
 
+  // Type Chinese names mapping
+  const typeChineseNames: Record<string, string> = {
+    "normal": "一般",
+    "fire": "火",
+    "water": "水",
+    "electric": "電",
+    "grass": "草",
+    "ice": "冰",
+    "fighting": "格鬥",
+    "poison": "毒",
+    "ground": "地面",
+    "flying": "飛行",
+    "psychic": "超能力",
+    "bug": "蟲",
+    "rock": "岩石",
+    "ghost": "幽靈",
+    "dragon": "龍",
+    "dark": "惡",
+    "steel": "鋼",
+    "fairy": "妖精"
+  };
+
   // SEO meta tag update - MUST be before any early returns to maintain Hook order
   useEffect(() => {
     if (!pokemon) return;
     document.title = `${pokemonChineseName || pokemon.name}｜Pokémon Champions 資料庫`;
+    
+    // Update or create meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    const typesList = pokemon.types.map((t: any) => typeChineseNames[t.type.name] || t.type.name).join('、');
+    const description = `${pokemonChineseName || pokemon.name}｜寶可夢圖鑑。屬性：${typesList}。身高：${pokemon.height / 10}m，體重：${pokemon.weight / 10}kg。查看種族值、特性、進化鏈等詳細資訊。`;
+    metaDescription.setAttribute('content', description);
+    
+    // Update or create meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement('meta');
+      metaKeywords.setAttribute('name', 'keywords');
+      document.head.appendChild(metaKeywords);
+    }
+    const keywordsText = `${pokemonChineseName || pokemon.name}, 寶可夢, 圖鑑, 種族值, 特性, ${typesList}`;
+    metaKeywords.setAttribute('content', keywordsText);
   }, [pokemon, pokemonChineseName]);
 
   useEffect(() => {
@@ -191,27 +234,6 @@ export default function PokemonDetailPageZh() {
   };
 
   if (!match) return null;
-  // Generate SEO data
-  const typeChineseNames: Record<string, string> = {
-    "normal": "一般",
-    "fire": "火",
-    "water": "水",
-    "electric": "電",
-    "grass": "草",
-    "ice": "冰",
-    "fighting": "格鬥",
-    "poison": "毒",
-    "ground": "地面",
-    "flying": "飛行",
-    "psychic": "超能力",
-    "bug": "蟲",
-    "rock": "岩石",
-    "ghost": "幽靈",
-    "dragon": "龍",
-    "dark": "惡",
-    "steel": "鋼",
-    "fairy": "妖精",
-  };
 
   if (loading) {
     return (
