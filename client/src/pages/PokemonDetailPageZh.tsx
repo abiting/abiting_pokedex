@@ -156,8 +156,8 @@ export default function PokemonDetailPageZh() {
       metaDescription.setAttribute('name', 'description');
       document.head.appendChild(metaDescription);
     }
-    const typesList = pokemon.types.map((t: any) => typeChineseNames[t.type.name] || t.type.name).join('、');
-    const description = `${pokemonChineseName || pokemon.name}｜寶可夢圖鑑。屬性：${typesList}。身高：${pokemon.height / 10}m，體重：${pokemon.weight / 10}kg。查看種族值、特性、進化鏈等詳細資訊。`;
+    const typesList = pokemon.types.map((t: any) => typeChineseNames[t.type.name] || t.type.name).join('與');
+    const description = `#${String(pokemon.id).padStart(4, '0')} ${pokemonChineseName || pokemon.name}，${typesList}屬性寶可夢。配招、能力點數（SP）計算，盡在 Abiting's Pokédex。`;
     metaDescription.setAttribute('content', description);
     
     // Update or create meta keywords
@@ -167,7 +167,7 @@ export default function PokemonDetailPageZh() {
       metaKeywords.setAttribute('name', 'keywords');
       document.head.appendChild(metaKeywords);
     }
-    const keywordsText = `${pokemonChineseName || pokemon.name}, 寶可夢, 圖鑑, 種族值, 特性, ${typesList}`;
+    const keywordsText = `${pokemonChineseName || pokemon.name}、${pokemonChineseName || pokemon.name}特性、Pokemon Champions ${pokemonChineseName || pokemon.name}、寶可夢冠軍${pokemonChineseName || pokemon.name}、${pokemonChineseName || pokemon.name}性別比例`;
     metaKeywords.setAttribute('content', keywordsText);
   }, [pokemon, pokemonChineseName]);
 

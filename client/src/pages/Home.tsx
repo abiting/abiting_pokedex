@@ -39,6 +39,29 @@ export default function Home() {
   const [selectedPokemonId, setSelectedPokemonId] = useState<number | null>(null);
   const scrollPositionRef = useRef(0);
 
+  // Set SEO meta tags for home page
+  useEffect(() => {
+    document.title = "List of Pokémon | Abiting's Pokédex";
+    
+    // Update or create meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', 'The essential battle database for Pokémon Champions. Access comprehensive Base Stats and Type Weaknesses for all 1,025 species (Gen 1-9). Analyze Abilities and Stats to optimize your team strategy. Manage your roster with a single tap.');
+    
+    // Update or create meta keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement('meta');
+      metaKeywords.setAttribute('name', 'keywords');
+      document.head.appendChild(metaKeywords);
+    }
+    metaKeywords.setAttribute('content', 'Pokémon, Pokédex, Champions, Base Stats, Type Weaknesses, Abilities, Team Builder, Pokemon Database');
+  }, []);
+
   // Save scroll position before navigating away
   useEffect(() => {
     const handleBeforeUnload = () => {
