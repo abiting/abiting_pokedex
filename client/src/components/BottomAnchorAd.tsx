@@ -23,23 +23,23 @@ export default function BottomAnchorAd() {
   return (
     <aside
       aria-label="Abipaint promotion"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-300/60 bg-gradient-to-r from-violet-950/95 via-blue-950/95 to-violet-950/95 px-3 py-1.5 shadow-[0_-5px_20px_rgba(88,28,135,0.34)] backdrop-blur-sm"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-300/60 bg-black shadow-[0_-5px_20px_rgba(88,28,135,0.34)]"
     >
       <a
         href={destination}
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-auto grid w-full max-w-4xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 text-center text-violet-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200 focus-visible:ring-offset-2 focus-visible:ring-offset-violet-950 sm:gap-5"
+        className="relative mx-auto block h-20 w-full max-w-[1150px] overflow-hidden bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200 focus-visible:ring-offset-2 focus-visible:ring-offset-violet-950 sm:h-auto"
       >
-        <span className="text-[11px] font-semibold leading-4 tracking-wide sm:text-base sm:leading-6">
+        <img
+          src="https://app.abiting.cc/wp-content/uploads/2026/08/%E6%88%AA%E5%9C%96-2026-08-26-%E4%B8%8A%E5%8D%8811.14.31-scaled.jpeg"
+          alt="Abipaint online image resizer"
+          className="block h-full w-full object-cover object-center sm:h-auto sm:object-contain"
+        />
+        <span className="absolute left-[7%] top-[16%] z-10 max-w-[34%] text-center text-xs font-black leading-tight tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] sm:text-base md:text-xl">
           {copy.left}
         </span>
-        <img
-          src="https://app.abiting.cc/wp-content/uploads/2026/08/abipaint-online-image-resizer.jpg"
-          alt="Abipaint online image resizer"
-          className="block h-auto max-h-14 max-w-full object-contain sm:max-h-20"
-        />
-        <span className="text-[11px] font-semibold leading-4 tracking-wide sm:text-base sm:leading-6">
+        <span className="absolute right-[7%] top-[16%] z-10 max-w-[34%] text-center text-xs font-black leading-tight tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] sm:text-base md:text-xl">
           {copy.right}
         </span>
       </a>
