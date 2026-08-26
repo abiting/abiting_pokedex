@@ -15,3 +15,4 @@
 - [ ] 檢查正式網域的 favicon 標籤、根目錄 favicon 檔案與 HTTP 回應。
 - [ ] 補齊 Google 搜尋相容的 48 px 以上 favicon 資產與標籤設定。
 - [ ] 驗證正式網域可存取新的 favicon 檔案與頁面設定。
+- [ ] 驗證發布後正式網域回傳正確的 favicon、HTML 圖示標籤與 manifest。
