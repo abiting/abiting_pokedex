@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+/** Visual intent: preserve the electric-violet Pokédex shell across every route. */
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
@@ -8,6 +9,7 @@ import Home from "./pages/Home";
 import PokemonDetailPage from "./pages/PokemonDetailPage";
 import PokemonDetailPageZh from "./pages/PokemonDetailPageZh";
 import AboutDeveloper from "./pages/AboutDeveloper";
+import BottomAnchorAd from "./components/BottomAnchorAd";
 
 
 function Router() {
@@ -31,6 +33,8 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <div aria-hidden="true" className="h-20 sm:h-24" />
+          <BottomAnchorAd />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
