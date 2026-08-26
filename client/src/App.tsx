@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 /** Visual intent: preserve the electric-violet Pokédex shell across every route. */
+import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
@@ -27,14 +28,16 @@ function Router() {
 }
 
 function App() {
+  const [isAnchorAdOpen, setIsAnchorAdOpen] = useState(true);
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
           <Router />
-          <div aria-hidden="true" className="h-20 sm:h-24" />
-          <BottomAnchorAd />
+          {isAnchorAdOpen && <div aria-hidden="true" className="h-20 sm:h-24" />}
+          {isAnchorAdOpen && <BottomAnchorAd onClose={() => setIsAnchorAdOpen(false)} />}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
