@@ -36,10 +36,10 @@ export default function BottomAnchorAd() {
           alt="Abipaint online image resizer"
           className="block h-full w-full object-cover object-center sm:h-auto sm:object-contain"
         />
-        <span className="absolute left-[7%] top-[16%] z-10 max-w-[34%] text-center text-xs font-black leading-tight tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] sm:text-base md:text-xl">
+        <span className="absolute bottom-[5%] left-[7%] z-10 max-w-[34%] text-center text-xs font-black leading-tight tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] sm:text-base md:text-xl">
           {copy.left}
         </span>
-        <span className="absolute right-[7%] top-[16%] z-10 max-w-[34%] text-center text-xs font-black leading-tight tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] sm:text-base md:text-xl">
+        <span className="absolute right-[7%] bottom-[5%] z-10 max-w-[34%] text-center text-xs font-black leading-tight tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] sm:text-base md:text-xl">
           {copy.right}
         </span>
       </a>
