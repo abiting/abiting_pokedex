@@ -1,4 +1,5 @@
 import { useLocation } from "wouter";
+import { useEffect, useState } from "react";
 
 /**
  * Visual intent: a restrained, full-width bottom anchor that preserves the
@@ -11,11 +12,45 @@ interface BottomAnchorAdProps {
 export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const [location] = useLocation();
   const isChinesePage = location.endsWith("/zh");
+  const pokemonSlug = location.split("/")[2] ?? "";
+  const [pokemonNumber, setPokemonNumber] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!isChinesePage || !pokemonSlug) {
+      setPokemonNumber(null);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    async function fetchPokemonNumber() {
+      try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSlug}`, {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("Unable to load Pokémon number");
+
+        const data: { id?: number } = await response.json();
+        setPokemonNumber(typeof data.id === "number" ? data.id : null);
+      } catch (error) {
+        if (!controller.signal.aborted) setPokemonNumber(null);
+      }
+    }
+
+    fetchPokemonNumber();
+    return () => controller.abort();
+  }, [isChinesePage, pokemonSlug]);
+
+  const usesFirstChineseAd = pokemonNumber === null || pokemonNumber <= 500;
   const destination = isChinesePage
-    ? "https://abipaint.abiting.cc"
+    ? usesFirstChineseAd
+      ? "https://abipaint.abiting.cc"
+      : "https://abiurl.me"
     : "https://abipaint.abiting.cc/en";
   const imageSource = isChinesePage
-    ? "https://app.abiting.cc/wp-content/uploads/2026/08/%E6%88%AA%E5%9C%96-2026-08-26-%E4%B8%8A%E5%8D%8811.14.31%E6%8B%B7%E8%B2%9D-scaled.jpg"
+    ? usesFirstChineseAd
+      ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"
+      : "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_0C66028A-9EAA-4D40-9802-CD78A448D0B9.jpeg"
     : "https://app.abiting.cc/wp-content/uploads/2026/08/%E6%88%AA%E5%9C%96-2026-08-26-%E4%B8%8A%E5%8D%8811.14.31-scaled.jpg";
 
   return (
@@ -32,7 +67,13 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
         >
           <img
             src={imageSource}
-            alt={isChinesePage ? "AbiPaint 線上修圖器" : "AbiPaint online photo editor"}
+            alt={
+              isChinesePage
+                ? usesFirstChineseAd
+                  ? "AbiPaint 免費修圖工具"
+                  : "Abi 短網址產生器"
+                : "AbiPaint online photo editor"
+            }
             className="block h-auto w-full object-contain"
           />
         </a>
