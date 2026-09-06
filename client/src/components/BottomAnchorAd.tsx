@@ -48,7 +48,9 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
       ? "https://abiurl.me"
       : "https://abiurl.me/en";
   const imageSource = usesAbiPaintAd
-    ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_380EAA8B-2147-457B-8AAE-E333B5D0FDE8-scaled.jpeg"
+    ? isChinesePage
+      ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"
+      : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_380EAA8B-2147-457B-8AAE-E333B5D0FDE8-scaled.jpeg"
     : isChinesePage
       ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_F9090110-0349-4151-A75B-BBC9D0F1E137-scaled.jpeg"
       : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
