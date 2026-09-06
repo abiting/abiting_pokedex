@@ -16,7 +16,7 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const [pokemonNumber, setPokemonNumber] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!isChinesePage || !pokemonSlug) {
+    if (!pokemonSlug) {
       setPokemonNumber(null);
       return;
     }
@@ -41,17 +41,17 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
     return () => controller.abort();
   }, [isChinesePage, pokemonSlug]);
 
-  const usesFirstChineseAd = pokemonNumber === null || pokemonNumber <= 500;
-  const destination = isChinesePage
-    ? usesFirstChineseAd
-      ? "https://abipaint.abiting.cc"
-      : "https://abiurl.me"
-    : "https://abipaint.abiting.cc/en";
-  const imageSource = isChinesePage
-    ? usesFirstChineseAd
-      ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"
-      : "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_0C66028A-9EAA-4D40-9802-CD78A448D0B9.jpeg"
-    : "https://app.abiting.cc/wp-content/uploads/2026/08/%E6%88%AA%E5%9C%96-2026-08-26-%E4%B8%8A%E5%8D%8811.14.31-scaled.jpg";
+  const usesAbiPaintAd = pokemonNumber === null || pokemonNumber <= 500;
+  const destination = usesAbiPaintAd
+    ? "https://abipaint.abiting.cc"
+    : isChinesePage
+      ? "https://abiurl.me"
+      : "https://abiurl.me/en";
+  const imageSource = usesAbiPaintAd
+    ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_380EAA8B-2147-457B-8AAE-E333B5D0FDE8-scaled.jpeg"
+    : isChinesePage
+      ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_F9090110-0349-4151-A75B-BBC9D0F1E137-scaled.jpeg"
+      : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
 
   return (
     <aside
@@ -68,11 +68,11 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
           <img
             src={imageSource}
             alt={
-              isChinesePage
-                ? usesFirstChineseAd
-                  ? "AbiPaint 免費修圖工具"
-                  : "Abi 短網址產生器"
-                : "AbiPaint online photo editor"
+              usesAbiPaintAd
+                ? "AbiPaint free photo editor"
+                : isChinesePage
+                  ? "AbiURL 短網址產生器"
+                  : "AbiURL URL shortener"
             }
             className="block h-auto w-full object-contain"
           />
