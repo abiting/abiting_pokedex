@@ -41,19 +41,24 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
     return () => controller.abort();
   }, [isChinesePage, pokemonSlug]);
 
+  const usesFoneloraAd = isChinesePage && pokemonNumber !== null && pokemonNumber <= 200;
   const usesAbiPaintAd = pokemonNumber === null || pokemonNumber <= 500;
-  const destination = usesAbiPaintAd
-    ? "https://abipaint.abiting.cc"
-    : isChinesePage
-      ? "https://abiurl.me"
-      : "https://abiurl.me/en";
-  const imageSource = usesAbiPaintAd
-    ? isChinesePage
-      ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"
-      : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_380EAA8B-2147-457B-8AAE-E333B5D0FDE8-scaled.jpeg"
-    : isChinesePage
-      ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_F9090110-0349-4151-A75B-BBC9D0F1E137-scaled.jpeg"
-      : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
+  const destination = usesFoneloraAd
+    ? "https://app.abiting.cc/archives/4656"
+    : usesAbiPaintAd
+      ? "https://abipaint.abiting.cc"
+      : isChinesePage
+        ? "https://abiurl.me"
+        : "https://abiurl.me/en";
+  const imageSource = usesFoneloraAd
+    ? "https://abitingpokedex.com/wp-content/uploads/2026/09/fonelora_pokemon_go_banner_3024x400_base-scaled.jpeg"
+    : usesAbiPaintAd
+      ? isChinesePage
+        ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"
+        : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_380EAA8B-2147-457B-8AAE-E333B5D0FDE8-scaled.jpeg"
+      : isChinesePage
+        ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_F9090110-0349-4151-A75B-BBC9D0F1E137-scaled.jpeg"
+        : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
 
   return (
     <aside
@@ -70,11 +75,13 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
           <img
             src={imageSource}
             alt={
-              usesAbiPaintAd
-                ? "AbiPaint free photo editor"
-                : isChinesePage
-                  ? "AbiURL 短網址產生器"
-                  : "AbiURL URL shortener"
+              usesFoneloraAd
+                ? "Fonelora Pokémon GO 飛人教學"
+                : usesAbiPaintAd
+                  ? "AbiPaint free photo editor"
+                  : isChinesePage
+                    ? "AbiURL 短網址產生器"
+                    : "AbiURL URL shortener"
             }
             className="block h-auto w-full object-contain"
           />
