@@ -1,43 +1,55 @@
+import { lazy, Suspense, useState } from "react";
+import { useLocation, Route, Switch } from "wouter";
 import { Toaster } from "@/components/ui/sonner";
-/** Visual intent: preserve the electric-violet Pokédex shell across every route. */
-import { useState } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
-import PokemonDetailPage from "./pages/PokemonDetailPage";
-import PokemonDetailPageZh from "./pages/PokemonDetailPageZh";
-import AboutDeveloper from "./pages/AboutDeveloper";
 import BottomAnchorAd from "./components/BottomAnchorAd";
 
+/** Visual intent: preserve the electric-violet Pokédex shell across every route. */
+const Home = lazy(() => import("./pages/Home"));
+const PokemonDetailPage = lazy(() => import("./pages/PokemonDetailPage"));
+const PokemonDetailPageZh = lazy(() => import("./pages/PokemonDetailPageZh"));
+const AboutDeveloper = lazy(() => import("./pages/AboutDeveloper"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+function RouteLoadingState() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 text-white">
+      <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/30 border-t-white" aria-label="Loading page" />
+    </div>
+  );
+}
 
 function Router() {
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/pokemon/:name/zh"} component={PokemonDetailPageZh} />
-      <Route path={"/pokemon/:name"} component={PokemonDetailPage} />
-      <Route path={"/about"} component={AboutDeveloper} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
+      <Route path="/" component={Home} />
+      <Route path="/pokemon/:name/zh" component={PokemonDetailPageZh} />
+      <Route path="/pokemon/:name" component={PokemonDetailPage} />
+      <Route path="/about" component={AboutDeveloper} />
+      <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
 function App() {
+  const [location] = useLocation();
   const [isAnchorAdOpen, setIsAnchorAdOpen] = useState(true);
+  const isPokemonDetailPage = location.startsWith("/pokemon/");
+  const shouldShowAnchorAd = isPokemonDetailPage && isAnchorAdOpen;
 
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <Router />
-          {isAnchorAdOpen && <div aria-hidden="true" className="h-20 sm:h-24" />}
-          {isAnchorAdOpen && <BottomAnchorAd onClose={() => setIsAnchorAdOpen(false)} />}
+          <Suspense fallback={<RouteLoadingState />}>
+            <Router />
+          </Suspense>
+          {shouldShowAnchorAd && <div aria-hidden="true" className="h-20 sm:h-24" />}
+          {shouldShowAnchorAd && <BottomAnchorAd onClose={() => setIsAnchorAdOpen(false)} />}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
