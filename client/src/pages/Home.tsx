@@ -295,7 +295,7 @@ export default function Home() {
             <h1 className="mb-2 text-4xl font-bold text-white drop-shadow-lg md:text-5xl">List of Pokémon</h1>
             <h2 className="mb-6 text-lg text-purple-100">The Essential Pokédex for Pokémon Champions</h2>
             <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663217818186/RzU58TEyiH2kk3xzABwHQm/Bazaart_C13CB22E-2F67-4437-9903-E0166D872024_30f0192a.jpeg"
+              src="https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_C13CB22E-2F67-4437-9903-E0166D872024_30f0192a.jpg"
               alt="List of Pokémon"
               className="mx-auto mb-6 rounded-3xl shadow-2xl"
               style={{
