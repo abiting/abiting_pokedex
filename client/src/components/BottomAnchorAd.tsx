@@ -42,6 +42,7 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   }, [isChinesePage, pokemonSlug]);
 
   const usesFoneloraAd = isChinesePage && pokemonNumber !== null && pokemonNumber <= 200;
+  const shouldRenderAd = !isChinesePage || usesFoneloraAd;
   const usesAbiPaintAd = pokemonNumber === null || pokemonNumber <= 500;
   const destination = usesFoneloraAd
     ? "https://app.abiting.cc/archives/4656"
@@ -60,42 +61,47 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
         ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_F9090110-0349-4151-A75B-BBC9D0F1E137-scaled.jpeg"
         : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
 
+  if (!shouldRenderAd) return null;
+
   return (
-    <aside
-      aria-label="Abipaint promotion"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-300/60 bg-black shadow-[0_-5px_20px_rgba(88,28,135,0.34)]"
-    >
-      <div className="relative mx-auto w-full max-w-[1150px] overflow-hidden bg-black">
-        <a
-          href={destination}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200 focus-visible:ring-inset"
-        >
-          <img
-            src={imageSource}
-            alt={
-              usesFoneloraAd
-                ? "Fonelora Pokémon GO 飛人教學"
-                : usesAbiPaintAd
-                  ? "AbiPaint free photo editor"
-                  : isChinesePage
-                    ? "AbiURL 短網址產生器"
-                    : "AbiURL URL shortener"
-            }
-            className="block h-auto w-full object-contain"
-          />
-        </a>
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={isChinesePage ? "關閉廣告" : "Close advertisement"}
-          title={isChinesePage ? "關閉廣告" : "Close advertisement"}
-          className="absolute right-2 top-2 grid h-8 w-8 place-items-center border border-white/60 bg-black/75 text-xl leading-none text-white shadow-lg transition-colors hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-        >
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-    </aside>
+    <>
+      <div aria-hidden="true" className="h-20 sm:h-24" />
+      <aside
+        aria-label="Abipaint promotion"
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-300/60 bg-black shadow-[0_-5px_20px_rgba(88,28,135,0.34)]"
+      >
+        <div className="relative mx-auto w-full max-w-[1150px] overflow-hidden bg-black">
+          <a
+            href={destination}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-200 focus-visible:ring-inset"
+          >
+            <img
+              src={imageSource}
+              alt={
+                usesFoneloraAd
+                  ? "Fonelora Pokémon GO 飛人教學"
+                  : usesAbiPaintAd
+                    ? "AbiPaint free photo editor"
+                    : isChinesePage
+                      ? "AbiURL 短網址產生器"
+                      : "AbiURL URL shortener"
+              }
+              className="block h-auto w-full object-contain"
+            />
+          </a>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={isChinesePage ? "關閉廣告" : "Close advertisement"}
+            title={isChinesePage ? "關閉廣告" : "Close advertisement"}
+            className="absolute right-2 top-2 grid h-8 w-8 place-items-center border border-white/60 bg-black/75 text-xl leading-none text-white shadow-lg transition-colors hover:bg-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

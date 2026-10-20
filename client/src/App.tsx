@@ -48,7 +48,6 @@ function App() {
           <Suspense fallback={<RouteLoadingState />}>
             <Router />
           </Suspense>
-          {shouldShowAnchorAd && <div aria-hidden="true" className="h-20 sm:h-24" />}
           {shouldShowAnchorAd && <BottomAnchorAd onClose={() => setIsAnchorAdOpen(false)} />}
         </TooltipProvider>
       </ThemeProvider>
