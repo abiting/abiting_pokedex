@@ -51,3 +51,9 @@
 - [x] 比較現用與新 Ceramics Practice Alliance 圖片的尺寸與比例。
 - [x] 僅替換英文 #0001–#0100 的 Ceramics Practice Alliance 廣告圖片，保留連結與其他分流。
 - [x] 完成建置與廣告尺寸回歸測試。
+
+## Ceramics Practice Alliance 新橫幅替換
+
+- [x] 檢查使用者提供的新 Ceramics Practice Alliance 圖片尺寸與比例。
+- [x] 僅替換英文 #0001–#0100 的 Ceramics Practice Alliance 廣告圖片，保留連結與其他分流。
+- [x] 完成建置與廣告顯示回歸測試。
