@@ -57,7 +57,7 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const imageSource = usesFoneloraAd
     ? "https://abitingpokedex.com/wp-content/uploads/2026/09/fonelora_pokemon_go_banner_3024x400_base-scaled.jpeg"
     : usesCpaCeramicsAd
-      ? "https://abitingpokedex.com/wp-content/uploads/2026/10/Bazaart_2026-10-21_194023.jpeg"
+      ? "https://abitingpokedex.com/wp-content/uploads/2026/10/Bazaart_2026-10-21_194731.jpeg"
       : usesAbiPaintAd
         ? isChinesePage
           ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"

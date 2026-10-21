@@ -45,3 +45,9 @@
 - [x] 將英文 #0001–#0100 的底部廣告換為指定 Ceramics Practice Alliance 圖片並連至 cpaceramics.com。
 - [x] 保留英文 #0101–#0500 的 AbiPaint、英文 #0501 之後的 AbiURL 與所有繁中廣告分流。
 - [x] 驗證廣告圖片可載入、完成建置與邊界路由回歸測試。
+
+## Ceramics Practice Alliance 橫幅比例調整
+
+- [x] 比較現用與新 Ceramics Practice Alliance 圖片的尺寸與比例。
+- [x] 僅替換英文 #0001–#0100 的 Ceramics Practice Alliance 廣告圖片，保留連結與其他分流。
+- [x] 完成建置與廣告尺寸回歸測試。
