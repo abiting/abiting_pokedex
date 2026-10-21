@@ -39,3 +39,9 @@
 - [x] 僅移除繁中 #0201 之後的 AbiPaint 與 AbiURL 底部廣告。
 - [x] 保留繁中 #0001–#0200 Fonelora 廣告與所有英文廣告設定。
 - [x] 完成建置與中英文分流回歸測試。
+
+## 英文 CPA Ceramics 廣告更新
+
+- [x] 將英文 #0001–#0100 的底部廣告換為指定 Ceramics Practice Alliance 圖片並連至 cpaceramics.com。
+- [x] 保留英文 #0101–#0500 的 AbiPaint、英文 #0501 之後的 AbiURL 與所有繁中廣告分流。
+- [x] 驗證廣告圖片可載入、完成建置與邊界路由回歸測試。
