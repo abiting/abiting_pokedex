@@ -60,7 +60,7 @@
 
 ## GitHub Pages 尾斜線網址一致性
 
-- [ ] 評估資料夾式尾斜線與 `.html` 輸出的 GitHub Pages 行為，選定不產生 canonical 轉址的方案。
-- [ ] 將靜態頁 canonical、og:url、hreflang（如有）、sitemap 與站內連結統一為選定格式。
-- [ ] 同步 React 路由與動態 SEO 產生的站內連結／canonical，避免 client 與靜態 HTML 不一致。
-- [ ] 建置後驗證 sitemap、原始 HTML 與實際直連路由皆為 200 且沒有不必要轉址。
+- [x] 評估資料夾式尾斜線與 `.html` 輸出的 GitHub Pages 行為，選定不產生 canonical 轉址的方案。
+- [x] 將靜態頁 canonical、og:url、hreflang（如有）、sitemap 與站內連結統一為選定格式。
+- [x] 同步 React 路由與動態 SEO 產生的站內連結／canonical，避免 client 與靜態 HTML 不一致。
+- [x] 建置後驗證 sitemap、原始 HTML 與實際直連路由皆為 200 且沒有不必要轉址。
