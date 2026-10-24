@@ -57,3 +57,10 @@
 - [x] 檢查使用者提供的新 Ceramics Practice Alliance 圖片尺寸與比例。
 - [x] 僅替換英文 #0001–#0100 的 Ceramics Practice Alliance 廣告圖片，保留連結與其他分流。
 - [x] 完成建置與廣告顯示回歸測試。
+
+## GitHub Pages 尾斜線網址一致性
+
+- [ ] 評估資料夾式尾斜線與 `.html` 輸出的 GitHub Pages 行為，選定不產生 canonical 轉址的方案。
+- [ ] 將靜態頁 canonical、og:url、hreflang（如有）、sitemap 與站內連結統一為選定格式。
+- [ ] 同步 React 路由與動態 SEO 產生的站內連結／canonical，避免 client 與靜態 HTML 不一致。
+- [ ] 建置後驗證 sitemap、原始 HTML 與實際直連路由皆為 200 且沒有不必要轉址。

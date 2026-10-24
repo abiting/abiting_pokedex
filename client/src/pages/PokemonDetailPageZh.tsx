@@ -5,6 +5,7 @@ import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 import abilitiesMap from "@/data/abilities_zh_hant.json";
 import pokemonMap from "@/data/pokemon_zh_hant.json";
 import megaAbilities from "@/data/megaAbilities.json";
+import { updatePageUrlMetadata } from "@/lib/siteUrl";
 
 interface PokemonDetail {
   id: number;
@@ -148,6 +149,7 @@ export default function PokemonDetailPageZh() {
   useEffect(() => {
     if (!pokemon) return;
     document.title = `${pokemonChineseName || pokemon.name}｜Pokémon Champions 資料庫`;
+    updatePageUrlMetadata(`/pokemon/${pokemon.name}/zh/`);
     
     // Update or create meta description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -287,7 +289,7 @@ export default function PokemonDetailPageZh() {
           </a>
           <div className="flex items-center gap-4">
             <a
-              href={`/pokemon/${pokemon.name}`}
+              href={`/pokemon/${pokemon.name}/`}
               className="text-white text-sm font-semibold hover:text-gray-200 transition"
             >
               🌐 英文版本
@@ -527,7 +529,7 @@ export default function PokemonDetailPageZh() {
                       {path.map((evoName, index) => (
                         <div key={`${pathIndex}-${evoName}`} className="flex items-center gap-3">
                           <a
-                            href={`/pokemon/${evoName}/zh`}
+                            href={`/pokemon/${evoName}/zh/`}
                             className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition"
                           >
                             {pokemonMap[evoName as keyof typeof pokemonMap] || (evoName ? evoName.charAt(0).toUpperCase() + evoName.slice(1) : "Unknown")}

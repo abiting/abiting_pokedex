@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Loader2, Search } from "lucide-react";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
+import { updatePageUrlMetadata } from "@/lib/siteUrl";
 
 interface Pokemon {
   id: number;
@@ -84,7 +85,7 @@ function PokemonCard({ pokemon, eagerImage }: { pokemon: Pokemon; eagerImage: bo
 
   return (
     <a
-      href={`/pokemon/${pokemon.name}`}
+      href={`/pokemon/${pokemon.name}/`}
       className="block cursor-pointer overflow-hidden rounded-2xl bg-white p-4 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
     >
       <div className="mb-2 text-xs font-semibold text-gray-500">#{String(pokemon.id).padStart(4, "0")}</div>
@@ -140,6 +141,7 @@ export default function Home() {
   // Set SEO meta tags for home page
   useEffect(() => {
     document.title = "List of Pokémon | Abiting's Pokédex";
+    updatePageUrlMetadata("/");
 
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
@@ -361,7 +363,7 @@ export default function Home() {
       <footer className="mt-16 border-t border-purple-500/30 bg-purple-900/50 py-8">
         <div className="mx-auto max-w-7xl px-4 text-center text-sm text-purple-200">
           <p>
-            <a href="/about" className="text-purple-300 underline transition-colors hover:text-white">
+            <a href="/about/" className="text-purple-300 underline transition-colors hover:text-white">
               About Developer
             </a>
           </p>

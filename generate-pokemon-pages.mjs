@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const SITE_URL = "https://list.abitingpokedex.com";
+const SITE_ROOT_URL = `${SITE_URL}/`;
 const baseHtmlPath = path.join(__dirname, "dist/public/index.html");
 const outputDir = path.join(__dirname, "dist/public/pokemon");
 const pokemonNames = JSON.parse(fs.readFileSync(path.join(__dirname, "pokemon-names.json"), "utf-8"));
@@ -83,6 +84,11 @@ function escapeHtml(value) {
 
 function escapeJsonForHtml(value) {
   return JSON.stringify(value).replaceAll("<", "\\u003c");
+}
+
+function withTrailingSlash(routePath) {
+  if (routePath === "/") return "/";
+  return `${routePath.replace(/\/+$/, "")}/`;
 }
 
 function formatEnglishName(name) {
@@ -183,7 +189,7 @@ function replacePropertyTag(html, property, content) {
 }
 
 function createDocument({ baseHtml, lang, title, description, keywords, canonicalPath, body, schema }) {
-  const canonicalUrl = `${SITE_URL}${canonicalPath}`;
+  const canonicalUrl = `${SITE_URL}${withTrailingSlash(canonicalPath)}`;
   let html = baseHtml
     .replace(/<html\s+lang=["'][^"']*["']>/i, `<html lang="${lang}">`)
     .replace(/<title>[\s\S]*?<\/title>/i, `<title>${escapeHtml(title)}</title>`);
@@ -207,11 +213,12 @@ function navigationLinks({ name, index, language }) {
   const previousName = index > 0 ? pokemonNames[index - 1] : null;
   const nextName = index < pokemonNames.length - 1 ? pokemonNames[index + 1] : null;
   const isChinese = language === "zh";
-  const suffix = isChinese ? "/zh" : "";
-  const languageSwitchHref = `/pokemon/${name}${isChinese ? "" : "/zh"}`;
+  const currentLanguagePath = (slug) => withTrailingSlash(`/pokemon/${slug}${isChinese ? "/zh" : ""}`);
+  const alternateLanguagePath = (slug) => withTrailingSlash(`/pokemon/${slug}${isChinese ? "" : "/zh"}`);
+  const languageSwitchHref = alternateLanguagePath(name);
   const languageSwitchLabel = isChinese ? "English page" : "繁體中文頁面";
-  const previousHref = previousName ? `/pokemon/${previousName}${suffix}` : "/";
-  const nextHref = nextName ? `/pokemon/${nextName}${suffix}` : "/";
+  const previousHref = previousName ? currentLanguagePath(previousName) : "/";
+  const nextHref = nextName ? currentLanguagePath(nextName) : "/";
   const previousLabel = previousName
     ? `${isChinese ? "上一隻" : "Previous"}：${isChinese ? pokemonMapZh[previousName] || formatEnglishName(previousName) : formatEnglishName(previousName)}`
     : isChinese
@@ -252,7 +259,7 @@ function renderEnglishPage({ name, index }) {
   const title = `${englishName} #${String(id).padStart(4, "0")} | Abiting's Pokédex`;
   const description = `${englishName} (#${String(id).padStart(4, "0")}) is a ${typeText} type Pokémon. Explore base stats, abilities, weaknesses, and Pokémon Champions team-planning information in Abiting's Pokédex.`;
   const keywords = `${englishName}, ${englishName} abilities, Pokémon Champions ${englishName}, ${englishName} base stats, ${englishName} weaknesses`;
-  const canonicalPath = `/pokemon/${name}`;
+  const canonicalPath = `/pokemon/${name}/`;
   const body = `<main class="seo-page" data-static-seo-page="true">
     <header>
       <p class="eyebrow">Abiting's Pokédex · ${number}</p>
@@ -276,7 +283,7 @@ function renderEnglishPage({ name, index }) {
     description,
     url: `${SITE_URL}${canonicalPath}`,
     inLanguage: "en",
-    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_URL },
+    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_ROOT_URL },
     mainEntity: {
       "@type": "Thing",
       name: englishName,
@@ -324,7 +331,7 @@ function renderChinesePage({ name, index }) {
   const title = `${chineseName}｜Pokémon Champions 資料庫`;
   const description = `${number} ${chineseName}，${typeText}屬性寶可夢。配招、能力點數（SP）計算，盡在 Abiting's Pokédex。`;
   const keywords = `${chineseName}、${chineseName}特性、Pokemon Champions ${chineseName}、寶可夢冠軍${chineseName}、${chineseName}性別比例`;
-  const canonicalPath = `/pokemon/${name}/zh`;
+  const canonicalPath = `/pokemon/${name}/zh/`;
   const body = `<main class="seo-page" data-static-seo-page="true">
     <header>
       <p class="eyebrow">Abiting's Pokédex · ${number}</p>
@@ -348,7 +355,7 @@ function renderChinesePage({ name, index }) {
     description,
     url: `${SITE_URL}${canonicalPath}`,
     inLanguage: "zh-Hant",
-    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_URL },
+    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_ROOT_URL },
     mainEntity: {
       "@type": "Thing",
       name: chineseName,
@@ -368,7 +375,7 @@ function renderHomePage() {
       const id = getId(index);
       const englishName = formatEnglishName(name);
       const chineseName = pokemonMapZh[name] || englishName;
-      return `<li><a href="/pokemon/${name}">${formatId(id)} ${escapeHtml(englishName)}</a><a class="zh-link" href="/pokemon/${name}/zh" lang="zh-Hant">${escapeHtml(chineseName)}</a></li>`;
+      return `<li><a href="/pokemon/${name}/">${formatId(id)} ${escapeHtml(englishName)}</a><a class="zh-link" href="/pokemon/${name}/zh/" lang="zh-Hant">${escapeHtml(chineseName)}</a></li>`;
     })
     .join("\n");
   const title = "List of Pokémon | Abiting's Pokédex";
@@ -382,7 +389,7 @@ function renderHomePage() {
     <section class="panel" aria-labelledby="directory-overview">
       <h2 id="directory-overview">Complete Pokémon directory</h2>
       <p>Every entry below links to a dedicated Pokémon page with type, abilities, base stats, weaknesses, evolution, and team-planning information. Select either the English name or the Traditional Chinese name to open that language edition.</p>
-      <nav aria-label="Site navigation"><a href="/about">About Developer</a></nav>
+      <nav aria-label="Site navigation"><a href="/about/">About Developer</a></nav>
     </section>
     <section aria-labelledby="pokemon-directory">
       <h2 id="pokemon-directory">Pokémon directory</h2>
@@ -397,7 +404,7 @@ function renderHomePage() {
     description,
     url: `${SITE_URL}/`,
     inLanguage: "en",
-    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_URL },
+    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_ROOT_URL },
   };
 
   return {
@@ -414,7 +421,7 @@ function renderHomePage() {
 function renderAboutPage() {
   const title = "About Developer | Abiting's Pokédex";
   const description = "Abiting is a Content Creator and Marketing Professional from Taiwan, actively engaged in Pokémon communities across Taiwan, China, and Hong Kong.";
-  const canonicalPath = "/about";
+  const canonicalPath = "/about/";
   const body = `<main class="seo-page" data-static-seo-page="true">
     <header>
       <p class="eyebrow">Abiting's Pokédex</p>
@@ -436,7 +443,7 @@ function renderAboutPage() {
     description,
     url: `${SITE_URL}${canonicalPath}`,
     inLanguage: "en",
-    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_URL },
+    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_ROOT_URL },
   };
 
   return {

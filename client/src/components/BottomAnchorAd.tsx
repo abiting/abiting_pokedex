@@ -11,7 +11,8 @@ interface BottomAnchorAdProps {
 
 export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const [location] = useLocation();
-  const isChinesePage = location.endsWith("/zh");
+  const normalizedLocation = location.replace(/\/+$/, "");
+  const isChinesePage = normalizedLocation.endsWith("/zh");
   const pokemonSlug = location.split("/")[2] ?? "";
   const [pokemonNumber, setPokemonNumber] = useState<number | null>(null);
 

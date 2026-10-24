@@ -3,6 +3,7 @@ import { useRoute } from "wouter";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 import megaAbilities from "@/data/megaAbilities.json";
+import { toSiteUrl, updatePageUrlMetadata } from "@/lib/siteUrl";
 
 interface PokemonDetail {
   id: number;
@@ -153,6 +154,7 @@ export default function PokemonDetailPage() {
 
     const formattedName = formatPokemonName(pokemon.name, pokemon.id);
     document.title = `${formattedName} - Pokémon Champions Database`;
+    const canonicalUrl = updatePageUrlMetadata(`/pokemon/${pokemon.name}/`);
 
     // Update meta description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -193,17 +195,17 @@ export default function PokemonDetailPage() {
     const schema = {
       "@context": "https://schema.org",
       "@type": "Thing",
-      "@id": `https://list.abitingpokedex.com/pokemon/${pokemon.name}`,
+      "@id": canonicalUrl,
       "name": formattedName,
       "alternateName": `Pokémon #${String(pokemon.id).padStart(4, "0")}`,
       "description": `${formattedName} is a ${typeNames} type Pokémon (#${String(pokemon.id).padStart(4, "0")}) with base stats and multiple abilities. View detailed information including stats, abilities, gender ratio, weaknesses, and evolution chain on Abiting's Pokédex.`,
       "image": pokemon.image,
-      "url": `https://list.abitingpokedex.com/pokemon/${pokemon.name}`,
+      "url": canonicalUrl,
       "inLanguage": "en",
       "isPartOf": {
         "@type": "WebSite",
         "name": "Abiting's Pokédex",
-        "url": "https://list.abitingpokedex.com"
+        "url": toSiteUrl("/")
       },
       "author": {
         "@type": "Person",
@@ -321,7 +323,7 @@ export default function PokemonDetailPage() {
           </a>
           <div className="flex items-center gap-4">
             <a
-              href={`/pokemon/${pokemon.name}/zh`}
+              href={`/pokemon/${pokemon.name}/zh/`}
               className="text-white text-sm font-semibold hover:text-gray-200 transition"
             >
               🌐 zh-TW
@@ -587,7 +589,7 @@ export default function PokemonDetailPage() {
                             {path.map((evoName, index) => (
                               <div key={`${pathIndex}-${evoName}`} className="flex items-center gap-3">
                                 <a
-                                  href={`/pokemon/${evoName}`}
+                                  href={`/pokemon/${evoName}/`}
                                   className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 font-semibold text-sm hover:bg-purple-200 transition capitalize"
                                 >
                                   {formatPokemonName(evoName)}
@@ -632,7 +634,7 @@ export default function PokemonDetailPage() {
             <div className="text-center text-purple-200 text-sm">
               <p>
                 <a
-                  href="/about"
+                  href="/about/"
                   className="text-purple-300 hover:text-white underline transition-colors"
                 >
                   About Developer

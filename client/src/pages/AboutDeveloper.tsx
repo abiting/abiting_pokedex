@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
+import { updatePageUrlMetadata } from "@/lib/siteUrl";
 
 export default function AboutDeveloper() {
   useEffect(() => {
     // Update page title
     document.title = "Abiting: Pokémon Lover from Taiwan";
+    updatePageUrlMetadata("/about/");
     
     // Update meta description
     const metaDescription = document.querySelector('meta[name="description"]');

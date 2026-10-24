@@ -33,7 +33,7 @@ function generateSitemap(): string {
   
   // Add about page
   urls.push(`  <url>
-    <loc>${domain}/about</loc>
+    <loc>${domain}/about/</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -69,7 +69,7 @@ function generateSitemap(): string {
     }
     
     urls.push(`  <url>
-    <loc>${domain}/pokemon/${pokemonName}</loc>
+    <loc>${domain}/pokemon/${pokemonName}/</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -88,7 +88,7 @@ function generateSitemap(): string {
     }
     
     urls.push(`  <url>
-    <loc>${domain}/pokemon/${pokemonName}/zh</loc>
+    <loc>${domain}/pokemon/${pokemonName}/zh/</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -248,7 +248,7 @@ function vitePluginSitemapGenerator(): Plugin {
         
         // Add about page
         urls.push(`  <url>
-    <loc>${domain}/about</loc>
+    <loc>${domain}/about/</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -257,7 +257,7 @@ function vitePluginSitemapGenerator(): Plugin {
         // Add all Pokémon pages (English)
         for (const name of pokemonNames) {
           urls.push(`  <url>
-    <loc>${domain}/pokemon/${name}</loc>
+    <loc>${domain}/pokemon/${name}/</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -267,7 +267,7 @@ function vitePluginSitemapGenerator(): Plugin {
         // Add all Pokémon pages (Traditional Chinese)
         for (const name of pokemonNames) {
           urls.push(`  <url>
-    <loc>${domain}/pokemon/${name}/zh</loc>
+    <loc>${domain}/pokemon/${name}/zh/</loc>
     <lastmod>${new Date().toISOString()}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
