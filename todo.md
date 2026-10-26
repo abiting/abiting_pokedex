@@ -79,6 +79,6 @@
 
 ## 多形態舊網址相容路由
 
-- [ ] 為 `pumpkaboo`、`toxtricity`、`wormadam` 建立 GitHub Pages 相容路由，導向保留的型態頁。
-- [ ] 在相容頁提供 canonical、即時重新導向與可供無 JavaScript 使用者點擊的目標連結。
-- [ ] 建置、推送 GitHub Pages 並確認三個舊網址不再回傳 404。
+- [x] 為 `pumpkaboo`、`toxtricity`、`wormadam` 建立 GitHub Pages 相容路由，導向保留的型態頁。
+- [x] 在相容頁提供 canonical、即時重新導向與可供無 JavaScript 使用者點擊的目標連結。
+- [x] 建置、推送 GitHub Pages 並確認三個舊網址不再回傳 404。
