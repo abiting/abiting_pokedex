@@ -61,6 +61,12 @@ const specialEnglishNames = {
   "chi-yu": "Chi-Yu",
 };
 
+const legacyFormRedirects = {
+  pumpkaboo: "pumpkaboo-average",
+  toxtricity: "toxtricity-amped",
+  wormadam: "wormadam-plant",
+};
+
 const staticStyles = `
 <style data-static-seo="true">
   .seo-page{max-width:960px;margin:0 auto;padding:32px 20px 56px;font-family:Arial,"Noto Sans TC",sans-serif;color:#1f2937;line-height:1.7}
@@ -218,6 +224,49 @@ function createDocument({ baseHtml, lang, title, description, keywords, canonica
   }
 
   return html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+}
+
+function renderLegacyFormRedirect({ legacySlug, canonicalSlug, baseHtml }) {
+  const targetPath = withTrailingSlash(`/pokemon/${canonicalSlug}`);
+  const targetUrl = `${SITE_URL}${targetPath}`;
+  const targetName = formatEnglishName(canonicalSlug);
+  const legacyName = formatEnglishName(legacySlug);
+  const title = `${targetName} | Abiting's Pokédex`;
+  const description = `${legacyName} is available on Abiting's Pokédex as ${targetName}.`;
+  const body = `<main class="seo-page" data-static-seo-page="true">
+    <header>
+      <p class="eyebrow">Abiting's Pokédex</p>
+      <h1>${escapeHtml(targetName)}</h1>
+    </header>
+    <section class="panel">
+      <p>This Pokémon form is available at the current entry.</p>
+      <p><a href="${targetPath}">Continue to ${escapeHtml(targetName)}</a></p>
+    </section>
+  </main>`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description,
+    url: targetUrl,
+    inLanguage: "en",
+    isPartOf: { "@type": "WebSite", name: "Abiting's Pokédex", url: SITE_ROOT_URL },
+  };
+  const document = createDocument({
+    baseHtml,
+    lang: "en",
+    title,
+    description,
+    keywords: `${legacyName}, ${targetName}, Pokémon`,
+    canonicalPath: targetPath,
+    body,
+    schema,
+  });
+
+  return document.replace(
+    "</head>",
+    `    <meta http-equiv="refresh" content="0; url=${targetPath}" />\n    <script>window.location.replace(${JSON.stringify(targetPath)});</script>\n  </head>`,
+  );
 }
 
 function navigationLinks({ name, index, language }) {
@@ -496,6 +545,18 @@ for (const [index, name] of pokemonNames.entries()) {
   generatedCount += 2;
 }
 
+let generatedRedirectCount = 0;
+for (const [legacySlug, canonicalSlug] of Object.entries(legacyFormRedirects)) {
+  const redirectDir = path.join(outputDir, legacySlug);
+  fs.mkdirSync(redirectDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(redirectDir, "index.html"),
+    renderLegacyFormRedirect({ legacySlug, canonicalSlug, baseHtml: routeBaseHtml }),
+    "utf-8",
+  );
+  generatedRedirectCount += 1;
+}
+
 const homePage = renderHomePage();
 fs.writeFileSync(
   baseHtmlPath,
@@ -512,4 +573,4 @@ fs.writeFileSync(
   "utf-8",
 );
 
-console.log(`✓ Generated ${generatedCount} static Pokémon SEO pages, a crawlable homepage directory, and an about page`);
+console.log(`✓ Generated ${generatedCount} static Pokémon SEO pages, ${generatedRedirectCount} legacy form redirect pages, a crawlable homepage directory, and an about page`);

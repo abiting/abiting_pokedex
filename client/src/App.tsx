@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useLocation, Route, Switch } from "wouter";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,10 +21,23 @@ function RouteLoadingState() {
   );
 }
 
+function LegacyFormRedirect({ target }: { target: string }) {
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    setLocation(target, { replace: true });
+  }, [setLocation, target]);
+
+  return <RouteLoadingState />;
+}
+
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/pokemon/pumpkaboo" component={() => <LegacyFormRedirect target="/pokemon/pumpkaboo-average/" />} />
+      <Route path="/pokemon/toxtricity" component={() => <LegacyFormRedirect target="/pokemon/toxtricity-amped/" />} />
+      <Route path="/pokemon/wormadam" component={() => <LegacyFormRedirect target="/pokemon/wormadam-plant/" />} />
       <Route path="/pokemon/:name/zh" component={PokemonDetailPageZh} />
       <Route path="/pokemon/:name" component={PokemonDetailPage} />
       <Route path="/about" component={AboutDeveloper} />
