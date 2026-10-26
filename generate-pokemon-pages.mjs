@@ -197,9 +197,10 @@ function createDocument({ baseHtml, lang, title, description, keywords, canonica
   html = replaceMetaTag(html, "description", description);
   html = replaceMetaTag(html, "keywords", keywords);
   html = replacePropertyTag(html, "og:title", title);
+  html = replacePropertyTag(html, "og:description", description);
   html = html.replace(
     "</head>",
-    `    <link rel="canonical" href="${canonicalUrl}" />\n    <meta property="og:description" content="${escapeHtml(description)}" />\n    <meta property="og:url" content="${canonicalUrl}" />\n    <script type="application/ld+json">${escapeJsonForHtml(schema)}</script>${staticStyles}\n  </head>`,
+    `    <link rel="canonical" href="${canonicalUrl}" />\n    <meta property="og:url" content="${canonicalUrl}" />\n    <script type="application/ld+json">${escapeJsonForHtml(schema)}</script>${staticStyles}\n  </head>`,
   );
 
   if (!/<div id="root"><\/div>/.test(html)) {

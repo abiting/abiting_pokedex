@@ -64,3 +64,9 @@
 - [x] 將靜態頁 canonical、og:url、hreflang（如有）、sitemap 與站內連結統一為選定格式。
 - [x] 同步 React 路由與動態 SEO 產生的站內連結／canonical，避免 client 與靜態 HTML 不一致。
 - [x] 建置後驗證 sitemap、原始 HTML 與實際直連路由皆為 200 且沒有不必要轉址。
+
+## 首頁 Open Graph 分享圖
+
+- [ ] 驗證首頁白底主視覺圖片的公開 URL、格式與尺寸。
+- [ ] 將圖片加入首頁與所有靜態頁共用的 Open Graph／Twitter 預覽標籤。
+- [ ] 建置、推送 GitHub Pages 並驗證正式首頁原始 HTML 的分享圖片設定。
