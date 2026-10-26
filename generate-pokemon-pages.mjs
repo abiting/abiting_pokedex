@@ -166,12 +166,19 @@ function compactBaseHtml(baseHtml) {
   return baseHtml.replace(/\s*<script id="manus-runtime">[\s\S]*?<\/script>/, "");
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function replaceMetaTag(html, name, content) {
   const escapedContent = escapeHtml(content);
-  const expression = new RegExp(`(<meta\\s+name=["']${name}["']\\s+content=["'])[^"']*(["'][^>]*>)`, "i");
+  const expression = new RegExp(
+    `(<meta\\s+name=["']${escapeRegExp(name)}["']\\s+content=)(["'])([\\s\\S]*?)\\2`,
+    "i",
+  );
 
   if (expression.test(html)) {
-    return html.replace(expression, `$1${escapedContent}$2`);
+    return html.replace(expression, (_match, opening, quote) => `${opening}${quote}${escapedContent}${quote}`);
   }
 
   return html.replace("</head>", `    <meta name="${name}" content="${escapedContent}" />\n  </head>`);
@@ -179,10 +186,13 @@ function replaceMetaTag(html, name, content) {
 
 function replacePropertyTag(html, property, content) {
   const escapedContent = escapeHtml(content);
-  const expression = new RegExp(`(<meta\\s+property=["']${property}["']\\s+content=["'])[^"']*(["'][^>]*>)`, "i");
+  const expression = new RegExp(
+    `(<meta\\s+property=["']${escapeRegExp(property)}["']\\s+content=)(["'])([\\s\\S]*?)\\2`,
+    "i",
+  );
 
   if (expression.test(html)) {
-    return html.replace(expression, `$1${escapedContent}$2`);
+    return html.replace(expression, (_match, opening, quote) => `${opening}${quote}${escapedContent}${quote}`);
   }
 
   return html.replace("</head>", `    <meta property="${property}" content="${escapedContent}" />\n  </head>`);

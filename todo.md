@@ -70,3 +70,9 @@
 - [x] 驗證首頁白底主視覺圖片的公開 URL、格式與尺寸。
 - [x] 將圖片加入首頁與所有靜態頁共用的 Open Graph／Twitter 預覽標籤。
 - [x] 建置、推送 GitHub Pages 並驗證正式首頁原始 HTML 的分享圖片設定。
+
+## 首頁分享標題重複修正
+
+- [ ] 檢查正式首頁與靜態產頁的 title、Open Graph 與 Twitter 標題來源。
+- [ ] 移除分享預覽中重複的 Pokédex 品牌字樣，保留網站 SEO title 與其他中英文頁設定。
+- [ ] 建置、推送 GitHub Pages 並驗證正式首頁分享標籤。
