@@ -73,6 +73,6 @@
 
 ## 首頁分享標題重複修正
 
-- [ ] 檢查正式首頁與靜態產頁的 title、Open Graph 與 Twitter 標題來源。
-- [ ] 移除分享預覽中重複的 Pokédex 品牌字樣，保留網站 SEO title 與其他中英文頁設定。
-- [ ] 建置、推送 GitHub Pages 並驗證正式首頁分享標籤。
+- [x] 檢查正式首頁與靜態產頁的 title、Open Graph 與 Twitter 標題來源。
+- [x] 移除分享預覽中重複的 Pokédex 品牌字樣，保留網站 SEO title 與其他中英文頁設定。
+- [x] 建置、推送 GitHub Pages 並驗證正式首頁分享標籤。
