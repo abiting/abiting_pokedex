@@ -67,6 +67,6 @@
 
 ## 首頁 Open Graph 分享圖
 
-- [ ] 驗證首頁白底主視覺圖片的公開 URL、格式與尺寸。
-- [ ] 將圖片加入首頁與所有靜態頁共用的 Open Graph／Twitter 預覽標籤。
-- [ ] 建置、推送 GitHub Pages 並驗證正式首頁原始 HTML 的分享圖片設定。
+- [x] 驗證首頁白底主視覺圖片的公開 URL、格式與尺寸。
+- [x] 將圖片加入首頁與所有靜態頁共用的 Open Graph／Twitter 預覽標籤。
+- [x] 建置、推送 GitHub Pages 並驗證正式首頁原始 HTML 的分享圖片設定。
