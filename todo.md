@@ -82,3 +82,9 @@
 - [x] 為 `pumpkaboo`、`toxtricity`、`wormadam` 建立 GitHub Pages 相容路由，導向保留的型態頁。
 - [x] 在相容頁提供 canonical、即時重新導向與可供無 JavaScript 使用者點擊的目標連結。
 - [x] 建置、推送 GitHub Pages 並確認三個舊網址不再回傳 404。
+
+## 靜態 SEO 頁面載入交接
+
+- [x] 保留爬蟲與無 JavaScript 使用者可讀取的原始靜態 SEO 內容。
+- [x] 防止一般瀏覽器在 React 詳細頁接手前短暫顯示純 HTML 頁面。
+- [x] 建置並驗證英文、繁中與相容導向頁的靜態輸出及 React 載入結果。

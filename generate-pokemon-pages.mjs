@@ -69,6 +69,11 @@ const legacyFormRedirects = {
 
 const staticStyles = `
 <style data-static-seo="true">
+  #static-seo-handoff-loader{display:none}
+  html[data-static-seo-client="pending"] #root>[data-static-seo-page]{display:none}
+  html[data-static-seo-client="pending"] #static-seo-handoff-loader{display:flex;min-height:100vh;align-items:center;justify-content:center;background:linear-gradient(135deg,#9333ea 0%,#7e22ce 48%,#3730a3 100%);color:#fff}
+  .static-seo-handoff-spinner{width:2.5rem;height:2.5rem;border:4px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:9999px;animation:static-seo-spin .8s linear infinite}
+  @keyframes static-seo-spin{to{transform:rotate(360deg)}}
   .seo-page{max-width:960px;margin:0 auto;padding:32px 20px 56px;font-family:Arial,"Noto Sans TC",sans-serif;color:#1f2937;line-height:1.7}
   .seo-page a{color:#6d28d9;text-decoration:underline;text-underline-offset:3px}.seo-page a:hover{color:#4c1d95}
   .seo-page header{margin-bottom:28px}.seo-page h1{font-size:clamp(1.9rem,5vw,2.7rem);line-height:1.25;margin:0 0 8px}.seo-page h2{font-size:1.25rem;margin:32px 0 10px}
@@ -78,6 +83,17 @@ const staticStyles = `
   .seo-page .directory li{border-bottom:1px solid #e5e7eb;padding:6px 0}.seo-page .directory .zh-link{margin-left:8px;color:#475569;font-size:.9rem}
   .seo-page footer{margin-top:38px;padding-top:18px;border-top:1px solid #e5e7eb;color:#6b7280;font-size:.92rem}
 </style>`;
+
+const staticHandoffScript = `
+<script data-static-seo-handoff="true">
+  document.documentElement.dataset.staticSeoClient = "pending";
+  window.setTimeout(function () {
+    var root = document.getElementById("root");
+    if (root && root.querySelector("[data-static-seo-page]")) {
+      document.documentElement.removeAttribute("data-static-seo-client");
+    }
+  }, 10000);
+</script>`;
 
 function escapeHtml(value) {
   return String(value)
@@ -216,14 +232,17 @@ function createDocument({ baseHtml, lang, title, description, keywords, canonica
   html = replacePropertyTag(html, "og:description", description);
   html = html.replace(
     "</head>",
-    `    <link rel="canonical" href="${canonicalUrl}" />\n    <meta property="og:url" content="${canonicalUrl}" />\n    <script type="application/ld+json">${escapeJsonForHtml(schema)}</script>${staticStyles}\n  </head>`,
+    `    <link rel="canonical" href="${canonicalUrl}" />\n    <meta property="og:url" content="${canonicalUrl}" />\n    <script type="application/ld+json">${escapeJsonForHtml(schema)}</script>${staticHandoffScript}${staticStyles}\n  </head>`,
   );
 
   if (!/<div id="root"><\/div>/.test(html)) {
     throw new Error("Unable to locate the React root in the Vite build output.");
   }
 
-  return html.replace('<div id="root"></div>', `<div id="root">${body}</div>`);
+  const loadingLabel = lang === "zh-Hant" ? "正在載入寶可夢圖鑑" : "Loading Pokédex";
+  const handoffLoader = `<div id="static-seo-handoff-loader" role="status" aria-label="${loadingLabel}"><span class="static-seo-handoff-spinner" aria-hidden="true"></span></div>`;
+
+  return html.replace('<div id="root"></div>', `<div id="root">${body}${handoffLoader}</div>`);
 }
 
 function renderLegacyFormRedirect({ legacySlug, canonicalSlug, baseHtml }) {
