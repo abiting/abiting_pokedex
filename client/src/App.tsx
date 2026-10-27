@@ -1,10 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useLocation, Route, Switch } from "wouter";
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import BottomAnchorAd from "./components/BottomAnchorAd";
 
 /** Visual intent: preserve the electric-violet Pokédex shell across every route. */
 const Home = lazy(() => import("./pages/Home"));
@@ -12,6 +9,7 @@ const PokemonDetailPage = lazy(() => import("./pages/PokemonDetailPage"));
 const PokemonDetailPageZh = lazy(() => import("./pages/PokemonDetailPageZh"));
 const AboutDeveloper = lazy(() => import("./pages/AboutDeveloper"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const BottomAnchorAd = lazy(() => import("./components/BottomAnchorAd"));
 
 function RouteLoadingState() {
   return (
@@ -56,13 +54,14 @@ function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <Toaster />
-          <Suspense fallback={<RouteLoadingState />}>
-            <Router />
+        <Suspense fallback={<RouteLoadingState />}>
+          <Router />
+        </Suspense>
+        {shouldShowAnchorAd && (
+          <Suspense fallback={null}>
+            <BottomAnchorAd onClose={() => setIsAnchorAdOpen(false)} />
           </Suspense>
-          {shouldShowAnchorAd && <BottomAnchorAd onClose={() => setIsAnchorAdOpen(false)} />}
-        </TooltipProvider>
+        )}
       </ThemeProvider>
     </ErrorBoundary>
   );

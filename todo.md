@@ -88,3 +88,11 @@
 - [x] 保留爬蟲與無 JavaScript 使用者可讀取的原始靜態 SEO 內容。
 - [x] 防止一般瀏覽器在 React 詳細頁接手前短暫顯示純 HTML 頁面。
 - [x] 建置並驗證英文、繁中與相容導向頁的靜態輸出及 React 載入結果。
+
+## 廣告無閃現與首頁載入量優化
+
+- [x] 以本機 `slug → 實際圖鑑編號` 對照取代廣告元件的 PokéAPI 查詢，避免素材先以錯誤預設版本顯示。
+- [x] 將底部廣告改為僅在詳細頁延後下載，首頁不再載入廣告程式與編號對照資料。
+- [x] 移除首頁未使用的全域 Tooltip／Toast 依賴，將首頁主 JavaScript 由約 100 KB gzip 降至約 74 KB gzip。
+- [x] 移除首頁靜態輸出中 GitHub Pages 不需要的 Manus runtime，將首頁 HTML 由約 136 KB gzip 降至約 30 KB gzip。
+- [x] 建置並驗證中英文廣告分流邊界、型態 slug 與首頁靜態 SEO 輸出。

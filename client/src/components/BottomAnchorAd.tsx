@@ -1,5 +1,5 @@
 import { useLocation } from "wouter";
-import { useEffect, useState } from "react";
+import pokemonNumbers from "@/data/pokemonNumbers.json";
 
 /**
  * Visual intent: a restrained, full-width bottom anchor that preserves the
@@ -14,38 +14,12 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const normalizedLocation = location.replace(/\/+$/, "");
   const isChinesePage = normalizedLocation.endsWith("/zh");
   const pokemonSlug = location.split("/")[2] ?? "";
-  const [pokemonNumber, setPokemonNumber] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (!pokemonSlug) {
-      setPokemonNumber(null);
-      return;
-    }
-
-    const controller = new AbortController();
-
-    async function fetchPokemonNumber() {
-      try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonSlug}`, {
-          signal: controller.signal,
-        });
-        if (!response.ok) throw new Error("Unable to load Pokémon number");
-
-        const data: { id?: number } = await response.json();
-        setPokemonNumber(typeof data.id === "number" ? data.id : null);
-      } catch (error) {
-        if (!controller.signal.aborted) setPokemonNumber(null);
-      }
-    }
-
-    fetchPokemonNumber();
-    return () => controller.abort();
-  }, [isChinesePage, pokemonSlug]);
-
-  const usesFoneloraAd = isChinesePage && pokemonNumber !== null && pokemonNumber <= 200;
-  const usesCpaCeramicsAd = !isChinesePage && pokemonNumber !== null && pokemonNumber <= 100;
-  const shouldRenderAd = !isChinesePage || usesFoneloraAd;
-  const usesAbiPaintAd = pokemonNumber === null || pokemonNumber <= 500;
+  const pokemonNumber = pokemonNumbers[pokemonSlug as keyof typeof pokemonNumbers];
+  const hasKnownPokemonNumber = typeof pokemonNumber === "number";
+  const usesFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 200;
+  const usesCpaCeramicsAd = !isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 100;
+  const shouldRenderAd = hasKnownPokemonNumber && (!isChinesePage || usesFoneloraAd);
+  const usesAbiPaintAd = hasKnownPokemonNumber && pokemonNumber <= 500;
   const destination = usesFoneloraAd
     ? "https://app.abiting.cc/archives/4656"
     : usesCpaCeramicsAd

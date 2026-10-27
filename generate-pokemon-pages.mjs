@@ -573,7 +573,7 @@ for (const [legacySlug, canonicalSlug] of Object.entries(legacyFormRedirects)) {
 const homePage = renderHomePage();
 fs.writeFileSync(
   baseHtmlPath,
-  createDocument({ baseHtml, ...homePage }),
+  createDocument({ baseHtml: routeBaseHtml, ...homePage }),
   "utf-8",
 );
 
