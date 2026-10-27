@@ -4,6 +4,7 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 import megaAbilities from "@/data/megaAbilities.json";
 import { toSiteUrl, updatePageUrlMetadata } from "@/lib/siteUrl";
+import { readPokemonDetailCache, writePokemonDetailCache } from "@/lib/pokemonDetailCache";
 
 interface PokemonDetail {
   id: number;
@@ -34,6 +35,17 @@ interface EvolutionChainNode {
     url: string;
   };
   evolves_to: EvolutionChainNode[];
+}
+
+interface EnglishDetailCache {
+  pokemon: PokemonDetail;
+  species: SpeciesData | null;
+  evolutionChain: EvolutionChainNode | null;
+  supplementaryDataLoaded: boolean;
+}
+
+function readEnglishDetailCache(name?: string) {
+  return name ? readPokemonDetailCache<EnglishDetailCache>(`en:${name}`) : null;
 }
 
 const typeColors: Record<string, string> = {
@@ -80,15 +92,82 @@ const typeWeaknesses: Record<string, string[]> = {
 
 export default function PokemonDetailPage() {
   const [match, params] = useRoute("/pokemon/:name");
-  const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
-  const [species, setSpecies] = useState<SpeciesData | null>(null);
-  const [evolutionChain, setEvolutionChain] = useState<EvolutionChainNode | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [pokemon, setPokemon] = useState<PokemonDetail | null>(() => readEnglishDetailCache(params?.name)?.pokemon ?? null);
+  const [species, setSpecies] = useState<SpeciesData | null>(() => readEnglishDetailCache(params?.name)?.species ?? null);
+  const [evolutionChain, setEvolutionChain] = useState<EvolutionChainNode | null>(
+    () => readEnglishDetailCache(params?.name)?.evolutionChain ?? null,
+  );
+  const [loading, setLoading] = useState(() => !readEnglishDetailCache(params?.name)?.pokemon);
   const [error, setError] = useState<string | null>(null);
 
   // Fetch Pokemon data
   useEffect(() => {
     if (!match || !params?.name) return;
+
+    const controller = new AbortController();
+    const cacheKey = `en:${params.name}`;
+    const cachedDetail = readPokemonDetailCache<EnglishDetailCache>(cacheKey);
+
+    const updateCache = (
+      pokemon: PokemonDetail,
+      species: SpeciesData | null,
+      evolutionChain: EvolutionChainNode | null,
+      supplementaryDataLoaded: boolean,
+    ) => {
+      writePokemonDetailCache<EnglishDetailCache>(cacheKey, {
+        pokemon,
+        species,
+        evolutionChain,
+        supplementaryDataLoaded,
+      });
+    };
+
+    const fetchSupplementaryData = async (pokemon: PokemonDetail) => {
+      if (!pokemon.species?.url) {
+        updateCache(pokemon, null, null, true);
+        return;
+      }
+
+      try {
+        const speciesResponse = await fetch(pokemon.species.url, { signal: controller.signal });
+        if (!speciesResponse.ok) throw new Error("Unable to load Pokémon species data");
+
+        const speciesData: SpeciesData = await speciesResponse.json();
+        if (controller.signal.aborted) return;
+        setSpecies(speciesData);
+        updateCache(pokemon, speciesData, null, false);
+
+        if (!speciesData.evolution_chain?.url) {
+          updateCache(pokemon, speciesData, null, true);
+          return;
+        }
+
+        const chainResponse = await fetch(speciesData.evolution_chain.url, { signal: controller.signal });
+        if (!chainResponse.ok) throw new Error("Unable to load Pokémon evolution data");
+
+        const chainData: { chain?: EvolutionChainNode } = await chainResponse.json();
+        if (controller.signal.aborted) return;
+        const evolutionChain = chainData.chain ?? null;
+        setEvolutionChain(evolutionChain);
+        updateCache(pokemon, speciesData, evolutionChain, true);
+      } catch {
+        // Basic battle data is already visible. Supplementary data can retry on a later visit.
+      }
+    };
+
+    if (cachedDetail?.pokemon) {
+      setError(null);
+      setPokemon(cachedDetail.pokemon);
+      setSpecies(cachedDetail.species);
+      setEvolutionChain(cachedDetail.evolutionChain);
+      setLoading(false);
+
+      if (!cachedDetail.supplementaryDataLoaded) {
+        void fetchSupplementaryData(cachedDetail.pokemon);
+      }
+
+      return () => controller.abort();
+    }
 
     const fetchPokemonDetail = async () => {
       try {
@@ -96,10 +175,11 @@ export default function PokemonDetailPage() {
         setError(null);
         setPokemon(null);
         setSpecies(null);
+        setEvolutionChain(null);
 
-        // Fetch Pokemon detail
         const pokemonResponse = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${params.name}`
+          `https://pokeapi.co/api/v2/pokemon/${params.name}`,
+          { signal: controller.signal },
         );
         if (!pokemonResponse.ok) {
           throw new Error("Pokemon not found");
@@ -121,31 +201,23 @@ export default function PokemonDetailPage() {
           stats: pokemonData.stats,
           species: pokemonData.species,
         };
+        if (controller.signal.aborted) return;
         setPokemon(normalized);
-
-        // Fetch species data for gender ratio and evolution chain
-        if (pokemonData.species?.url) {
-          const speciesResponse = await fetch(pokemonData.species.url);
-          const speciesData: SpeciesData = await speciesResponse.json();
-          setSpecies(speciesData);
-          
-          // Fetch evolution chain if available
-          if (speciesData.evolution_chain?.url) {
-            const chainResponse = await fetch(speciesData.evolution_chain.url);
-            const chainData: any = await chainResponse.json();
-            setEvolutionChain(chainData.chain);
-          }
-        }
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to load Pokemon"
-        );
-      } finally {
         setLoading(false);
+        updateCache(normalized, null, null, false);
+
+        void fetchSupplementaryData(normalized);
+      } catch (err) {
+        if (controller.signal.aborted) return;
+        setError(err instanceof Error ? err.message : "Failed to load Pokemon");
+        setLoading(false);
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
       }
     };
 
-    fetchPokemonDetail();
+    void fetchPokemonDetail();
+    return () => controller.abort();
   }, [match, params?.name]);
 
   // Update SEO meta tags when pokemon data changes

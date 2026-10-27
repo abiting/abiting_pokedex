@@ -6,6 +6,7 @@ import abilitiesMap from "@/data/abilities_zh_hant.json";
 import pokemonMap from "@/data/pokemon_zh_hant.json";
 import megaAbilities from "@/data/megaAbilities.json";
 import { updatePageUrlMetadata } from "@/lib/siteUrl";
+import { readPokemonDetailCache, writePokemonDetailCache } from "@/lib/pokemonDetailCache";
 
 interface PokemonDetail {
   id: number;
@@ -39,6 +40,17 @@ interface EvolutionChainNode {
     name: string;
   };
   evolves_to: EvolutionChainNode[];
+}
+
+interface ChineseDetailCache {
+  pokemon: PokemonDetail;
+  speciesData: SpeciesData | null;
+  evolutionChains: string[][];
+  supplementaryDataLoaded: boolean;
+}
+
+function readChineseDetailCache(name?: string) {
+  return name ? readPokemonDetailCache<ChineseDetailCache>(`zh:${name}`) : null;
 }
 
 const typeColors: Record<string, string> = {
@@ -115,10 +127,14 @@ const typeWeaknesses: Record<string, string[]> = {
 
 export default function PokemonDetailPageZh() {
   const [match, params] = useRoute("/pokemon/:name/zh");
-  const [pokemon, setPokemon] = useState<PokemonDetail | null>(null);
-  const [speciesData, setSpeciesData] = useState<SpeciesData | null>(null);
-  const [currentEvolutionChain, setCurrentEvolutionChain] = useState<string[][]>([]);
-  const [loading, setLoading] = useState(true);
+  const [pokemon, setPokemon] = useState<PokemonDetail | null>(() => readChineseDetailCache(params?.name)?.pokemon ?? null);
+  const [speciesData, setSpeciesData] = useState<SpeciesData | null>(
+    () => readChineseDetailCache(params?.name)?.speciesData ?? null,
+  );
+  const [currentEvolutionChain, setCurrentEvolutionChain] = useState<string[][]>(
+    () => readChineseDetailCache(params?.name)?.evolutionChains ?? [],
+  );
+  const [loading, setLoading] = useState(() => !readChineseDetailCache(params?.name)?.pokemon);
   const [error, setError] = useState<string | null>(null);
   const [pokemonChineseName, setPokemonChineseName] = useState<string>("");
   const [weaknessNames, setWeaknessNames] = useState<string[]>([]);
@@ -174,42 +190,107 @@ export default function PokemonDetailPageZh() {
   }, [pokemon, pokemonChineseName]);
 
   useEffect(() => {
+    if (!params?.name) return;
+
+    const controller = new AbortController();
+    const cacheKey = `zh:${params.name}`;
+    const cachedDetail = readPokemonDetailCache<ChineseDetailCache>(cacheKey);
+
+    const updateCache = (
+      pokemon: PokemonDetail,
+      speciesData: SpeciesData | null,
+      evolutionChains: string[][],
+      supplementaryDataLoaded: boolean,
+    ) => {
+      writePokemonDetailCache<ChineseDetailCache>(cacheKey, {
+        pokemon,
+        speciesData,
+        evolutionChains,
+        supplementaryDataLoaded,
+      });
+    };
+
+    const fetchSupplementaryData = async (pokemon: PokemonDetail) => {
+      if (!pokemon.species?.url) {
+        updateCache(pokemon, null, [], true);
+        return;
+      }
+
+      try {
+        const speciesResponse = await fetch(pokemon.species.url, { signal: controller.signal });
+        if (!speciesResponse.ok) throw new Error("Unable to load Pokémon species data");
+
+        const speciesDataRes: SpeciesData = await speciesResponse.json();
+        if (controller.signal.aborted) return;
+        setSpeciesData(speciesDataRes);
+        updateCache(pokemon, speciesDataRes, [], false);
+
+        if (!speciesDataRes.evolution_chain?.url) {
+          updateCache(pokemon, speciesDataRes, [], true);
+          return;
+        }
+
+        const chainResponse = await fetch(speciesDataRes.evolution_chain.url, { signal: controller.signal });
+        if (!chainResponse.ok) throw new Error("Unable to load Pokémon evolution data");
+
+        const chainData: { chain: EvolutionChainNode } = await chainResponse.json();
+        if (controller.signal.aborted) return;
+        const chains = extractEvolutionChains(chainData.chain, pokemon.name);
+        setCurrentEvolutionChain(chains);
+        updateCache(pokemon, speciesDataRes, chains, true);
+      } catch {
+        // The basic entry remains available and missing supplementary data retries on a later visit.
+      }
+    };
+
+    if (cachedDetail?.pokemon) {
+      setError(null);
+      setPokemon(cachedDetail.pokemon);
+      setPokemonChineseName(pokemonMap[params.name as keyof typeof pokemonMap] || "");
+      setSpeciesData(cachedDetail.speciesData);
+      setCurrentEvolutionChain(cachedDetail.evolutionChains);
+      setLoading(false);
+
+      if (!cachedDetail.supplementaryDataLoaded) {
+        void fetchSupplementaryData(cachedDetail.pokemon);
+      }
+
+      return () => controller.abort();
+    }
+
     const fetchPokemon = async () => {
       try {
-        if (!params?.name) return;
+        setLoading(true);
+        setError(null);
+        setPokemon(null);
+        setSpeciesData(null);
+        setCurrentEvolutionChain([]);
 
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.name}`);
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.name}`, {
+          signal: controller.signal,
+        });
         if (!response.ok) throw new Error("Pokemon not found");
         const data: PokemonDetail = await response.json();
+        if (controller.signal.aborted) return;
         setPokemon(data);
 
-        // Get Chinese name from mapping
         const chineseName = pokemonMap[params.name as keyof typeof pokemonMap];
         if (chineseName) {
           setPokemonChineseName(chineseName);
         }
-
-        // Fetch species data for evolution chain and gender ratio
-        const speciesResponse = await fetch(data.species.url);
-        const speciesDataRes: SpeciesData = await speciesResponse.json();
-        setSpeciesData(speciesDataRes);
-
-        // Fetch evolution chain
-        if (speciesDataRes.evolution_chain) {
-          const chainResponse = await fetch(speciesDataRes.evolution_chain.url);
-          const chainData = await chainResponse.json();
-          const chains = extractEvolutionChains(chainData.chain, data.name);
-          setCurrentEvolutionChain(chains);
-        }
-
         setLoading(false);
+        updateCache(data, null, [], false);
+
+        void fetchSupplementaryData(data);
       } catch (err) {
+        if (controller.signal.aborted) return;
         setError(err instanceof Error ? err.message : "An error occurred");
         setLoading(false);
       }
     };
 
-    fetchPokemon();
+    void fetchPokemon();
+    return () => controller.abort();
   }, [params?.name]);
 
   const extractEvolutionChains = (

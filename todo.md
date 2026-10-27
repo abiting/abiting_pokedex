@@ -96,3 +96,10 @@
 - [x] 移除首頁未使用的全域 Tooltip／Toast 依賴，將首頁主 JavaScript 由約 100 KB gzip 降至約 74 KB gzip。
 - [x] 移除首頁靜態輸出中 GitHub Pages 不需要的 Manus runtime，將首頁 HTML 由約 136 KB gzip 降至約 30 KB gzip。
 - [x] 建置並驗證中英文廣告分流邊界、型態 slug 與首頁靜態 SEO 輸出。
+
+## 詳細頁兩階段載入與當次瀏覽快取
+
+- [x] 讓中英文詳細頁在寶可夢基本資料回傳後立即顯示名稱、圖片、屬性、特性與種族值。
+- [x] 將性別比例與進化鏈改為背景補齊，不再阻塞整頁首次呈現。
+- [x] 新增記憶體與 sessionStorage 雙層快取，讓當次瀏覽中重新進入已看過的詳細頁立即顯示。
+- [x] 驗證英文與繁中 Pikachu 首次載入可建立完整快取，回訪時不顯示頁內 loading 且不發出新的 PokéAPI 請求。
