@@ -87,12 +87,6 @@ const staticStyles = `
 const staticHandoffScript = `
 <script data-static-seo-handoff="true">
   document.documentElement.dataset.staticSeoClient = "pending";
-  window.setTimeout(function () {
-    var root = document.getElementById("root");
-    if (root && root.querySelector("[data-static-seo-page]")) {
-      document.documentElement.removeAttribute("data-static-seo-client");
-    }
-  }, 10000);
 </script>`;
 
 function escapeHtml(value) {
