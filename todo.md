@@ -103,3 +103,7 @@
 - [x] 將性別比例與進化鏈改為背景補齊，不再阻塞整頁首次呈現。
 - [x] 新增記憶體與 sessionStorage 雙層快取，讓當次瀏覽中重新進入已看過的詳細頁立即顯示。
 - [x] 驗證英文與繁中 Pikachu 首次載入可建立完整快取，回訪時不顯示頁內 loading 且不發出新的 PokéAPI 請求。
+
+## Google Analytics 4
+
+- [x] 在共用 HTML head 安裝 Google tag（`G-2DDN0GHTTZ`），讓首頁及所有中英文靜態詳細頁都載入同一組 GA4 追蹤碼。
