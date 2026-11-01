@@ -1,5 +1,8 @@
 import { useLocation } from "wouter";
+import { useEffect, useState } from "react";
 import pokemonNumbers from "@/data/pokemonNumbers.json";
+
+const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
 
 /**
  * Visual intent: a restrained, full-width bottom anchor that preserves the
@@ -11,6 +14,9 @@ interface BottomAnchorAdProps {
 
 export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const [location] = useLocation();
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia(MOBILE_MEDIA_QUERY).matches,
+  );
   const normalizedLocation = location.replace(/\/+$/, "");
   const isChinesePage = normalizedLocation.endsWith("/zh");
   const pokemonSlug = location.split("/")[2] ?? "";
@@ -48,11 +54,19 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
         ? "AbiPaint promotion"
         : "AbiURL promotion";
 
-  if (!shouldRenderAd) return null;
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(MOBILE_MEDIA_QUERY);
+    const updateMobileState = () => setIsMobile(mediaQuery.matches);
+    updateMobileState();
+    mediaQuery.addEventListener("change", updateMobileState);
+    return () => mediaQuery.removeEventListener("change", updateMobileState);
+  }, []);
+
+  if (!isMobile || !shouldRenderAd) return null;
 
   return (
     <>
-      <div aria-hidden="true" className="h-20 sm:h-24" />
+      <div aria-hidden="true" className="h-20" />
       <aside
         aria-label={promotionLabel}
         className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-300/60 bg-black shadow-[0_-5px_20px_rgba(88,28,135,0.34)]"

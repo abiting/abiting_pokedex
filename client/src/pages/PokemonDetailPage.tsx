@@ -479,7 +479,7 @@ export default function PokemonDetailPage() {
           </div>
           
           {/* AdSense - between core facts and the first mobile action */}
-          <div className="border-b border-gray-200 bg-white px-4 py-5 md:hidden">
+          <div className="border-b border-gray-200 bg-white px-4 py-5 md:px-8">
             <InlineDetailAd />
           </div>
 
