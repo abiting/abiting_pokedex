@@ -5,6 +5,7 @@ import { formatPokemonName } from "@/lib/pokemonNameFormatter";
 import megaAbilities from "@/data/megaAbilities.json";
 import { toSiteUrl, updatePageUrlMetadata } from "@/lib/siteUrl";
 import { readPokemonDetailCache, writePokemonDetailCache } from "@/lib/pokemonDetailCache";
+import InlineDetailAd from "@/components/InlineDetailAd";
 
 interface PokemonDetail {
   id: number;
@@ -477,6 +478,11 @@ export default function PokemonDetailPage() {
             </div>
           </div>
           
+          {/* AdSense - between core facts and the first mobile action */}
+          <div className="border-b border-gray-200 bg-white px-4 py-5 md:px-8">
+            <InlineDetailAd />
+          </div>
+
           {/* Champions SP Calculator Link - Mobile */}
           <div className="md:hidden p-4 bg-gradient-to-r from-purple-50 to-purple-100 border-b border-gray-200">
             <div className="flex flex-col gap-2">

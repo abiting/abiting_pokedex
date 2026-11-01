@@ -10,6 +10,7 @@ const PokemonDetailPageZh = lazy(() => import("./pages/PokemonDetailPageZh"));
 const AboutDeveloper = lazy(() => import("./pages/AboutDeveloper"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const BottomAnchorAd = lazy(() => import("./components/BottomAnchorAd"));
+const DesktopSideAds = lazy(() => import("./components/DesktopSideAds"));
 
 function RouteLoadingState() {
   return (
@@ -57,6 +58,11 @@ function App() {
         <Suspense fallback={<RouteLoadingState />}>
           <Router />
         </Suspense>
+        {isPokemonDetailPage && (
+          <Suspense fallback={null}>
+            <DesktopSideAds />
+          </Suspense>
+        )}
         {shouldShowAnchorAd && (
           <Suspense fallback={null}>
             <BottomAnchorAd onClose={() => setIsAnchorAdOpen(false)} />

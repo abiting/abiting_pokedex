@@ -7,6 +7,7 @@ import pokemonMap from "@/data/pokemon_zh_hant.json";
 import megaAbilities from "@/data/megaAbilities.json";
 import { updatePageUrlMetadata } from "@/lib/siteUrl";
 import { readPokemonDetailCache, writePokemonDetailCache } from "@/lib/pokemonDetailCache";
+import InlineDetailAd from "@/components/InlineDetailAd";
 
 interface PokemonDetail {
   id: number;
@@ -449,6 +450,11 @@ export default function PokemonDetailPageZh() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* AdSense - placed between core facts and the first mobile action */}
+          <div className="border-b border-gray-200 bg-white px-4 py-5 md:px-8">
+            <InlineDetailAd />
           </div>
 
           {/* Champions SP Calculator Link - Mobile */}
