@@ -39,7 +39,7 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
           ? "https://abiurl.me"
           : "https://abiurl.me/en";
   const imageSource = usesPikminFoneloraAd
-    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/Unknown.jpeg"
+    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/pikmin_bloom_banner_fullcontent_2560x470.jpg"
     : usesFoneloraAd
     ? "https://abitingpokedex.com/wp-content/uploads/2026/09/fonelora_pokemon_go_banner_3024x400_base-scaled.jpeg"
     : usesCpaCeramicsAd
