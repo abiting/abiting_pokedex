@@ -23,10 +23,13 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const pokemonNumber = pokemonNumbers[pokemonSlug as keyof typeof pokemonNumbers];
   const hasKnownPokemonNumber = typeof pokemonNumber === "number";
   const usesFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 200;
+  const usesPikminFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 333 && pokemonNumber <= 555;
   const usesCpaCeramicsAd = !isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 100;
-  const shouldRenderAd = hasKnownPokemonNumber && (!isChinesePage || usesFoneloraAd);
+  const shouldRenderAd = hasKnownPokemonNumber && (!isChinesePage || usesFoneloraAd || usesPikminFoneloraAd);
   const usesAbiPaintAd = hasKnownPokemonNumber && pokemonNumber <= 500;
-  const destination = usesFoneloraAd
+  const destination = usesPikminFoneloraAd
+    ? "https://app.abiting.cc/archives/5672"
+    : usesFoneloraAd
     ? "https://app.abiting.cc/archives/4656"
     : usesCpaCeramicsAd
       ? "https://cpaceramics.com/"
@@ -35,7 +38,9 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
         : isChinesePage
           ? "https://abiurl.me"
           : "https://abiurl.me/en";
-  const imageSource = usesFoneloraAd
+  const imageSource = usesPikminFoneloraAd
+    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/Unknown.jpeg"
+    : usesFoneloraAd
     ? "https://abitingpokedex.com/wp-content/uploads/2026/09/fonelora_pokemon_go_banner_3024x400_base-scaled.jpeg"
     : usesCpaCeramicsAd
       ? "https://abitingpokedex.com/wp-content/uploads/2026/10/Bazaart_2026-10-21_195451.jpeg"
@@ -46,7 +51,7 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
         : isChinesePage
           ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_F9090110-0349-4151-A75B-BBC9D0F1E137-scaled.jpeg"
           : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
-  const promotionLabel = usesFoneloraAd
+  const promotionLabel = usesFoneloraAd || usesPikminFoneloraAd
     ? "Fonelora promotion"
     : usesCpaCeramicsAd
       ? "Ceramics Practice Alliance promotion"
@@ -81,7 +86,9 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
             <img
               src={imageSource}
               alt={
-                usesFoneloraAd
+                usesPikminFoneloraAd
+                  ? "Fonelora 2026 皮克敏飛人教學"
+                  : usesFoneloraAd
                   ? "Fonelora Pokémon GO 飛人教學"
                   : usesCpaCeramicsAd
                     ? "Ceramics Practice Alliance"
