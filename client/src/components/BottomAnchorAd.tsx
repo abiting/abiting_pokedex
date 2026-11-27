@@ -23,46 +23,27 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const usesFoneloraAd = isChinesePage && hasKnownPokemonNumber && (pokemonNumber <= 200 || usesCoaiFoneloraAd);
   const usesPikminFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 333 && pokemonNumber <= 555;
   const usesOfficeAlternativesAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 678 && pokemonNumber <= 778;
-  const usesEnglishFoneloraAd = !isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 100;
-  const shouldRenderAd = hasKnownPokemonNumber && (!isChinesePage || usesFoneloraAd || usesPikminFoneloraAd || usesOfficeAlternativesAd);
-  const usesAbiPaintAd = hasKnownPokemonNumber && pokemonNumber <= 500;
-  const destination = usesCoaiFoneloraAd
-    ? "https://coai.abiting.cc/archives/2899"
+  const usesEnglishFoneloraAd = !isChinesePage && hasKnownPokemonNumber;
+  const shouldRenderAd = hasKnownPokemonNumber && (usesEnglishFoneloraAd || usesFoneloraAd || usesPikminFoneloraAd || usesOfficeAlternativesAd);
+  const destination = usesEnglishFoneloraAd
+    ? "https://fonelora.sjv.io/c/8336561/3917340/52912"
+    : usesCoaiFoneloraAd
+      ? "https://coai.abiting.cc/archives/2899"
+      : usesOfficeAlternativesAd
+        ? "https://app.abiting.cc/archives/3932"
+        : usesPikminFoneloraAd
+          ? "https://app.abiting.cc/archives/5672"
+          : "https://app.abiting.cc/archives/4656";
+  const imageSource = usesEnglishFoneloraAd
+    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/Bazaart_2026-11-27_224345.jpeg"
     : usesOfficeAlternativesAd
-    ? "https://app.abiting.cc/archives/3932"
-    : usesPikminFoneloraAd
-    ? "https://app.abiting.cc/archives/5672"
-    : usesFoneloraAd
-    ? "https://app.abiting.cc/archives/4656"
-    : usesEnglishFoneloraAd
-      ? "https://fonelora.sjv.io/c/8336561/3917340/52912"
-      : usesAbiPaintAd
-        ? "https://abipaint.abiting.cc"
-        : isChinesePage
-          ? "https://abiurl.me"
-          : "https://abiurl.me/en";
-  const imageSource = usesOfficeAlternativesAd
-    ? "https://app.abiting.cc/wp-content/uploads/2026/11/Bazaart_2026-11-13_120056.jpeg"
-    : usesPikminFoneloraAd
-    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/pikmin_bloom_banner_fullcontent_2560x470.jpg"
-    : usesFoneloraAd
-    ? "https://abitingpokedex.com/wp-content/uploads/2026/09/fonelora_pokemon_go_banner_3024x400_base-scaled.jpeg"
-    : usesEnglishFoneloraAd
-      ? "https://abitingpokedex.com/wp-content/uploads/2026/11/kkl123.jpeg"
-      : usesAbiPaintAd
-        ? isChinesePage
-          ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"
-          : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_380EAA8B-2147-457B-8AAE-E333B5D0FDE8-scaled.jpeg"
-        : isChinesePage
-          ? "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_F9090110-0349-4151-A75B-BBC9D0F1E137-scaled.jpeg"
-          : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
+      ? "https://app.abiting.cc/wp-content/uploads/2026/11/Bazaart_2026-11-13_120056.jpeg"
+      : usesPikminFoneloraAd
+        ? "https://abitingpokedex.com/wp-content/uploads/2026/11/pikmin_bloom_banner_fullcontent_2560x470.jpg"
+        : "https://abitingpokedex.com/wp-content/uploads/2026/09/fonelora_pokemon_go_banner_3024x400_base-scaled.jpeg";
   const promotionLabel = usesOfficeAlternativesAd
     ? "Office alternatives promotion"
-    : usesFoneloraAd || usesPikminFoneloraAd || usesEnglishFoneloraAd
-    ? "Fonelora promotion"
-    : usesAbiPaintAd
-        ? "AbiPaint promotion"
-        : "AbiURL promotion";
+    : "Fonelora promotion";
 
   useEffect(() => {
     const banner = bannerRef.current;
@@ -95,19 +76,13 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
             <img
               src={imageSource}
               alt={
-                usesOfficeAlternativesAd
-                  ? "Microsoft Office 替代軟體介紹"
-                  : usesPikminFoneloraAd
-                  ? "Fonelora 2026 皮克敏飛人教學"
-                  : usesFoneloraAd
-                  ? "Fonelora Pokémon GO 飛人教學"
-                  : usesEnglishFoneloraAd
-                    ? "Fonelora Location Changer — Play Location-Based Games From Home"
-                    : usesAbiPaintAd
-                      ? "AbiPaint free photo editor"
-                      : isChinesePage
-                        ? "AbiURL 短網址產生器"
-                        : "AbiURL URL shortener"
+                usesEnglishFoneloraAd
+                  ? "Fonelora Location Changer — Play Location-Based Games From Home"
+                  : usesOfficeAlternativesAd
+                    ? "Microsoft Office 替代軟體介紹"
+                    : usesPikminFoneloraAd
+                      ? "Fonelora 2026 皮克敏飛人教學"
+                      : "Fonelora Pokémon GO 飛人教學"
               }
               className="block h-auto w-full object-contain"
             />
