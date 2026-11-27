@@ -22,13 +22,16 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const pokemonSlug = location.split("/")[2] ?? "";
   const pokemonNumber = pokemonNumbers[pokemonSlug as keyof typeof pokemonNumbers];
   const hasKnownPokemonNumber = typeof pokemonNumber === "number";
-  const usesFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 200;
+  const usesCoaiFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 888 && pokemonNumber <= 999;
+  const usesFoneloraAd = isChinesePage && hasKnownPokemonNumber && (pokemonNumber <= 200 || usesCoaiFoneloraAd);
   const usesPikminFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 333 && pokemonNumber <= 555;
   const usesOfficeAlternativesAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 678 && pokemonNumber <= 778;
   const usesCpaCeramicsAd = !isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 100;
   const shouldRenderAd = hasKnownPokemonNumber && (!isChinesePage || usesFoneloraAd || usesPikminFoneloraAd || usesOfficeAlternativesAd);
   const usesAbiPaintAd = hasKnownPokemonNumber && pokemonNumber <= 500;
-  const destination = usesOfficeAlternativesAd
+  const destination = usesCoaiFoneloraAd
+    ? "https://coai.abiting.cc/archives/2899"
+    : usesOfficeAlternativesAd
     ? "https://app.abiting.cc/archives/3932"
     : usesPikminFoneloraAd
     ? "https://app.abiting.cc/archives/5672"
