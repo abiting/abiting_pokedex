@@ -1,8 +1,6 @@
 import { useLocation } from "wouter";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import pokemonNumbers from "@/data/pokemonNumbers.json";
-
-const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
 
 /**
  * Visual intent: a restrained, full-width bottom anchor that preserves the
@@ -14,9 +12,8 @@ interface BottomAnchorAdProps {
 
 export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const [location] = useLocation();
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== "undefined" && window.matchMedia(MOBILE_MEDIA_QUERY).matches,
-  );
+  const bannerRef = useRef<HTMLElement>(null);
+  const [bannerHeight, setBannerHeight] = useState(80);
   const normalizedLocation = location.replace(/\/+$/, "");
   const isChinesePage = normalizedLocation.endsWith("/zh");
   const pokemonSlug = location.split("/")[2] ?? "";
@@ -26,7 +23,7 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const usesFoneloraAd = isChinesePage && hasKnownPokemonNumber && (pokemonNumber <= 200 || usesCoaiFoneloraAd);
   const usesPikminFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 333 && pokemonNumber <= 555;
   const usesOfficeAlternativesAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 678 && pokemonNumber <= 778;
-  const usesCpaCeramicsAd = !isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 100;
+  const usesEnglishFoneloraAd = !isChinesePage && hasKnownPokemonNumber && pokemonNumber <= 100;
   const shouldRenderAd = hasKnownPokemonNumber && (!isChinesePage || usesFoneloraAd || usesPikminFoneloraAd || usesOfficeAlternativesAd);
   const usesAbiPaintAd = hasKnownPokemonNumber && pokemonNumber <= 500;
   const destination = usesCoaiFoneloraAd
@@ -37,8 +34,8 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
     ? "https://app.abiting.cc/archives/5672"
     : usesFoneloraAd
     ? "https://app.abiting.cc/archives/4656"
-    : usesCpaCeramicsAd
-      ? "https://cpaceramics.com/"
+    : usesEnglishFoneloraAd
+      ? "https://fonelora.sjv.io/c/8336561/3917340/52912"
       : usesAbiPaintAd
         ? "https://abipaint.abiting.cc"
         : isChinesePage
@@ -50,8 +47,8 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
     ? "https://abitingpokedex.com/wp-content/uploads/2026/11/pikmin_bloom_banner_fullcontent_2560x470.jpg"
     : usesFoneloraAd
     ? "https://abitingpokedex.com/wp-content/uploads/2026/09/fonelora_pokemon_go_banner_3024x400_base-scaled.jpeg"
-    : usesCpaCeramicsAd
-      ? "https://abitingpokedex.com/wp-content/uploads/2026/10/Bazaart_2026-10-21_195451.jpeg"
+    : usesEnglishFoneloraAd
+      ? "https://abitingpokedex.com/wp-content/uploads/2026/11/kkl123.jpeg"
       : usesAbiPaintAd
         ? isChinesePage
           ? "https://coai.abiting.cc/wp-content/uploads/2026/09/Bazaart_27A47996-DF9C-4A0B-8F20-B62AEC8A833D-scaled.jpeg"
@@ -61,28 +58,30 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
           : "https://abitingpokedex.com/wp-content/uploads/2026/09/Bazaart_A4DA0A56-D281-4E3A-9809-8C224BF881AB-scaled.jpeg";
   const promotionLabel = usesOfficeAlternativesAd
     ? "Office alternatives promotion"
-    : usesFoneloraAd || usesPikminFoneloraAd
+    : usesFoneloraAd || usesPikminFoneloraAd || usesEnglishFoneloraAd
     ? "Fonelora promotion"
-    : usesCpaCeramicsAd
-      ? "Ceramics Practice Alliance promotion"
-      : usesAbiPaintAd
+    : usesAbiPaintAd
         ? "AbiPaint promotion"
         : "AbiURL promotion";
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(MOBILE_MEDIA_QUERY);
-    const updateMobileState = () => setIsMobile(mediaQuery.matches);
-    updateMobileState();
-    mediaQuery.addEventListener("change", updateMobileState);
-    return () => mediaQuery.removeEventListener("change", updateMobileState);
-  }, []);
+    const banner = bannerRef.current;
+    if (!shouldRenderAd || !banner) return;
+    const updateBannerHeight = () =>
+      setBannerHeight(Math.ceil(banner.getBoundingClientRect().height));
+    updateBannerHeight();
+    const observer = new ResizeObserver(updateBannerHeight);
+    observer.observe(banner);
+    return () => observer.disconnect();
+  }, [shouldRenderAd]);
 
-  if (!isMobile || !shouldRenderAd) return null;
+  if (!shouldRenderAd) return null;
 
   return (
     <>
-      <div aria-hidden="true" className="h-20" />
+      <div aria-hidden="true" className="h-20" style={{ height: bannerHeight }} />
       <aside
+        ref={bannerRef}
         aria-label={promotionLabel}
         className="fixed inset-x-0 bottom-0 z-50 border-t border-violet-300/60 bg-black shadow-[0_-5px_20px_rgba(88,28,135,0.34)]"
       >
@@ -102,8 +101,8 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
                   ? "Fonelora 2026 皮克敏飛人教學"
                   : usesFoneloraAd
                   ? "Fonelora Pokémon GO 飛人教學"
-                  : usesCpaCeramicsAd
-                    ? "Ceramics Practice Alliance"
+                  : usesEnglishFoneloraAd
+                    ? "Fonelora Location Changer — Play Location-Based Games From Home"
                     : usesAbiPaintAd
                       ? "AbiPaint free photo editor"
                       : isChinesePage
