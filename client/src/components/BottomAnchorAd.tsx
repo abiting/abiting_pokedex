@@ -24,9 +24,12 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
   const usesPikminFoneloraAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 333 && pokemonNumber <= 555;
   const usesOfficeAlternativesAd = isChinesePage && hasKnownPokemonNumber && pokemonNumber >= 678 && pokemonNumber <= 778;
   const usesEnglishFoneloraAd = !isChinesePage && hasKnownPokemonNumber;
+  const usesEnglishComparisonAd = usesEnglishFoneloraAd && pokemonNumber >= 600 && pokemonNumber <= 800;
   const shouldRenderAd = hasKnownPokemonNumber && (usesEnglishFoneloraAd || usesFoneloraAd || usesPikminFoneloraAd || usesOfficeAlternativesAd);
   const destination = usesEnglishFoneloraAd
-    ? "https://fonelora.sjv.io/c/8336561/3917340/52912"
+    ? usesEnglishComparisonAd
+      ? "https://fonelora.sjv.io/gR0vB9"
+      : "https://fonelora.sjv.io/c/8336561/3917340/52912"
     : usesCoaiFoneloraAd
       ? "https://coai.abiting.cc/archives/2899"
       : usesOfficeAlternativesAd
@@ -35,7 +38,9 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
           ? "https://app.abiting.cc/archives/5672"
           : "https://app.abiting.cc/archives/4656";
   const imageSource = usesEnglishFoneloraAd
-    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/Bazaart_2026-11-27_225356.jpeg"
+    ? usesEnglishComparisonAd
+      ? "https://abitingpokedex.com/wp-content/uploads/2026/11/Fonelora_Banner_AI_1512x300.jpg"
+      : "https://abitingpokedex.com/wp-content/uploads/2026/11/Bazaart_2026-11-27_225356.jpeg"
     : usesOfficeAlternativesAd
       ? "https://app.abiting.cc/wp-content/uploads/2026/11/Bazaart_2026-11-13_120056.jpeg"
       : usesPikminFoneloraAd
