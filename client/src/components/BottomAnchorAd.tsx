@@ -35,7 +35,7 @@ export default function BottomAnchorAd({ onClose }: BottomAnchorAdProps) {
           ? "https://app.abiting.cc/archives/5672"
           : "https://app.abiting.cc/archives/4656";
   const imageSource = usesEnglishFoneloraAd
-    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/Bazaart_2026-11-27_224345.jpeg"
+    ? "https://abitingpokedex.com/wp-content/uploads/2026/11/Bazaart_2026-11-27_225356.jpeg"
     : usesOfficeAlternativesAd
       ? "https://app.abiting.cc/wp-content/uploads/2026/11/Bazaart_2026-11-13_120056.jpeg"
       : usesPikminFoneloraAd
